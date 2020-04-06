@@ -115,13 +115,13 @@
 <meta property="og:site_name" content="Garden">
 <meta property="og:description" content="笔记——机器学习-白板推导系列(十四)-隐马尔可夫模型HMM（Hidden Markov Model） 历史发展 频率派——统计机器学习 （小蓝书） 主要是优化问题——分为三步（模型；策略和算法）   贝叶斯派——概率图模型 主要是计算后验概率$P(z|x)$，即积分问题（比如通过MCMC计算）    概率图模型">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/12/06/HMM相关专题/F:/blog/source/_posts/HMM相关专题/模型结构.png">
-<meta property="og:image" content="http://yoursite.com/2019/12/06/HMM相关专题/F:/blog/source/_posts/HMM相关专题/前后向变量定义.png">
-<meta property="og:updated_time" content="2020-04-06T03:01:31.177Z">
+<meta property="og:image" content="http://yoursite.com/2019/12/06/HMM相关专题/模型结构.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/06/HMM相关专题/前后向变量定义.png">
+<meta property="og:updated_time" content="2020-04-06T06:21:42.921Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HMM相关专题">
 <meta name="twitter:description" content="笔记——机器学习-白板推导系列(十四)-隐马尔可夫模型HMM（Hidden Markov Model） 历史发展 频率派——统计机器学习 （小蓝书） 主要是优化问题——分为三步（模型；策略和算法）   贝叶斯派——概率图模型 主要是计算后验概率$P(z|x)$，即积分问题（比如通过MCMC计算）    概率图模型">
-<meta name="twitter:image" content="http://yoursite.com/2019/12/06/HMM相关专题/F:/blog/source/_posts/HMM相关专题/模型结构.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/06/HMM相关专题/模型结构.png">
 
 
 
@@ -375,7 +375,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 11:01:31" itemprop="dateModified" datetime="2020-04-06T11:01:31+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 14:21:42" itemprop="dateModified" datetime="2020-04-06T14:21:42+08:00">2020-04-06</time>
               
             
           </span>
@@ -440,7 +440,7 @@
 </ul>
 <h5 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h5><ul>
 <li><p>模型结构：白圈为隐变量，黑圈为观察变量，t为时间序列</p>
-<p><img src="/2019/12/06/HMM相关专题/F:/blog\source\_posts\HMM相关专题\模型结构.png" alt="模型结构" style="zoom:50%;"></p>
+<p><img src="/2019/12/06/HMM相关专题/模型结构.png" alt="模型结构" style="zoom:50%;"></p>
 </li>
 <li><p>模型$\lambda=(\pi,A,B)$，$\pi$为模型初始的概率分布，A为状态转移矩阵（状态间转移的关系），B为发射矩阵（从状态到观测点的关系）</p>
 </li>
@@ -519,7 +519,7 @@
 </ul>
 </li>
 <li><p>前向后向的变量定义示意图：左边蓝色为前向算法，右边红色为后向算法，两个算法的复杂度都是$O(TN^2)$</p>
-<p><img src="/2019/12/06/HMM相关专题/F:/blog\source\_posts\HMM相关专题\前后向变量定义.png" alt="前后向变量定义" style="zoom: 50%;"></p>
+<p><img src="/2019/12/06/HMM相关专题/前后向变量定义.png" alt="前后向变量定义" style="zoom: 50%;"></p>
 </li>
 </ul>
 <h5 id="Learning问题"><a href="#Learning问题" class="headerlink" title="Learning问题"></a>Learning问题</h5><ul>

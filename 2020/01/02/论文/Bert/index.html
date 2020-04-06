@@ -115,14 +115,14 @@
 <meta property="og:site_name" content="Garden">
 <meta property="og:description" content="Bert 真正实现了双向的语言模型，而不是像ELMo一样，仅是采用了两个分别不同方向的单向模型拼接">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2020/01/02/论文/Bert/F:/blog/source/_posts/论文/Bert/模型结构.png">
-<meta property="og:image" content="http://yoursite.com/2020/01/02/论文/Bert/F:/blog/source/_posts/论文/Bert/input.png">
-<meta property="og:image" content="http://yoursite.com/2020/01/02/论文/Bert/F:/blog/source/_posts/论文/Bert/对比.png">
-<meta property="og:updated_time" content="2020-01-02T12:25:09.056Z">
+<meta property="og:image" content="http://yoursite.com/2020/01/02/论文/Bert/模型结构.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/02/论文/Bert/input.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/02/论文/Bert/对比.png">
+<meta property="og:updated_time" content="2020-04-06T06:35:32.706Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bert">
 <meta name="twitter:description" content="Bert 真正实现了双向的语言模型，而不是像ELMo一样，仅是采用了两个分别不同方向的单向模型拼接">
-<meta name="twitter:image" content="http://yoursite.com/2020/01/02/论文/Bert/F:/blog/source/_posts/论文/Bert/模型结构.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/01/02/论文/Bert/模型结构.png">
 
 
 
@@ -359,12 +359,24 @@
                 
               
 
-              <time title="创建时间：2020-01-02 19:36:27 / 修改时间：20:25:09" itemprop="dateCreated datePublished" datetime="2020-01-02T19:36:27+08:00">2020-01-02</time>
+              <time title="创建时间：2020-01-02 19:36:27" itemprop="dateCreated datePublished" datetime="2020-01-02T19:36:27+08:00">2020-01-02</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-06 14:35:32" itemprop="dateModified" datetime="2020-04-06T14:35:32+08:00">2020-04-06</time>
               
             
           </span>
@@ -440,12 +452,12 @@
 <li><p>Masked LM（MLM）：将输入的句子中的15%的词随机mask掉（cloze task完形填空），但是为了避免这15%被全部mask掉之后，预训练和下游调参的过程中语料信息不对等，故在输入的句子中随机选择15%进行mask，而在这15%中，有80%的情况该词被替换为[MASK]；10%的情况被替换为任意一个词，10%的情况不变</p>
 </li>
 <li><p>Next Sentence Prediction（NSP）：为了使模型能够更好地理解两个句子间的来联系，针对输入为两个句子的任务，有50%的概率将下一个句子替换成任意一个句子，label为NotNext，有50%的概率不变，label为IsNext。——这对问答及自然语言理解等有很大帮助</p>
-<p><img src="/2020/01/02/论文/Bert/F:/blog\source\_posts\论文\Bert\模型结构.png" alt="模型结构" style="zoom: 50%;"></p>
+<p><img src="/2020/01/02/论文/Bert/模型结构.png" alt="模型结构" style="zoom: 50%;"></p>
 </li>
 </ul>
 </li>
 <li><p>模型的输入：</p>
-<p><img src="/2020/01/02/论文/Bert/F:/blog\source\_posts\论文\Bert\input.png" alt="input" style="zoom:50%;"></p>
+<p><img src="/2020/01/02/论文/Bert/input.png" alt="input" style="zoom:50%;"></p>
 <p>由token的表达和两个句子的标记及位置标记组成</p>
 </li>
 <li><p>fine-tuning阶段</p>
@@ -455,7 +467,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/2020/01/02/论文/Bert/F:/blog\source\_posts\论文\Bert\对比.png" alt="对比" style="zoom:50%;"></p>
+<p><img src="/2020/01/02/论文/Bert/对比.png" alt="对比" style="zoom:50%;"></p>
 
       
     </div>

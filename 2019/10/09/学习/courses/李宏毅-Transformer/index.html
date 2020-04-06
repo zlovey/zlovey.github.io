@@ -115,17 +115,17 @@
 <meta property="og:site_name" content="Garden">
 <meta property="og:description" content="妈耶——一开始又让我跳课，没有看过seq2seq ==，好的，我走了 啊由于是机器学习的系列课，有点多，所以看了简单的课程笔记我就回来了 我才发现2019李宏毅老师的合集就有观看顺序emmmmm 简单补个Seq2Seq吧：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/seq2seq.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/seq2seq2.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/2-head.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/2-head-cat.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/s2s-sa.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/transformer.png">
-<meta property="og:updated_time" content="2019-12-09T08:12:39.193Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/seq2seq.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/seq2seq2.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/2-head.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/2-head-cat.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/s2s-sa.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/transformer.png">
+<meta property="og:updated_time" content="2020-04-06T06:37:59.473Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="李宏毅-Transformer">
 <meta name="twitter:description" content="妈耶——一开始又让我跳课，没有看过seq2seq ==，好的，我走了 啊由于是机器学习的系列课，有点多，所以看了简单的课程笔记我就回来了 我才发现2019李宏毅老师的合集就有观看顺序emmmmm 简单补个Seq2Seq吧：">
-<meta name="twitter:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/seq2seq.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/seq2seq.png">
 
 
 
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-12-09 16:12:39" itemprop="dateModified" datetime="2019-12-09T16:12:39+08:00">2019-12-09</time>
+                <time title="修改时间：2020-04-06 14:37:59" itemprop="dateModified" datetime="2020-04-06T14:37:59+08:00">2020-04-06</time>
               
             
           </span>
@@ -447,8 +447,8 @@
 <li><p>N vs M（输入与输出序列长度不同）原始模型要求序列等长，然而现实中的输入与输出序列大都不等长，且也并不要求等长，故产生了Seq2Seq</p>
 </li>
 <li><p>Encoder-Decoder结构先将输入数据编码成一个上下文向量c再进行处理，得到c后输入Decoder有两种结构：</p>
-<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\seq2seq.png" alt="seq2seq"></p>
-<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\seq2seq2.png" alt="seq2seq2"></p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/seq2seq.png" alt="seq2seq"></p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/seq2seq2.png" alt="seq2seq2"></p>
 <p>左边即为Encoder，右边为Decoder</p>
 </li>
 </ul>
@@ -493,11 +493,11 @@
 </ul>
 </li>
 </ul>
-<pre><code>![self-attenion1](F:\blog\source\_posts\学习\courses\李宏毅-Transformer\self-attenion1.png)
+<pre><code>![self-attenion1](李宏毅-Transformer\self-attenion1.png)
 
 - 将$\hat\alpha_{i,j}$分别与$v^i$相乘再加起来就得到$b^i$: $b^1=\sum_i\hat\alpha_{i,i}v^i$
 
-![self-attention2](F:\blog\source\_posts\学习\courses\李宏毅-Transformer\self-attention2.png)
+![self-attention2](李宏毅-Transformer\self-attention2.png)
 </code></pre><ul>
 <li><p>可以看出其实$b^1$单个产生的输出已经看到了$x^1,x^2,x^3,x^4$四个词了（当然也可以通过控制变量为0来使得输出看不到某些输入的词）</p>
 </li>
@@ -517,7 +517,7 @@
 </ul>
 <h6 id="Muli-head-Self-attention-2-heads-as-example"><a href="#Muli-head-Self-attention-2-heads-as-example" class="headerlink" title="Muli-head Self-attention(2 heads as example)"></a>Muli-head Self-attention(2 heads as example)</h6><ul>
 <li><p>示例</p>
-<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\2-head.png" alt="2-head"></p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/2-head.png" alt="2-head"></p>
 </li>
 <li><p>通过不同的矩阵$W^{q,1},W^{q,2}$生成两个不同的$q^{i,1},q^{i,2}$，其他的k和v向量也同理</p>
 </li>
@@ -528,7 +528,7 @@
 <li><p>同理将第二个head进行同样的处理后可以得到$b^{i,2}$，直接将两个输出的变量进行拼接即可</p>
 </li>
 <li><p>若拼接后向量维度不合适，也可以进行降维处理</p>
-<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\2-head-cat.png" alt="2-head-cat"></p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/2-head-cat.png" alt="2-head-cat"></p>
 </li>
 <li><p>优点</p>
 <ul>
@@ -551,11 +551,11 @@
 <li>Seq2Seq一般由两个cnn结构构成</li>
 <li>用self-attention来替换掉原本cnn的位置即可</li>
 </ul>
-<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\s2s-sa.png" alt="s2s-sa"></p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/s2s-sa.png" alt="s2s-sa"></p>
 <h6 id="Transformer-1"><a href="#Transformer-1" class="headerlink" title="Transformer"></a>Transformer</h6><ul>
 <li>结构如图</li>
 </ul>
-<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\transformer.png" alt="transformer"></p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/transformer.png" alt="transformer"></p>
 <ul>
 <li>其实是一个Seq2Seq的模型，左边是Encoder右边是Decoder</li>
 <li>基本上可以用Seq2Seq的地方也都可以用Transformer</li>

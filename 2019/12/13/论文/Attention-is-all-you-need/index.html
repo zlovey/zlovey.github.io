@@ -115,16 +115,16 @@
 <meta property="og:site_name" content="Garden">
 <meta property="og:description" content="文章提出了Transformer模型，完全依赖于Attention机制，没有使用RNN或者CNN模型基础，在模型效果及计算量方面都有不错的提升  使用Attention  之前的模型都不能很好地实现对文本序列的并行处理，这极大地阻碍了模型的运行时间，而且当文本序列较长时，一方面是记忆长度被限制，另一方面运算的复杂度也会大幅上升 RNN模型即循环模型由于增加了输入数据记忆的模块，只能有顺序地训练序">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/整体结构（6个）.png">
-<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/简单结构示意图.png">
-<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/Transformer.png">
-<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/dot-product.png">
-<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/multi-head.png">
-<meta property="og:updated_time" content="2019-12-15T07:43:23.268Z">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/整体结构（6个）.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/简单结构示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/Transformer.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/dot-product.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/multi-head.png">
+<meta property="og:updated_time" content="2020-04-06T06:36:43.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Attention-is-all-you-need">
 <meta name="twitter:description" content="文章提出了Transformer模型，完全依赖于Attention机制，没有使用RNN或者CNN模型基础，在模型效果及计算量方面都有不错的提升  使用Attention  之前的模型都不能很好地实现对文本序列的并行处理，这极大地阻碍了模型的运行时间，而且当文本序列较长时，一方面是记忆长度被限制，另一方面运算的复杂度也会大幅上升 RNN模型即循环模型由于增加了输入数据记忆的模块，只能有顺序地训练序">
-<meta name="twitter:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/整体结构（6个）.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/整体结构（6个）.png">
 
 
 
@@ -378,7 +378,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-12-15 15:43:23" itemprop="dateModified" datetime="2019-12-15T15:43:23+08:00">2019-12-15</time>
+                <time title="修改时间：2020-04-06 14:36:43" itemprop="dateModified" datetime="2020-04-06T14:36:43+08:00">2020-04-06</time>
               
             
           </span>
@@ -447,15 +447,15 @@
 <li><p>模型结构如下</p>
 <ul>
 <li><p>整体结构（分别由6个编码和解码器构成）</p>
-<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\整体结构（6个）.png" alt="整体结构（6个）" style="zoom: 37%;"></p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/整体结构（6个）.png" alt="整体结构（6个）" style="zoom: 37%;"></p>
 </li>
 <li><p>每一个编码器和解码器的简单结构示意图</p>
-<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\简单结构示意图.png" alt="简单结构示意图" style="zoom: 50%;"></p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/简单结构示意图.png" alt="简单结构示意图" style="zoom: 50%;"></p>
 </li>
 <li><p>详细的结构图</p>
 </li>
 </ul>
-<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\Transformer.png" alt="Transformer" style="zoom: 50%;"></p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/Transformer.png" alt="Transformer" style="zoom: 50%;"></p>
 </li>
 <li><p>Encoder and Decoder Stacks Encoder</p>
 <ul>
@@ -470,7 +470,7 @@
 <li><p>Scaled Dot-Product Attention（点乘）</p>
 <ul>
 <li><p>结构如图</p>
-<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\dot-product.png" alt="dot-product" style="zoom: 50%;"></p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/dot-product.png" alt="dot-product" style="zoom: 50%;"></p>
 </li>
 <li><p>输入由queries,keys,values组成</p>
 </li>
@@ -485,7 +485,7 @@
 <li><p>Multi-Head Attention</p>
 <ul>
 <li><p>结构如图</p>
-<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\multi-head.png" alt="multi-head" style="zoom:50%;"></p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/multi-head.png" alt="multi-head" style="zoom:50%;"></p>
 </li>
 <li><p>其中包含了前面的点乘attention操作，multi-head即采用不同的参数对Q,K,V重复进行h次投影，再进行后续处理，可以学习到不同的特征</p>
 </li>

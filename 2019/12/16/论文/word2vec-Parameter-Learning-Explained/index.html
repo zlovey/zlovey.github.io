@@ -115,15 +115,15 @@
 <meta property="og:site_name" content="Garden">
 <meta property="og:description" content="本文对word2vec的模型的两种实现方法（CBOW和SG)进行了详细的结构上的描述，并对改进的方法Hierarchical Softmax和Negative Sampling进行了讲解">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/simple-CBOW.png">
-<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/mulit-CBOW.png">
-<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/SG.png">
-<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/hierachical-softmax.png">
-<meta property="og:updated_time" content="2019-12-17T06:40:16.708Z">
+<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/simple-CBOW.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/mulit-CBOW.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/SG.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/hierachical-softmax.png">
+<meta property="og:updated_time" content="2020-04-06T06:34:19.490Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="word2vec-Parameter-Learning-Explained">
 <meta name="twitter:description" content="本文对word2vec的模型的两种实现方法（CBOW和SG)进行了详细的结构上的描述，并对改进的方法Hierarchical Softmax和Negative Sampling进行了讲解">
-<meta name="twitter:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/simple-CBOW.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/simple-CBOW.png">
 
 
 
@@ -377,7 +377,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-12-17 14:40:16" itemprop="dateModified" datetime="2019-12-17T14:40:16+08:00">2019-12-17</time>
+                <time title="修改时间：2020-04-06 14:34:19" itemprop="dateModified" datetime="2020-04-06T14:34:19+08:00">2020-04-06</time>
               
             
           </span>
@@ -440,10 +440,10 @@
 <li><p>根据给定词的上下文推测出该词</p>
 </li>
 <li><p>当上下文只有一个词的情况：</p>
-<p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog\source\_posts\论文\word2vec-Parameter-Learning-Explained\simple-CBOW.png" alt="simple-CBOW" style="zoom: 50%;"></p>
+<p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/simple-CBOW.png" alt="simple-CBOW" style="zoom: 50%;"></p>
 </li>
 <li><p>当上下文存在多个词的情况</p>
-<p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog\source\_posts\论文\word2vec-Parameter-Learning-Explained\mulit-CBOW.png" alt="mulit-CBOW" style="zoom:50%;"></p>
+<p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/mulit-CBOW.png" alt="mulit-CBOW" style="zoom:50%;"></p>
 </li>
 <li><p>从输入到隐藏层</p>
 <ul>
@@ -553,7 +553,7 @@
 <ul>
 <li><p>输入给定的词，推测其上下文，与CBOW相反</p>
 </li>
-<li><p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog\source\_posts\论文\word2vec-Parameter-Learning-Explained\SG.png" alt="SG" style="zoom:50%;"></p>
+<li><p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/SG.png" alt="SG" style="zoom:50%;"></p>
 </li>
 <li><p>由于输入唯一，因此从输入层到隐藏层的公式相同</p>
 <p>$h=W^Tx=W^T_{(k,\cdot)}=v^T_{w_I}$</p>
@@ -578,7 +578,7 @@
 <ul>
 <li><p>通过一个二叉树来表示词汇表中的所有单词（常用哈夫曼树），V个词均为叶子结点，对每个词，都存在唯一的从根到叶子结点的路径，这条路径用来估计被叶节点所表示的单词的概率</p>
 </li>
-<li><p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog\source\_posts\论文\word2vec-Parameter-Learning-Explained\hierachical-softmax.png" alt="hierachical-softmax" style="zoom:50%;"></p>
+<li><p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/hierachical-softmax.png" alt="hierachical-softmax" style="zoom:50%;"></p>
 </li>
 <li><p>往左边结点的概率为</p>
 <p>$p(n,left)=\sigma(v’^T_n\cdot h)$</p>

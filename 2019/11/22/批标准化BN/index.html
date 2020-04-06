@@ -115,14 +115,14 @@
 <meta property="og:site_name" content="Garden">
 <meta property="og:description" content="Batch Normalization 批标准化  是将分散的数据统一的一种做法，也是优化神经网络的一种方法 方法 将数据以一批一批为单位进行随机梯度下降，在每批数据进行训练的前向传播的时候，对每一层都进行标准化的处理">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/11/22/批标准化BN/F:/blog/source/_posts/批标准化BN/标准化.png">
-<meta property="og:image" content="http://yoursite.com/2019/11/22/批标准化BN/F:/blog/source/_posts/批标准化BN/反标准化.png">
-<meta property="og:image" content="http://yoursite.com/2019/11/22/批标准化BN/F:/blog/source/_posts/批标准化BN/对比.png">
-<meta property="og:updated_time" content="2019-11-22T07:56:42.446Z">
+<meta property="og:image" content="http://yoursite.com/2019/11/22/批标准化BN/标准化.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/22/批标准化BN/反标准化.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/22/批标准化BN/对比.png">
+<meta property="og:updated_time" content="2020-04-06T06:20:36.860Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="批标准化BN">
 <meta name="twitter:description" content="Batch Normalization 批标准化  是将分散的数据统一的一种做法，也是优化神经网络的一种方法 方法 将数据以一批一批为单位进行随机梯度下降，在每批数据进行训练的前向传播的时候，对每一层都进行标准化的处理">
-<meta name="twitter:image" content="http://yoursite.com/2019/11/22/批标准化BN/F:/blog/source/_posts/批标准化BN/标准化.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/22/批标准化BN/标准化.png">
 
 
 
@@ -359,12 +359,24 @@
                 
               
 
-              <time title="创建时间：2019-11-22 15:46:09 / 修改时间：15:56:42" itemprop="dateCreated datePublished" datetime="2019-11-22T15:46:09+08:00">2019-11-22</time>
+              <time title="创建时间：2019-11-22 15:46:09" itemprop="dateCreated datePublished" datetime="2019-11-22T15:46:09+08:00">2019-11-22</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-06 14:20:36" itemprop="dateModified" datetime="2020-04-06T14:20:36+08:00">2020-04-06</time>
               
             
           </span>
@@ -403,18 +415,18 @@
 <li>方法<ul>
 <li>将数据以一批一批为单位进行随机梯度下降，在每批数据进行训练的前向传播的时候，对每一层都进行标准化的处理<a id="more"></a></li>
 <li>BN操作添加在全连接层和激励函数的中间层，使得数据值经过标准化后尽可能多地处于激活函数的中间部分，而减少迭代后出现梯度消失和爆炸的情况<ul>
-<li><img src="/2019/11/22/批标准化BN/F:/blog\source\_posts\批标准化BN\标准化.png" alt="标准化"></li>
+<li><img src="/2019/11/22/批标准化BN/标准化.png" alt="标准化"></li>
 </ul>
 </li>
 <li>BN除了标准化的操作之外，最后还添加了反标准化的操作<ul>
 <li>为了使模型可以自己学习和修改$\gamma$和$\beta$参数，使得可以合适地抵消一些标准化的操作</li>
-<li><img src="/2019/11/22/批标准化BN/F:/blog\source\_posts\批标准化BN\反标准化.png" alt="反标准化"></li>
+<li><img src="/2019/11/22/批标准化BN/反标准化.png" alt="反标准化"></li>
 </ul>
 </li>
 </ul>
 </li>
 <li>经过对比可以得知，批标准化可以让每一层的值在有效的范围内传递下去<ul>
-<li><img src="/2019/11/22/批标准化BN/F:/blog\source\_posts\批标准化BN\对比.png" alt="对比"></li>
+<li><img src="/2019/11/22/批标准化BN/对比.png" alt="对比"></li>
 </ul>
 </li>
 </ul>
