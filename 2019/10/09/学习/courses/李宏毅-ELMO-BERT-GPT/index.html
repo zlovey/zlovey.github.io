@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="BERT发展1-of-N Encoding one-hot编码  将不同的词用固定维度的向量来表示  举例：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="李宏毅-ELMO_BERT_GPT">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="BERT发展1-of-N Encoding one-hot编码  将不同的词用固定维度的向量来表示  举例：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/one-hot.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/word_class.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/word-embedding.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/ELMO.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/elmo1.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/NSP.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/case1.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/case2.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/Case3.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/case4.png">
+<meta property="og:updated_time" content="2019-12-23T14:04:44.698Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="李宏毅-ELMO_BERT_GPT">
+<meta name="twitter:description" content="BERT发展1-of-N Encoding one-hot编码  将不同的词用固定维度的向量来表示  举例：">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog/source/_posts/学习/courses/李宏毅-ELMO-BERT-GPT/one-hot.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>李宏毅-ELMO_BERT_GPT | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">李宏毅-ELMO_BERT_GPT
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-09 09:18:30" itemprop="dateCreated datePublished" datetime="2019-10-09T09:18:30+08:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-23 22:04:44" itemprop="dateModified" datetime="2019-12-23T22:04:44+08:00">2019-12-23</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/course笔记/" itemprop="url" rel="index"><span itemprop="name">course笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="BERT发展"><a href="#BERT发展" class="headerlink" title="BERT发展"></a>BERT发展</h5><h6 id="1-of-N-Encoding"><a href="#1-of-N-Encoding" class="headerlink" title="1-of-N Encoding"></a>1-of-N Encoding</h6><ul>
+<li><p>one-hot编码</p>
+</li>
+<li><p>将不同的词用固定维度的向量来表示</p>
+</li>
+<li><p>举例： <a id="more"></a></p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\one-hot.png" alt="one-hot"></p>
+</li>
+<li><p>优点：</p>
+<ul>
+<li>将文本属性（离散数据）用向量来表示，方便计算机的处理</li>
+<li>在一定程度上起到了扩充特征的作用</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>one-hot是一个词袋模型，不考虑词与词之间的顺序问题，而在文本中，次的顺序是一个很重要的问题</li>
+<li>one-hot是基于词与词之间相互独立的情况下的，然而在多数情况中，词与词之间应该是相互影响的</li>
+<li>one-hot得到的特征是离散的，稀疏的</li>
+</ul>
+</li>
+</ul>
+<h6 id="Word-Class"><a href="#Word-Class" class="headerlink" title="Word Class"></a>Word Class</h6><ul>
+<li><p>将同一类的词放入一个类中，不同类的词分开处理</p>
+</li>
+<li><p>在一定程度上解决了one-hot词与词之间完全没有联系的问题</p>
+</li>
+<li><p>但分类有一定的局限性，有些词可以于多个分类，而有些词又不便分类</p>
+</li>
+<li><p>举例：</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\word_class.png" alt="word_class"></p>
+</li>
+</ul>
+<h6 id="Word-Embedding"><a href="#Word-Embedding" class="headerlink" title="Word Embedding"></a>Word Embedding</h6><ul>
+<li><p>将词作为向量分布于空间中</p>
+</li>
+<li><p>相似的相关联的词距离较近，而关系较远的词距离较远</p>
+</li>
+<li><p>根据每个词的上下文，通过文本语料进行训练生成</p>
+</li>
+<li><p>存在的问题：多义词</p>
+</li>
+<li><p>举例：</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\word-embedding.png" alt="word-embedding"></p>
+</li>
+</ul>
+<h6 id="Contextualized-Word-Embedding"><a href="#Contextualized-Word-Embedding" class="headerlink" title="Contextualized Word Embedding"></a>Contextualized Word Embedding</h6><ul>
+<li>结合上下文的Word Embedding</li>
+<li>针对每一个出现的token，都有不同的向量（embedding）来表示，上下文相近的token，向量也会相近</li>
+</ul>
+<h5 id="ELMO（Embeddings-from-Language-Model）"><a href="#ELMO（Embeddings-from-Language-Model）" class="headerlink" title="ELMO（Embeddings from Language Model）"></a>ELMO（Embeddings from Language Model）</h5><ul>
+<li><p>RNN-based language models(trained from lots of sentences)</p>
+</li>
+<li><p>只需要将大量的句子输入到RNN中，模型就可以自己学习，不需要额外的操作</p>
+</li>
+<li><p>RNN循环神经网络</p>
+<ul>
+<li>可以根据先前的输入通过记忆来对接下来的输出进行预测</li>
+<li>所以不同的token在不同的语境中可以输出不同的embedding</li>
+<li>故可以实现上述所说的Contextualized Word Embedding的结果</li>
+</ul>
+</li>
+<li><p>单个RNN只能完成单向的语境预测</p>
+</li>
+<li><p>故使用两个RNN，一个正向，一个反向，来分别对上下文的语境进行学习</p>
+</li>
+<li><p>然后将两个模型生成的embedding 进行拼接，生成该token的最终embedding。即为ELMO的结构</p>
+</li>
+<li><p>示例：</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\ELMO.png" alt="ELMO"></p>
+</li>
+<li><p>存在的问题及处理：</p>
+<p>由于深度神经网络进行多层训练，故会生成多个embedding</p>
+<p>like this:</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\elmo1.png" alt="elmo1"></p>
+<p>例如是两层的网络，那么就会输出h1和h2两个embedding，EMLO的做法是将最后使用的embedding (比如h3)，有$h3=\alpha _1<em>h1+\alpha_2</em>h2$，而其中的两个参数$\alpha_1$和$\alpha_2$则作为变量输入下游的具体任务，在具体的任务（情感分析、QA等）中来确定这两个参数的值。</p>
+</li>
+</ul>
+<h5 id="BERT（Bidirectional-Encoder-Representations-from-Transformers）"><a href="#BERT（Bidirectional-Encoder-Representations-from-Transformers）" class="headerlink" title="BERT（Bidirectional Encoder Representations from Transformers）"></a>BERT（Bidirectional Encoder Representations from Transformers）</h5><ul>
+<li><p>由于之前没有看懂Transformer，所以先跳课去看Transformer咯</p>
+</li>
+<li><p>我回来辣</p>
+</li>
+<li><p>Bert=Encoder of Transforemer ，架构是一样的</p>
+</li>
+<li><p>在训练的时候只需要输入许多的句子就可以了，不需要label及其他信息</p>
+</li>
+<li><p>总体结构是输入一个句子，然后每个词（中文直接用每个字就好——因为字是有限的，而词是无法穷举的）都会给出一个embedding</p>
+</li>
+<li><p>Bert的训练</p>
+<ul>
+<li><p>方法一：Masked LM</p>
+<ul>
+<li>输入中随机15%被[MASK]掉，要求BERT去填空</li>
+<li>如何填：如果两个词填在同一个地方没有违和感，那么它们就有类似的embedding</li>
+</ul>
+</li>
+<li><p>方法二：Next Sentence Prediction</p>
+<ul>
+<li><p>判断两个句子是否是上下文关系</p>
+</li>
+<li><p>两个token</p>
+<ul>
+<li><p>[SEP] : 两个句子中间的连接</p>
+</li>
+<li><p>[CLS] : 需要输出分类结果的位置（两个句子是否是连接的）</p>
+<ul>
+<li><p>放在句子的开头：Transformer对输入的顺序位置并没有关系，所以放在开头和结尾都没有差别</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\NSP.png" alt="NSP"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Linear Binary Classifier和bert是同时训练的，它是一个功能一般的分类器</p>
+</li>
+</ul>
+</li>
+<li><p>两个方法需要同时使用来达到较好的效果</p>
+</li>
+</ul>
+</li>
+<li><p>Bert的使用</p>
+<ul>
+<li><p>Case1</p>
+<ul>
+<li><p>输入：单个句子</p>
+</li>
+<li><p>输出：类别</p>
+</li>
+<li><p>例如：情感分析，文件分类等</p>
+</li>
+<li><p>CLS输出一个embedding，然后输入LC训练，输出class</p>
+</li>
+<li><p>Linear Binary Classifier是随机化的初始参数，而BERT有预训练的参数，只需要Fine-tune进行调参即可，他们一起训练</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\case1.png" alt="case1"></p>
+</li>
+</ul>
+</li>
+<li><p>Case2</p>
+<ul>
+<li>输入：单个句子</li>
+<li>输出：每个词（字）的类别</li>
+<li>例如：命名实体</li>
+<li>每个词都会输出一个embedding，输入LC训练后输出class</li>
+<li>同样的LC需要从头开始学，BERT需要调参</li>
+</ul>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\case2.png" alt="case2"></p>
+</li>
+<li><p>Case3</p>
+<ul>
+<li>输入：两个句子</li>
+<li>输出：类别</li>
+<li>例如：Natural Language Inference （Given a “premise”,determining whether a “hypothesis” is T/F/unkonw）——理解相关的问题</li>
+<li>通过CLS输出embedding</li>
+<li>同样的LC需要从头开始学，BERT需要调参</li>
+</ul>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\Case3.png" alt="Case3"></p>
+</li>
+<li><p>Case4</p>
+<ul>
+<li>Extraction-based QA问题（通过阅读文章来回答问题——前提：答案在文章中）</li>
+<li>输入为Document D =${d_1,d_2,\dots,d_N}$;Query Q=${q_1,q_2,\dots,q_M}$</li>
+<li>将Q和D输入QA的模型，会得到输出s和e，表示该问题的答案在$d_s$和$d_e$之间</li>
+<li>将Q和D输入后，文章中的每个词都会产生embedding ,将该embedding 分别于红色和蓝色的向量进行点乘的计算，得到的值再经过softmax后分类概率最高的词的位置分别为s 和e</li>
+</ul>
+<p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/F:/blog\source\_posts\学习\courses\李宏毅-ELMO-BERT-GPT\case4.png" alt="case4"></p>
+<ul>
+<li>如果output中s和e是矛盾的，那么此题无解</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="GPT-Generative-Pre-Training"><a href="#GPT-Generative-Pre-Training" class="headerlink" title="GPT(Generative Pre-Training)"></a>GPT(Generative Pre-Training)</h5><ul>
+<li>GPT2至今为止最大的模型</li>
+<li>架构是Transformer的Decoder</li>
+<li>可以在没有相关目标训练的时候就可以对下游的任务做得不错（仅通过大量语料）</li>
+</ul>
+<p>参考资料：</p>
+<p><a href="https://blog.csdn.net/Dorothy_Xue/article/details/84641417" target="_blank" rel="noopener">one-hot理解</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/26/杂/CPU,GPU,TPU/" rel="next" title="CPU,GPU,TPU">
+                <i class="fa fa-chevron-left"></i> CPU,GPU,TPU
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/09/学习/courses/李宏毅-Transformer/" rel="prev" title="李宏毅-Transformer">
+                李宏毅-Transformer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#BERT发展"><span class="nav-number">1.</span> <span class="nav-text">BERT发展</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-of-N-Encoding"><span class="nav-number">1.1.</span> <span class="nav-text">1-of-N Encoding</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Word-Class"><span class="nav-number">1.2.</span> <span class="nav-text">Word Class</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Word-Embedding"><span class="nav-number">1.3.</span> <span class="nav-text">Word Embedding</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Contextualized-Word-Embedding"><span class="nav-number">1.4.</span> <span class="nav-text">Contextualized Word Embedding</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ELMO（Embeddings-from-Language-Model）"><span class="nav-number">2.</span> <span class="nav-text">ELMO（Embeddings from Language Model）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BERT（Bidirectional-Encoder-Representations-from-Transformers）"><span class="nav-number">3.</span> <span class="nav-text">BERT（Bidirectional Encoder Representations from Transformers）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GPT-Generative-Pre-Training"><span class="nav-number">4.</span> <span class="nav-text">GPT(Generative Pre-Training)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

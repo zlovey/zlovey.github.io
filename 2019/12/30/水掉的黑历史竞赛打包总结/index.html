@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="下面水掉的竞赛按照时间顺序排列== 达观杯-2019.7-2019.8 之江实验室-电商评论观点挖掘  2019.8 CCF-情感分析/乘用车 2019.8-2019.11 莱斯杯-2019.9压根没看emmm diac-2019.11">
+<meta property="og:type" content="article">
+<meta property="og:title" content="水掉的黑历史竞赛打包总结">
+<meta property="og:url" content="http://yoursite.com/2019/12/30/水掉的黑历史竞赛打包总结/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="下面水掉的竞赛按照时间顺序排列== 达观杯-2019.7-2019.8 之江实验室-电商评论观点挖掘  2019.8 CCF-情感分析/乘用车 2019.8-2019.11 莱斯杯-2019.9压根没看emmm diac-2019.11">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/12/30/水掉的黑历史竞赛打包总结/F:/blog/source/_posts/水掉的黑历史竞赛打包总结/达观-任务介绍.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/30/水掉的黑历史竞赛打包总结/F:/blog/source/_posts/水掉的黑历史竞赛打包总结/之江实验室.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/30/水掉的黑历史竞赛打包总结/F:/blog/source/_posts/水掉的黑历史竞赛打包总结/diac.png">
+<meta property="og:updated_time" content="2020-02-02T11:39:18.367Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="水掉的黑历史竞赛打包总结">
+<meta name="twitter:description" content="下面水掉的竞赛按照时间顺序排列== 达观杯-2019.7-2019.8 之江实验室-电商评论观点挖掘  2019.8 CCF-情感分析/乘用车 2019.8-2019.11 莱斯杯-2019.9压根没看emmm diac-2019.11">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/30/水掉的黑历史竞赛打包总结/F:/blog/source/_posts/水掉的黑历史竞赛打包总结/达观-任务介绍.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/30/水掉的黑历史竞赛打包总结/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>水掉的黑历史竞赛打包总结 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/30/水掉的黑历史竞赛打包总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">水掉的黑历史竞赛打包总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-30 11:11:05" itemprop="dateCreated datePublished" datetime="2019-12-30T11:11:05+08:00">2019-12-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-02 19:39:18" itemprop="dateModified" datetime="2020-02-02T19:39:18+08:00">2020-02-02</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>下面水掉的竞赛按照时间顺序排列==</p>
+<p>达观杯-2019.7-2019.8</p>
+<p>之江实验室-电商评论观点挖掘  2019.8</p>
+<p>CCF-情感分析/乘用车 2019.8-2019.11</p>
+<p>莱斯杯-2019.9压根没看emmm</p>
+<p>diac-2019.11<a id="more"></a></p>
+<p>实话说——————————也太蠢了</p>
+<p>下面挨个进行整理</p>
+<hr>
+<h5 id="达观杯-2019-7-2019-8"><a href="#达观杯-2019-7-2019-8" class="headerlink" title="达观杯-2019.7-2019.8"></a>达观杯-2019.7-2019.8</h5><ul>
+<li><p>链接：“达观杯”文本智能信息抽取挑战赛：<a href="https://biendata.com/competition/datagrand/" target="_blank" rel="noopener">https://biendata.com/competition/datagrand/</a></p>
+</li>
+<li><p>比赛任务：给定一定数量的标注语料以及海量的未标注语料，在3个字段上做信息抽取任务。评估参赛选手在预测集上识别这三个类型字段的能力。</p>
+<p><img src="/2019/12/30/水掉的黑历史竞赛打包总结/F:/blog\source\_posts\水掉的黑历史竞赛打包总结\达观-任务介绍.png" alt="达观-任务介绍" style="zoom:50%;"></p>
+</li>
+<li><p>比赛类型：命名实体识别NER</p>
+</li>
+<li><p>我的完成情况：由于参加时间较晚，仅完成了两个baseline的运行，没有进行改进或优化操作（……）</p>
+</li>
+<li><p>开源方案：</p>
+<ul>
+<li>第四名代码：<a href="https://github.com/lingerun/daguan_competition_2019" target="_blank" rel="noopener">https://github.com/lingerun/daguan_competition_2019</a></li>
+<li>第五名代码 ：<a href="https://github.com/shifop/datagrand_bert" target="_blank" rel="noopener">https://github.com/shifop/datagrand_bert</a></li>
+<li>第六名代码： <a href="https://github.com/cdjasonj/datagrand" target="_blank" rel="noopener">https://github.com/cdjasonj/datagrand</a></li>
+<li>第九名代码 ：<a href="https://github.com/lonePatient/daguan_2019_rank9" target="_blank" rel="noopener">https://github.com/lonePatient/daguan_2019_rank9</a></li>
+<li>其他一些不知道是什么的代码<ul>
+<li><a href="https://github.com/zjcanjux/daguan_ner_Bert_bilstm_crf" target="_blank" rel="noopener">https://github.com/zjcanjux/daguan_ner_Bert_bilstm_crf</a></li>
+<li><a href="https://github.com/renjunxiang/daguan_2019" target="_blank" rel="noopener">https://github.com/renjunxiang/daguan_2019</a></li>
+<li><a href="https://github.com/MrDonalds/19DG_competition" target="_blank" rel="noopener">https://github.com/MrDonalds/19DG_competition</a></li>
+<li><a href="https://github.com/Walker19/DataGrand-Competition" target="_blank" rel="noopener">https://github.com/Walker19/DataGrand-Competition</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="之江实验室-电商评论观点挖掘-2019-8"><a href="#之江实验室-电商评论观点挖掘-2019-8" class="headerlink" title="之江实验室-电商评论观点挖掘  2019.8"></a>之江实验室-电商评论观点挖掘  2019.8</h5><ul>
+<li><p>链接：电商评论观点挖掘：<a href="https://zhejianglab.aliyun.com/entrance/231731/introduction" target="_blank" rel="noopener">https://zhejianglab.aliyun.com/entrance/231731/introduction</a></p>
+</li>
+<li><p>比赛任务：在商品评论中抽取商品属性特征和消费者观点，并确认其情感极性和属性种类。对于商品的某一个属性特征，存在着一系列描述它的观点词，它们代表了消费者对该属性特征的观点。每一组{商品属性特征，消费者观点}具有相应的情感极性（负面、中性、正面），代表了消费者对该属性的满意程度。</p>
+<p><img src="/2019/12/30/水掉的黑历史竞赛打包总结/F:/blog\source\_posts\水掉的黑历史竞赛打包总结\之江实验室.png" alt="之江实验室" style="zoom: 50%;"></p>
+</li>
+<li><p>比赛类型：命名实体+情感分析？（没有仔细注意……）</p>
+</li>
+<li><p>我的完成情况：这个，好像，有点记不清了，好像，emmmm就是，只报了名，数据集有没有下载我都忘了。。。。。。</p>
+</li>
+</ul>
+<hr>
+<h5 id="CCF-情感分析-乘用车-2019-8-2019-11"><a href="#CCF-情感分析-乘用车-2019-8-2019-11" class="headerlink" title="CCF-情感分析/乘用车 2019.8-2019.11"></a>CCF-情感分析/乘用车 2019.8-2019.11</h5><h6 id="互联网新闻情感分析"><a href="#互联网新闻情感分析" class="headerlink" title="互联网新闻情感分析"></a>互联网新闻情感分析</h6><ul>
+<li>链接：CCF系列：<a href="https://www.datafountain.cn/competitions/350" target="_blank" rel="noopener">https://www.datafountain.cn/competitions/350</a></li>
+<li>比赛任务：对提供的新闻数据进行情感极性分类，其中正面情绪对应0，中性情绪对应1以及负面情绪对应2。根据我们提供的训练数据，通过您的算法或模型判断出测试集中新闻的情感极性。</li>
+<li>比赛类型：情感分析</li>
+<li>我的完成情况：<ul>
+<li>这个比赛总得来说拖拖拉拉还是做了一段时间的，之前其实对情感分析任务不是很了解，进群后，跑了几个baseline，发现大家都用bert预训练模型。只是用郭大的代码跑了几个预训练模型bert,roberta,xlnet等，然后选择较优的结果不断地融合融合融合。。。刚开始成绩还行，后来由于没有其他的方法，当时试图直接修改模型代码也无从下手（由于没有之前语言模型以及pytorch等代码基础，直接刚bert虽然看了很多，但还是有些倒懂不懂，代码也不知道怎么改），队友有对数据集进行分割处理，作用不大，融合也达到上限，排名A榜最后58，然后B榜翻车到77……</li>
+<li>总的来说我觉得这个题，一方面如大家所说，是砸机器；二方面就是对数据的预处理，这一点我没有太怎么下功夫（有打算做数据增强，一句话变两三句类似的那种，但又觉得一句话都得跑3天，再增加的话，怕是机器带不动，所以最后也没有动手——当然主要原因还是我不会，再加上当时没有找到切实可行的方案）；三方面就是传统语言模型（不用bert那些大模型），处理之后，进行模型融合提分——模型融合我到现在也就会个平均和加权……之前看了半天的stacking啥的没用过……</li>
+<li>就……还是太垃圾</li>
+</ul>
+</li>
+<li><p>开源方案：</p>
+<ul>
+<li><p>top 1解决方案：<a href="https://github.com/cxy229/BDCI2019-SENTIMENT-CLASSIFICATION；" target="_blank" rel="noopener">https://github.com/cxy229/BDCI2019-SENTIMENT-CLASSIFICATION；</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI5ODQxMTk5MQ==&amp;mid=2247487166&amp;idx=1&amp;sn=bfcd4ecabcc39e246af21e67ac770a1c&amp;chksm=eca77c06dbd0f510d282af4efebf0f685f91ebf1cbfaa7948896c2be2eaa79a1e950e7c57a7c&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1578408454996&amp;sharer_shareid=789a95cbaf7aedf34b167049e2319ff0#rd" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzI5ODQxMTk5MQ==&amp;mid=2247487166&amp;idx=1&amp;sn=bfcd4ecabcc39e246af21e67ac770a1c&amp;chksm=eca77c06dbd0f510d282af4efebf0f685f91ebf1cbfaa7948896c2be2eaa79a1e950e7c57a7c&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1578408454996&amp;sharer_shareid=789a95cbaf7aedf34b167049e2319ff0#rd</a></p>
+</li>
+<li><p>A榜4/2735，复赛1%：<a href="https://github.com/linhaow/TextClassify" target="_blank" rel="noopener">https://github.com/linhaow/TextClassify</a></p>
+</li>
+<li><p>top 8：<a href="https://github.com/zhanlaoban/CCF_BDCI_2019_datafountain350；" target="_blank" rel="noopener">https://github.com/zhanlaoban/CCF_BDCI_2019_datafountain350；</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzU5MzkyNzM3Nw==&amp;mid=2247483749&amp;idx=1&amp;sn=07b84259854c04f164d4925b1c876e8a&amp;chksm=fe084cdbc97fc5cdc5d430b96309ecab53940d52cdd0041d7a30fb9a1e9074fbcb86531c95e7&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1578454098759&amp;sharer_shareid=833dabaedb49a12602d89f82a3176612#rd" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzU5MzkyNzM3Nw==&amp;mid=2247483749&amp;idx=1&amp;sn=07b84259854c04f164d4925b1c876e8a&amp;chksm=fe084cdbc97fc5cdc5d430b96309ecab53940d52cdd0041d7a30fb9a1e9074fbcb86531c95e7&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1578454098759&amp;sharer_shareid=833dabaedb49a12602d89f82a3176612#rd</a></p>
+</li>
+<li><p>超级重要的郭大的开源：<a href="https://github.com/guoday/CCF-BDCI-Sentiment-Analysis-Baseline" target="_blank" rel="noopener">https://github.com/guoday/CCF-BDCI-Sentiment-Analysis-Baseline</a></p>
+</li>
+<li><p>官方分享总结：<a href="https://discussion.datafountain.cn/questions/2231" target="_blank" rel="noopener">https://discussion.datafountain.cn/questions/2231</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="乘用车细分市场销量预测"><a href="#乘用车细分市场销量预测" class="headerlink" title="乘用车细分市场销量预测"></a>乘用车细分市场销量预测</h6><ul>
+<li>链接：CCF系列：<a href="https://www.datafountain.cn/competitions/352" target="_blank" rel="noopener">https://www.datafountain.cn/competitions/352</a></li>
+<li>比赛任务：根据给出的60款车型在22个细分市场（省份）的销量连续24个月（从2016年1月至2018年12月）的销量数据，建立销量预测模型； 基于该模型预测同一款车型和相同细分市场在接下来一个季度连续4个月份的销量；除销量数据外，还提供同时期的用户互联网行为统计数据，包括：各细分市场每个车型名称的互联网搜索量数据；主流汽车垂直媒体用户活跃数据等。参赛队伍可同时使用这些非销量数据用于建模。</li>
+<li>比赛类型：预测回归</li>
+<li>我的完成情况：这个比赛也是花了一些功夫，总结下来跑了好几个baseline，但是分数最高的也就是baseline的融合了……花了很多功夫去加特征，或者是把几个baseline的特征融合在一起，但是加了特征之后，要么就是用处不大，要么就是过拟合分数直线下滑，所以就是只要一加特征就凉凉，估计是压根没找到正确的打开方式……排名很后</li>
+<li>开源方案<ul>
+<li>top 1解决方案：<a href="https://github.com/cxq80803716/2019-CCF-BDCI-Car_sales" target="_blank" rel="noopener">https://github.com/cxq80803716/2019-CCF-BDCI-Car_sales</a></li>
+<li>top 3解决方案：<a href="https://zhuanlan.zhihu.com/p/98611487；https://github.com/zwkkk/2019-CCF-Sales-Forecast-of-Passenger-Vehicle-Segment-Market" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/98611487；https://github.com/zwkkk/2019-CCF-Sales-Forecast-of-Passenger-Vehicle-Segment-Market</a></li>
+<li>top 7解决方案：<a href="https://github.com/yoghurt-lee/CCFBDCI2019_car_Top7" target="_blank" rel="noopener">https://github.com/yoghurt-lee/CCFBDCI2019_car_Top7</a></li>
+<li>top 19：<a href="https://zhuanlan.zhihu.com/p/92651909" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/92651909</a></li>
+<li>top 20：<a href="https://zhuanlan.zhihu.com/p/92862369" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/92862369</a></li>
+<li>鱼佬20左右：<a href="https://zhuanlan.zhihu.com/p/93602770?utm_source=com.tencent.tim&amp;utm_medium=social&amp;utm_oi=555381879923224576" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/93602770?utm_source=com.tencent.tim&amp;utm_medium=social&amp;utm_oi=555381879923224576</a></li>
+<li>官方分享总结：<a href="https://discussion.datafountain.cn/questions/2220" target="_blank" rel="noopener">https://discussion.datafountain.cn/questions/2220</a></li>
+<li>其他分享<ul>
+<li><a href="https://github.com/BBKing49/2019CCF-BDCI" target="_blank" rel="noopener">https://github.com/BBKing49/2019CCF-BDCI</a></li>
+<li><a href="https://github.com/lambda-xmu/2019CCF" target="_blank" rel="noopener">https://github.com/lambda-xmu/2019CCF</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="莱斯杯-2019-9压根没看emmm"><a href="#莱斯杯-2019-9压根没看emmm" class="headerlink" title="莱斯杯-2019.9压根没看emmm"></a>莱斯杯-2019.9压根没看emmm</h5><hr>
+<h5 id="diac-2019-11"><a href="#diac-2019-11" class="headerlink" title="diac-2019.11"></a>diac-2019.11</h5><ul>
+<li><p>链接：基于Adversarial Attack的问题等价性判别比赛：<a href="https://www.biendata.com/competition/2019diac/" target="_blank" rel="noopener">https://www.biendata.com/competition/2019diac/</a></p>
+</li>
+<li><p>比赛任务：问题的等价性判断，给出两个问题，判断这两个问题是否等价。题目要求鲁棒性，会添加干扰词语：</p>
+<p><img src="/2019/12/30/水掉的黑历史竞赛打包总结/F:/blog\source\_posts\水掉的黑历史竞赛打包总结\diac.png" alt="diac" style="zoom:50%;"></p>
+</li>
+<li><p>比赛类型：文本相似度</p>
+</li>
+<li><p>我的完成情况：单纯跑了两个baseline……好像是在忙别的东西，就没怎么搞。。</p>
+</li>
+<li><p>开源方案：</p>
+<ul>
+<li>方案总结：<a href="https://github.com/WenRichard/DIAC2019-Adversarial-Attack-Share" target="_blank" rel="noopener">https://github.com/WenRichard/DIAC2019-Adversarial-Attack-Share</a></li>
+<li>好像是第四名：<a href="https://github.com/julielin123/DIAC2019-DQD-Based-on-Adversarial-Attack（代码里面的" target="_blank" rel="noopener">https://github.com/julielin123/DIAC2019-DQD-Based-on-Adversarial-Attack（代码里面的</a> cilin_ex_nonum文件——需要下载ltp_data_v3.4.0，cilin_ex_nonum是里面的文件。<a href="https://pan.baidu.com/share/link?shareid=1988562907&amp;uk=2738088569#list/path=%2F&amp;parentPath=%2F）" target="_blank" rel="noopener">https://pan.baidu.com/share/link?shareid=1988562907&amp;uk=2738088569#list/path=%2F&amp;parentPath=%2F）</a></li>
+<li>top 5：<a href="https://github.com/julielin123/DIAC2019-DQD-Based-on-Adversarial-Attack" target="_blank" rel="noopener">https://github.com/julielin123/DIAC2019-DQD-Based-on-Adversarial-Attack</a></li>
+<li>top 6：<a href="https://zhuanlan.zhihu.com/p/101039989#showWechatShareTip" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/101039989#showWechatShareTip</a></li>
+<li>官方汇总：<a href="https://www.biendata.com/models/index_category/99/" target="_blank" rel="noopener">https://www.biendata.com/models/index_category/99/</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/26/论文/GPT-Generative-Pre-Training/" rel="next" title="GPT(Generative_Pre-Training)">
+                <i class="fa fa-chevron-left"></i> GPT(Generative_Pre-Training)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/02/论文/Bert/" rel="prev" title="Bert">
+                Bert <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#达观杯-2019-7-2019-8"><span class="nav-number">1.</span> <span class="nav-text">达观杯-2019.7-2019.8</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#之江实验室-电商评论观点挖掘-2019-8"><span class="nav-number">2.</span> <span class="nav-text">之江实验室-电商评论观点挖掘  2019.8</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CCF-情感分析-乘用车-2019-8-2019-11"><span class="nav-number">3.</span> <span class="nav-text">CCF-情感分析/乘用车 2019.8-2019.11</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#互联网新闻情感分析"><span class="nav-number">3.1.</span> <span class="nav-text">互联网新闻情感分析</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#乘用车细分市场销量预测"><span class="nav-number">3.2.</span> <span class="nav-text">乘用车细分市场销量预测</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#莱斯杯-2019-9压根没看emmm"><span class="nav-number">4.</span> <span class="nav-text">莱斯杯-2019.9压根没看emmm</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#diac-2019-11"><span class="nav-number">5.</span> <span class="nav-text">diac-2019.11</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

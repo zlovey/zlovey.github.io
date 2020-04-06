@@ -86,7 +86,7 @@
     root: '/',
     scheme: 'Gemini',
     version: '6.3.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -313,7 +313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/27/由Leetcode.3引发的事件(1)/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/23/竞赛总结/标签不平衡问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lavi">
@@ -332,8 +332,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/27/由Leetcode.3引发的事件(1)/" itemprop="url">
-                  由Leetcode.3引发的事件(1)
+                <a class="post-title-link" href="/2020/03/23/竞赛总结/标签不平衡问题/" itemprop="url">
+                  标签不平衡问题
                 </a>
               
             
@@ -359,7 +359,153 @@
                 
               
 
-              <time title="创建时间：2018-07-27 10:59:09" itemprop="dateCreated datePublished" datetime="2018-07-27T10:59:09+08:00">2018-07-27</time>
+              <time title="创建时间：2020-03-23 20:38:53 / 修改时间：22:19:43" itemprop="dateCreated datePublished" datetime="2020-03-23T20:38:53+08:00">2020-03-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于训练集的标签不平衡问题，首先需要分析是因为事件本身就是不平衡的，还是单纯因为采样才导致的不平衡。</p>
+<p>比如现在在做的微博情感分析的题，就是第一种情况，正向情感很多，是因为微博信息本身的不平衡性，即测试集仍然是不平衡的，所以这种不能直接补充数据集使其平衡，因为在简单划分验证集的时候会出现验证集与测试集分布不一致的问题——当然如果可以抽取到与测试集分布一致的验证集，也是可以对数据进行补充啥的。</p>
+<p>当然第二种情况，即数据本身是均匀的，只是因为采样的难易程度或者偏差而导致训练数据不平衡，测试集中数据其实是平衡地，这样就可以通过正负采样等手段对数据集进行扩充了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/16/MCMC-Gibbs-LDA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/16/MCMC-Gibbs-LDA/" itemprop="url">
+                  MCMC_Gibbs_LDA
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-16 17:51:25" itemprop="dateCreated datePublished" datetime="2020-03-16T17:51:25+08:00">2020-03-16</time>
             
 
             
@@ -376,7 +522,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-08-01 11:13:15" itemprop="dateModified" datetime="2018-08-01T11:13:15+08:00">2018-08-01</time>
+                <time title="修改时间：2020-03-29 19:21:49" itemprop="dateModified" datetime="2020-03-29T19:21:49+08:00">2020-03-29</time>
               
             
           </span>
@@ -410,51 +556,15 @@
 
       
         
-          
-            <p>最长子串 最大连续子序列和 最长递增子序列 最长公共子序列 最长公共子串 字符串查找（KMP)</p>
-<hr>
-<p>先进行科普：串中任意个连续的字符组成的子序列称为该串的子串</p>
-<h5 id="最长子串"><a href="#最长子串" class="headerlink" title="最长子串"></a>最长子串</h5><p>见Leetcode.3————————-超链接</p>
-<h5 id="最大连续子序列和"><a href="#最大连续子序列和" class="headerlink" title="最大连续子序列和"></a>最大连续子序列和</h5><p>问题描述：给定一个字符串，其中可能有正数和负数，要求连续的子序列（即子串）使得它们的和达到最大，不允许空序列。</p>
-<p>例子：</p>
-<p>input: <code>-2 6 -1 5 4 -7 2 3</code> </p>
-<p>output:<code>14</code></p>
-<p>所选的数列是从第2个数到第5个数，这4个数的和是所有子数列中最大的。</p>
-<p>问题分析：</p>
-<h6 id="1-简单遍历O-n-2"><a href="#1-简单遍历O-n-2" class="headerlink" title="1.简单遍历O(n^2)"></a>1.简单遍历O(n^2)</h6><p>O(n^3)的做法就算了，感觉没啥意义……</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MaxSubSequence</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> n)</span><span class="comment">//a为一维数组，n为数组长度</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//int tag1,tag2; 如果需要标记和最大的首末位置</span></span><br><span class="line">    <span class="keyword">int</span> sum=a[<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line"> 		<span class="keyword">int</span> temp=<span class="number">0</span>;</span><br><span class="line"> 		<span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&lt;n;j++)&#123;</span><br><span class="line"> 			temp+=a[j];</span><br><span class="line"> 			<span class="keyword">if</span>(sum&lt;temp)&#123;</span><br><span class="line">   	         	sum=temp;</span><br><span class="line">   	         	<span class="comment">//tag1=i;tag2=j;</span></span><br><span class="line">        	&#125;&#125;&#125;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 外层循环通过变量i遍历整个数组，内层循环将每一个i作为起始值，计算其后每个值加起来的总和，存入temp变量，再与sum总值进行比较并存储。</p>
-<p>O（n^2)的做法相当于将所有的序列和都计算了一遍，最终取得最大的和值。</p>
-<h6 id="2-分治O-nlogn"><a href="#2-分治O-nlogn" class="headerlink" title="2.分治O(nlogn)"></a>2.分治O(nlogn)</h6><p>分治的基本思想即“分而治之”，将一个复杂的问题分成两个或更多的相同或相似的子问题，再把子问题分成更小的子问题……直到最后子问题可以简单的直接求解，原问题的解即子问题解的合并。关键问题在于如果将复杂的问题进行分解。</p>
-<p>在本问题中，我们可以把序列平均分为左右两个部分，而取得最大值的序列可能存在三种情况：</p>
-<p>(1) 所求序列完全包含在左半部分；</p>
-<p>(2) 所求序列完全包含在右半部分；</p>
-<p>(3) 所求序列一部分在左边，一部分在右边。</p>
-<p>对于(1)(2)两种情况，又可以分别作为父序列，同样再次分为左右部分并由三种情况考虑解决。而主要需要研究(3)情况如何考虑：</p>
-<p>既然所求序列既在左边，又在右边，则必须包含原序列的分割点，可以考虑从分割点往左和往右分别计算出和最大的值，再相加即可。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a[<span class="number">10000</span>];<span class="comment">//数组</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">count</span><span class="params">(<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span>  <span class="comment">//仅记录left和right，将数组A设置为全局变量</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(left==right)<span class="comment">//长度为1时</span></span><br><span class="line">		<span class="keyword">return</span> a[left];<span class="comment">//返回当前值</span></span><br><span class="line">	<span class="keyword">int</span> mid=(left+right)&gt;&gt;<span class="number">1</span>;<span class="comment">//计算中间分割点</span></span><br><span class="line">	<span class="keyword">int</span> i=count(mid+<span class="number">1</span>,right);<span class="comment">//右边部分(2)</span></span><br><span class="line">	<span class="keyword">int</span> j=count(left,mid);<span class="comment">//左边部分(1)</span></span><br><span class="line">	<span class="comment">//（3）情况</span></span><br><span class="line">	<span class="keyword">int</span> temp=<span class="number">0</span>,sum1=a[mid+<span class="number">1</span>],sum2=a[mid];</span><br><span class="line">	<span class="comment">//sum1和sum2的起始值必须为左右两端不同的起始值，且注意相互对应！不能同时取中值，会导致重复取中值的错误！</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=mid+<span class="number">1</span>;k&lt;=right;k++)<span class="comment">//取右边的最大值</span></span><br><span class="line">	&#123;</span><br><span class="line">		temp+=a[k];</span><br><span class="line">		<span class="keyword">if</span>(temp&gt;sum1)</span><br><span class="line">			sum1=temp;</span><br><span class="line">	&#125;</span><br><span class="line">	temp=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=mid;k&gt;=left;k--)<span class="comment">//取左边的最大值</span></span><br><span class="line">	&#123;</span><br><span class="line">		temp+=a[k];</span><br><span class="line">		<span class="keyword">if</span>(temp&gt;sum2)</span><br><span class="line">			sum2=temp;</span><br><span class="line">	&#125;</span><br><span class="line">	temp=sum1+sum2;</span><br><span class="line">	<span class="keyword">if</span>(i&gt;temp) temp= i;<span class="comment">//直接进行比较即可，不用写max函数</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(j&gt;temp) temp=j;</span><br><span class="line">	<span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对于将整个序列分为左右两半的算法，例如二分排序，在分治的函数结构中最好都使用left和right作为形参输入，这样能够使得函数结构更加清晰。</p>
-<p>代码仅对分治即递归部分进行展示。由于每一次分治都会针对(3)情况进行复杂度为O(n)的遍历，故总体的复杂度为O(nlogn)。</p>
-<h6 id="3-动态规划O-n"><a href="#3-动态规划O-n" class="headerlink" title="3.动态规划O(n)"></a>3.动态规划O(n)</h6><p>动态规划的思想需要理解的是：</p>
-<p>最优子序列必然是以正数开头的，因为如果以负数开头，那么去掉这个负数，会得到一个更优解。类似的，任何负的子序列也不可能是最优子序列的前缀。</p>
-<p>则设置一个变量进行求和，一旦这个变量的值变为负数，则归零该变量，从序列的下一个数值开始计算。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MaxSubSequence</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> n)</span><span class="comment">//a为一维数组，n为数组长度</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> temp=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)<span class="comment">//遍历</span></span><br><span class="line">	&#123;</span><br><span class="line">		temp+=a[i];<span class="comment">//从数组开始计算</span></span><br><span class="line">		<span class="keyword">if</span>(temp&gt;sum)<span class="comment">//若取得更大的值则替换</span></span><br><span class="line">			sum=temp;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(temp&lt;<span class="number">0</span>)<span class="comment">//一旦有小于零的序列则将temp置为0</span></span><br><span class="line">			temp=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>最后附上最大连续子序列和的oj地址：杭电：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1231" target="_blank" rel="noopener">http://acm.hdu.edu.cn/showproblem.php?pid=1231</a></p>
-<p>参考资料：<a href="https://blog.csdn.net/zzl913657644/article/details/52431011" target="_blank" rel="noopener">最大子序列和的四种算法</a></p>
-<p><a href="https://blog.csdn.net/anlian523/article/details/75244422" target="_blank" rel="noopener">最大连续子序列和：递归和动态规划</a></p>
-<p><a href="https://blog.csdn.net/samjustin1/article/details/52043369" target="_blank" rel="noopener">最大连续子序列和：动态规划经典题目(2)</a></p>
-<h5 id="最长递增子序列"><a href="#最长递增子序列" class="headerlink" title="最长递增子序列"></a>最长递增子序列</h5><p>问题描述：设L=&lt;a1,a2,…,an&gt;是n个不同的实数的序列，L的递增子序列是这样一个子序列Lin=&lt;aK1,ak2,…,akm&gt;，其中k1&lt;k2&lt;…&lt;km且aK1&lt;ak2&lt;…&lt;akm。求最大的m值。</p>
-<p>例如：序列5,2,8,6,3,6,9,7的一个最长递增子序列为2,3,6,9。</p>
-<h6 id="1-转换为LCS求解O-n-2"><a href="#1-转换为LCS求解O-n-2" class="headerlink" title="1.转换为LCS求解O(n^2)"></a>1.转换为LCS求解O(n^2)</h6><p>将给定序列按照递增顺序排列之后，再与原序列进行LCS求解，得到的最长公共子序列即为原序列的最长递增子序列。</p>
-<h6 id="2-动态规划O-n-2"><a href="#2-动态规划O-n-2" class="headerlink" title="2.动态规划O(n^2)"></a>2.动态规划O(n^2)</h6><p>最优子问题：</p>
-<p>设L[j] 表示索引为 [0…j] 的aj结尾的数组序列的最长递增子序列长度。则L(j)={ max(L(i))+1, i&lt;j且a[i]&lt;a[j] }，也就是说，我们需要遍历在j之前的所有位置i(从0到j-1)，找出满足条件a[i]&lt;a[j]的L(i)，求出max(L(i))+1即为L(j)的值。最后，我们遍历所有的L(j)（从0到N-1），找出最大值即为最大递增子序列。时间复杂度为O(N^2)。</p>
-<p>例如：给定的数组为{5，6，7，1，2，8}，则L(0)=1, L(1)=2, L(2)=3, L(3)=1, L(4)=2, L(5)=4。所以该数组最长递增子序列长度为4，序列为{5，6，7，8}。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MaxIncSubSequence</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> n)</span><span class="comment">//a为一维数组，n为数组长度</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> L[<span class="number">1000</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)<span class="comment">//每个以自身作为末尾的最长递增子序列长度至少为1</span></span><br><span class="line">		L[j]=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;n;j++)<span class="comment">//遍历，可以直接从第二个数开始，默认第一个数L数列为1</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;j;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&lt;a[j]&amp;&amp;L[j]&lt;L[i]+<span class="number">1</span>)<span class="comment">//注意第二个条件，取最大的L[i]值的a序列</span></span><br><span class="line">				L[j]=L[i]+<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> max=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)<span class="comment">//从L数组中找到最大的值</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(max&lt;L[j])</span><br><span class="line">			max=L[j];</span><br><span class="line">	&#125;</span><br><span class="line"> 	<span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在第二个循环的If语句中，也可以三重循环找出a[i]&lt;a[j]且L[i]最大的值，再将其加1赋给L[j]，但这样会增加复杂度，故直接对每一个L[i]进行处理。</p>
-<p>参考资料：<a href="https://blog.csdn.net/u013178472/article/details/54926531" target="_blank" rel="noopener">最长递增子序列的三种算法</a></p>
-<p><a href="https://www.jianshu.com/p/ae71823744b3" target="_blank" rel="noopener">动态规划 最长递增子序列</a></p>
-
-          
+          <p>主要参考自：<a href="https://cosx.org/2013/01/lda-math-mcmc-and-gibbs-sampling" target="_blank" rel="noopener">https://cosx.org/2013/01/lda-math-mcmc-and-gibbs-sampling</a></p>
+<p>蒙特卡罗方法(Monte Carlo Simulation)正如其名字一样，蒙特卡罗是著名的赌场，蒙特卡罗方法也是用来进行随机模拟的，大部分的分布可以由均匀分布的变换来得到，而均匀分布可以使用线性同余发生器近似得到，然而一些复杂的带积分或是高维的分布仍然不能简单地由计算机来直接生成，因此有了蒙特卡罗方法。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/16/MCMC-Gibbs-LDA/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -470,6 +580,10 @@
     
 
     
+
+    <div>
+      
+    </div>
 
     <footer class="post-footer">
       
@@ -506,7 +620,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/25/测试文档/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/12/论文/A-Review-of-Relation-Extraction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lavi">
@@ -525,8 +639,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/25/测试文档/" itemprop="url">
-                  测试文档
+                <a class="post-title-link" href="/2020/03/12/论文/A-Review-of-Relation-Extraction/" itemprop="url">
+                  A_Review_of_Relation_Extraction
                 </a>
               
             
@@ -552,7 +666,7 @@
                 
               
 
-              <time title="创建时间：2018-07-25 17:27:36 / 修改时间：17:47:24" itemprop="dateCreated datePublished" datetime="2018-07-25T17:27:36+08:00">2018-07-25</time>
+              <time title="创建时间：2020-03-12 19:14:17 / 修改时间：19:44:55" itemprop="dateCreated datePublished" datetime="2020-03-12T19:14:17+08:00">2020-03-12</time>
             
 
             
@@ -562,6 +676,24 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/papers/" itemprop="url" rel="index"><span itemprop="name">papers</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -591,10 +723,19 @@
 
       
         
-          
-            <p>Hello a ~</p>
-
-          
+          <p>本文是对关系抽取的综述论文</p>
+<p>全文结构如下：</p>
+<ul>
+<li>监督学习<ul>
+<li>基于特征的方法</li>
+<li>基于核函数的方法</li></ul></li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/12/论文/A-Review-of-Relation-Extraction/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -610,6 +751,10 @@
     
 
     
+
+    <div>
+      
+    </div>
 
     <footer class="post-footer">
       
@@ -646,7 +791,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/25/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/22/leetcode/leetcode-笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lavi">
@@ -665,8 +810,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/25/hello-world/" itemprop="url">
-                  Hello World
+                <a class="post-title-link" href="/2020/02/22/leetcode/leetcode-笔记/" itemprop="url">
+                  leetcode-笔记
                 </a>
               
             
@@ -692,9 +837,552 @@
                 
               
 
-              <time title="创建时间：2018-07-25 17:01:24" itemprop="dateCreated datePublished" datetime="2018-07-25T17:01:24+08:00">2018-07-25</time>
+              <time title="创建时间：2020-02-22 16:36:51" itemprop="dateCreated datePublished" datetime="2020-02-22T16:36:51+08:00">2020-02-22</time>
             
 
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-06 10:57:28" itemprop="dateModified" datetime="2020-04-06T10:57:28+08:00">2020-04-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <ol start="4">
+<li><h4 id="寻找两个有序数组的中位数"><a href="#寻找两个有序数组的中位数" class="headerlink" title="寻找两个有序数组的中位数"></a>寻找两个有序数组的中位数</h4></li>
+</ol>
+<p>给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。你可以假设 nums1 和 nums2 不会同时为空。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">nums1 = [1, 3]</span><br><span class="line">nums2 = [2]</span><br><span class="line">输出：</span><br><span class="line">则中位数是 2.0</span><br></pre></td></tr></table></figure>
+<p><strong></strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/22/leetcode/leetcode-笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/07/学习/book/统计学习方法/统计学习方法绪论及第一章笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/07/学习/book/统计学习方法/统计学习方法绪论及第一章笔记/" itemprop="url">
+                  统计学习方法绪论及第一章笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-07 16:52:58 / 修改时间：20:55:39" itemprop="dateCreated datePublished" datetime="2020-02-07T16:52:58+08:00">2020-02-07</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/书籍学习笔记/" itemprop="url" rel="index"><span itemprop="name">书籍学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>算是对小蓝书过的第二遍吧</p>
+<p>虽然第一遍呢，确实是呢，没有看懂。。。</p>
+<p>跟着B站上Eddy的视频过的，觉得讲得还不错，链接放上来：<a href="https://www.bilibili.com/video/av82525579" target="_blank" rel="noopener">https://www.bilibili.com/video/av82525579</a></p>
+<p>作为个人笔记的整理吧</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/07/学习/book/统计学习方法/统计学习方法绪论及第一章笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/02/论文/Bert/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/02/论文/Bert/" itemprop="url">
+                  Bert
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-02 19:36:27 / 修改时间：20:25:09" itemprop="dateCreated datePublished" datetime="2020-01-02T19:36:27+08:00">2020-01-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/papers/" itemprop="url" rel="index"><span itemprop="name">papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <ul>
+<li><p>Bert 真正实现了双向的语言模型，而不是像ELMo一样，仅是采用了两个分别不同方向的单向模型拼接</p></li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/01/02/论文/Bert/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/30/水掉的黑历史竞赛打包总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/30/水掉的黑历史竞赛打包总结/" itemprop="url">
+                  水掉的黑历史竞赛打包总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-30 11:11:05" itemprop="dateCreated datePublished" datetime="2019-12-30T11:11:05+08:00">2019-12-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-02 19:39:18" itemprop="dateModified" datetime="2020-02-02T19:39:18+08:00">2020-02-02</time>
+              
             
           </span>
 
@@ -727,18 +1415,19 @@
 
       
         
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
+          <p>下面水掉的竞赛按照时间顺序排列==</p>
+<p>达观杯-2019.7-2019.8</p>
+<p>之江实验室-电商评论观点挖掘  2019.8</p>
+<p>CCF-情感分析/乘用车 2019.8-2019.11</p>
+<p>莱斯杯-2019.9压根没看emmm</p>
+<p>diac-2019.11</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/30/水掉的黑历史竞赛打包总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -754,6 +1443,522 @@
     
 
     
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/26/论文/GPT-Generative-Pre-Training/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/26/论文/GPT-Generative-Pre-Training/" itemprop="url">
+                  GPT(Generative_Pre-Training)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 11:31:51 / 修改时间：15:28:32" itemprop="dateCreated datePublished" datetime="2019-12-26T11:31:51+08:00">2019-12-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/papers/" itemprop="url" rel="index"><span itemprop="name">papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <ul>
+<li><p>由OpenAI提出的GPT-1（2018）和GPT-2（2019）模型，分别参考论文《Improving Language Understanding by Generative Pre-Training》和《Language Models are Unsupervised Multitask Learners》</p></li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/26/论文/GPT-Generative-Pre-Training/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/24/论文/Deep-Contextualized-Word-Representations/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/24/论文/Deep-Contextualized-Word-Representations/" itemprop="url">
+                  Deep-Contextualized-Word-Representations
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-24 14:48:54 / 修改时间：21:09:58" itemprop="dateCreated datePublished" datetime="2019-12-24T14:48:54+08:00">2019-12-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/papers/" itemprop="url" rel="index"><span itemprop="name">papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <ul>
+<li><p>本文主要提出了ELMo模型，在实现复杂语义表示的同时，还实现了对词向量的动态生成，可以解决之前静态词向量所不能解决的多义词问题</p></li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/24/论文/Deep-Contextualized-Word-Representations/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/论文/Attention小结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/19/论文/Attention小结/" itemprop="url">
+                  Attention小结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-19 16:39:46" itemprop="dateCreated datePublished" datetime="2019-12-19T16:39:46+08:00">2019-12-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-20 17:45:06" itemprop="dateModified" datetime="2019-12-20T17:45:06+08:00">2019-12-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/papers/" itemprop="url" rel="index"><span itemprop="name">papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>看了一些论文和博客，总的把Attention的流程理顺了一些，现在开始输出ing，带有个人理解，也不一定正确……</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/19/论文/Attention小结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+    </div>
 
     <footer class="post-footer">
       
@@ -778,6 +1983,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
 
 
           </div>
@@ -822,12 +2031,45 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
               
 
               
@@ -880,7 +2122,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -923,6 +2165,8 @@
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
         
       </div>
     
@@ -1046,6 +2290,61 @@
   
 
   
+  
+
+  
+  
+    
+      
+    
+      
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
 
   
   
@@ -1061,6 +2360,6 @@
   
 
   
-  undefined
-<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
 </html>

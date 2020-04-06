@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="书籍：统计自然语言处理 - 宗成庆 第一章 绪论 自然语言处理 自然语言处理（natural language processing，NLP）也称自然语言理解（natural language understanding，NLU）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="统计自然语言处理-笔记">
+<meta property="og:url" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="书籍：统计自然语言处理 - 宗成庆 第一章 绪论 自然语言处理 自然语言处理（natural language processing，NLP）也称自然语言理解（natural language understanding，NLU）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/bigram.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/平滑算法.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/图模型.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/贝叶斯模型.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/马尔科夫模型.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/隐马尔可夫模型.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/隐马尔可夫-格架.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/切分有向无环图.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/n-最短路径.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/分词方法2.png">
+<meta property="og:updated_time" content="2020-01-14T11:59:21.694Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="统计自然语言处理-笔记">
+<meta name="twitter:description" content="书籍：统计自然语言处理 - 宗成庆 第一章 绪论 自然语言处理 自然语言处理（natural language processing，NLP）也称自然语言理解（natural language understanding，NLU）">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog/source/_posts/学习/book/统计自然语言处理-笔记/bigram.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>统计自然语言处理-笔记 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">统计自然语言处理-笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-01 10:57:27" itemprop="dateCreated datePublished" datetime="2019-11-01T10:57:27+08:00">2019-11-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-01-14 19:59:21" itemprop="dateModified" datetime="2020-01-14T19:59:21+08:00">2020-01-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/书籍学习笔记/" itemprop="url" rel="index"><span itemprop="name">书籍学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>书籍：统计自然语言处理 - 宗成庆</p>
+<h5 id="第一章-绪论"><a href="#第一章-绪论" class="headerlink" title="第一章 绪论"></a>第一章 绪论</h5><ul>
+<li><h6 id="自然语言处理"><a href="#自然语言处理" class="headerlink" title="自然语言处理"></a>自然语言处理</h6><ul>
+<li>自然语言处理（natural language processing，NLP）也称自然语言理解（natural language understanding，NLU）<a id="more"></a></li>
+<li>定义<ul>
+<li>自然语言处理是人工智能领域的主要内容，即利用电子计算机等工具对人类所特有的语言信息（包括口语信息和文字信息）进行各种加工，并建立各种类型的人-机-人系统。自然语言理解是其核心，其中包括语音和语符的自动识别以及语音的自动合成——刘涌泉《大百科全书》（2002）</li>
+<li>emmm 还好有多定义</li>
+</ul>
+</li>
+<li>标准<ul>
+<li>图灵测试：（模仿游戏）<ul>
+<li>原理：如果一个计算机系统的表现、反应和互相作用都和有意识的个体一样，那么，这个计算机系统就应该被认为是有意识的</li>
+<li>方法：测试人在一段规定的时间内，在无法看到反应来源的情况下，根据两个实体（被测试的计算机系统和另外一个人）对他提出的各种问题的反应来判断做出反应的是人还是计算机。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>主要内容（分类）<ul>
+<li>机器翻译（machine translation MT）：实现一种语言到另一种语言的自动翻译</li>
+<li>自动文摘（automatic summarizing）：将原生文档的主要内容和含义自动归纳、提炼出来，形成摘要或缩写</li>
+<li>信息检索（information retrieval）：也称情报检索，利用计算机系统从海量文档中找到符合用户需要的相关文档</li>
+<li>文档分类（document categorization/classification）：文本分类，利用计算机系统对大量的文档按照一定的分类标砖实现自动归类（情感分类——可以了解社会群众的舆论情况）</li>
+<li>问答系统（question-answering system）</li>
+<li>信息过滤（information filtering）：计算机自动识别和过滤满足特定条件的文档信息，通常过滤有害信息，用于信息安全等</li>
+<li>信息抽取（information extraction）从文本中抽取特定的时间或事实信息，比如从新闻报道中抽取关键信息</li>
+<li>文本挖掘（text mining）从文本中获取高质量信息的过程，一般涉及文本分类、文本聚类、概念或实体抽取、粒度分析、情感分析、实习关系建模等</li>
+<li>舆情分析、隐喻计算、文本编辑及自动校对、作文自动评分、语音识别、文语转换等</li>
+</ul>
+</li>
+<li>涉及的几个层次<ul>
+<li>形态学：研究词的内部结构，包括</li>
+<li>语法学：研究句子结构成分之间的相互关系和组成句子序列的规则</li>
+<li>语义学：研究语言意义的学科</li>
+<li>语用学：集中在句子层次上的语用研究</li>
+</ul>
+</li>
+<li>困难<ul>
+<li>词汇形态及结构歧义消解</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="第二章-预备知识"><a href="#第二章-预备知识" class="headerlink" title="第二章 预备知识"></a>第二章 预备知识</h5><ul>
+<li><h6 id="概率论"><a href="#概率论" class="headerlink" title="概率论"></a>概率论</h6><ul>
+<li><p>概率（非负性、规范性、可列可加性）</p>
+</li>
+<li><p>最大似然估计</p>
+<ul>
+<li>当样本数量很大的时候，可以用相对频率来作为概率的估计值</li>
+</ul>
+</li>
+<li><p>条件概率</p>
+<ul>
+<li>$$<br>P(A|B)=\frac{P(A\cap B)}{P(B)}<br>$$</li>
+</ul>
+</li>
+<li><p>贝叶斯法则</p>
+<ul>
+<li><p>全概率公式：</p>
+<ul>
+<li>$$<br>P(A)=\sum_iP(A|B_i)P(B_i)<br>$$</li>
+</ul>
+</li>
+<li><p>$$<br>P(B_i|A)=\frac{P(A|B_j)P(B_j)}{P(A)}=\frac{P(A|B_j)P(B_j)}{\sum_{i=1}^nP(A|B_i)P(B_i)}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>随机变量与分布函数</p>
+</li>
+<li><p>二项式分布</p>
+<ul>
+<li>$$<br>p_i={n \choose i}p^i(1-p)^{n-i},i=0,1,\dots,n<br>$$</li>
+</ul>
+</li>
+<li><p>联合概率分布和条件概率分布</p>
+</li>
+<li><p>贝叶斯决策理论</p>
+</li>
+<li><p>期望和方差</p>
+<ul>
+<li>期望$E(X)=\sum_{k=1}^\infty x_kp_k$</li>
+<li>方差$var(X)=E(X^2)-E^2(X)$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="信息论"><a href="#信息论" class="headerlink" title="信息论"></a>信息论</h6><ul>
+<li><p>熵</p>
+<ul>
+<li><p>X为离散随机变量，取值空间为R，概率分布为$p(x)=P(X=x),x \in R$，则熵$H(X)$为<br>$$<br>H(X)=-\sum_{x\in R}p(x)log_2p(x)<br>$$</p>
+</li>
+<li><p>又称自信息，可以视为描述一个随机变量的不确定性的数量</p>
+</li>
+</ul>
+</li>
+<li><p>联合熵和条件熵</p>
+<ul>
+<li><p>联合熵</p>
+<ul>
+<li>一对随机变量平均所需要的信息量<br>$$<br>H(X,Y)=-\sum_{x\in X}\sum_{y\in Y}p(x,y)logp(x,y)<br>$$</li>
+</ul>
+</li>
+<li><p>条件熵</p>
+<ul>
+<li>给定随机变量X，随机变量Y的条件熵</li>
+</ul>
+<p>$$<br>H(Y|X)=\sum_{x\in X}p(x)H(Y|X=x)=\sum_{x\in X}p(x)[-\sum_{y\in Y}p(y|x)logp(y|x)]<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>互信息</p>
+<ul>
+<li><p>表示在知道了Y的值以后X的不确定性的减少量——可以理解为Y的值透露了多少关于X的信息量</p>
+</li>
+<li><p>$$<br>I(X;Y)=H(X)-H(X|Y)<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>相对熵</p>
+<ul>
+<li>即KL距离，是衡量相同事件空间里两个概率分布相对差距的测度</li>
+</ul>
+</li>
+<li><p>交叉熵</p>
+<ul>
+<li>通常交叉熵越小，模型的表现越好</li>
+</ul>
+</li>
+<li><p>困惑度</p>
+</li>
+<li><p>噪声信道模型</p>
+</li>
+</ul>
+</li>
+<li><h6 id="支持向量机SVM"><a href="#支持向量机SVM" class="headerlink" title="支持向量机SVM"></a>支持向量机SVM</h6><ul>
+<li><p>是在高维特征空间使用线性函数假设空间的学习系统，在分类方面有良好的性能</p>
+</li>
+<li><p>线性分类</p>
+<p>对于线性可分的问题，就以最大间隔分开数据</p>
+</li>
+<li><p>线性不可分</p>
+<ul>
+<li><p>对于线性不可分问题，可以把样本x映射到高维的特征空间中，在高维的特征空间中使用线性学习器</p>
+</li>
+<li><p>决策规则可以用测试点和测试点的内积来表示<br>$$<br>f(x)=\sum^l_{i=1}\alpha_iy_i(\phi(x_i)\cdot\phi(x))+b<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>核函数</p>
+<ul>
+<li><p>函数K，对所有$x,z\in X$，满足</p>
+<p>$K(x,z)=(\phi(x)\cdot \phi(z))$</p>
+<p>其中$\phi$是从X到内积特征空间F的映射</p>
+</li>
+<li><p>决策规则可以通过对核函数的l次计算得到<br>$$<br>f(x)=\sum^l_{i=1}\alpha_iy_iK(x_i,x)+b<br>$$</p>
+</li>
+<li><p>核函数要适合某个特征空间应该是对称的</p>
+</li>
+<li><p>不同的核函数将形成不同的算法</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="第三章-形式语言与自动机"><a href="#第三章-形式语言与自动机" class="headerlink" title="第三章 形式语言与自动机"></a>第三章 形式语言与自动机</h5><ul>
+<li><h6 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h6><ul>
+<li>图<ul>
+<li>无向图</li>
+<li>有向图</li>
+<li>连通图</li>
+<li>回路</li>
+</ul>
+</li>
+<li>树</li>
+<li>字符串</li>
+</ul>
+</li>
+<li><h6 id="形式语言"><a href="#形式语言" class="headerlink" title="形式语言"></a>形式语言</h6><ul>
+<li>一般描述一种语言可以有三种途径<ul>
+<li>穷举法：把语言中的句子通过枚举写出来，适用于句子数目有限的语言</li>
+<li>文法描述语言中的句子用严格定义的规则来构造，利用规则生成语言中合法的句子</li>
+<li>自动机法：通过对输入的句子进行合法性检验，区别哪些是语言中的句子，哪些不是</li>
+</ul>
+</li>
+<li>形式语法：四元组$G=（N,\Sigma,P,S）$，其中N是非终结符，$\Sigma$是终结符，P是一组重写规则，S是初始符</li>
+<li>形式语法的类型：<ul>
+<li>正则文法</li>
+<li>上下文无关文法</li>
+<li>上下文有关文法</li>
+<li>无约束文法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="自动机理论"><a href="#自动机理论" class="headerlink" title="自动机理论"></a>自动机理论</h6><ul>
+<li>有限自动机<ul>
+<li>确定性有限自动机DFA</li>
+<li>不确定性有限自动机NFA</li>
+<li>看不懂先不看了……</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>…………</p>
+<p>…………</p>
+<hr>
+<h5 id="第四章-语料库与语言知识库"><a href="#第四章-语料库与语言知识库" class="headerlink" title="第四章 语料库与语言知识库"></a>第四章 语料库与语言知识库</h5><ul>
+<li><h6 id="语料库的类型"><a href="#语料库的类型" class="headerlink" title="语料库的类型"></a>语料库的类型</h6><ul>
+<li>平衡语料库与平行语料库</li>
+<li>通用语料库与专用语料库</li>
+<li>共时语料库与历时语料库</li>
+<li>生语料与标注语料库</li>
+</ul>
+</li>
+<li><p>语言知识库</p>
+</li>
+<li><p>……</p>
+</li>
+</ul>
+<hr>
+<h5 id="第五章-语言模型"><a href="#第五章-语言模型" class="headerlink" title="第五章 语言模型"></a>第五章 语言模型</h5><ul>
+<li><p>language model——LM语言模型主要采用n元语法模型（n-gram model），这种模型简单、直接，但同时因为数据缺乏而必须采取平滑算法</p>
+</li>
+<li><p>n元语法（n-gram model）</p>
+<ul>
+<li><p>一个字符串s作为句子出现的频率p(s)为它的在语言模型中的概率分布</p>
+</li>
+<li><p>语言模型与句子是否合乎语法关系无关，即使一个句子完全合乎语法逻辑，但是在预料中的出现频次为0，我们仍然认为它出现的概率接近为零。</p>
+</li>
+<li><p>对于一个有l个基元（字、词、短语等）构成的句子$s=w_1w_2\dots w_l$，其概率计算公式可以表示为<br>$$<br>p(s)=p(w_1)p(w_2|w_1)p(w_3|w_1w_2)\dots p(w_l|w_1\dots w_{l-1})\=\Pi_{i=1}^lp(w_i|w_1\dots w_{i-1})<br>$$</p>
+</li>
+<li><p>在这种模型中，随着历史长度的增加，不同的历史数目按指数级增长，要实现真正的计算近乎是不可能的。但其实有很多历史在训练数据中完全不会出现，故提出了使用等价类来对不同的历史进行映射的方法，可以将历史按照某个法则映射到等价类中，使得等价类的数目远远小于不同的历史数目</p>
+</li>
+<li><p>等价类划分的方法</p>
+<ul>
+<li>将两个历史映射到同一个等价类，当且仅当这两个历史最近的n-1个词相同——n元语法</li>
+</ul>
+</li>
+<li><p>通常n的取值不会太大，实际情况中n=3比较多</p>
+</li>
+<li><p>一元文法被记作unigram或monogram</p>
+</li>
+<li><p>二元文法模型被称为一阶马尔科夫链，记作bigram</p>
+</li>
+<li><p>三元文法模型成为二阶马尔科夫链，记作trigram</p>
+</li>
+<li><p>一般在句子开头添加句首标记<bos>，在句子结尾添加句尾标记<eos></eos></bos></p>
+</li>
+<li><p>采用最大似然估计，将n元语法在文本中出现的频率归一化后作为条件概率的值</p>
+</li>
+<li><p>二元文法的例子：<img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\bigram.png" alt="bigram"></p>
+</li>
+</ul>
+</li>
+<li><p>语言模型性能评价</p>
+<ul>
+<li>交叉熵、困惑度或根据模型计算出的测试数据的概率</li>
+</ul>
+</li>
+<li><p>数据平滑</p>
+<ul>
+<li>分配给所有可能出现的字符串一个非零的概率值，来进行平滑的操作，避免出现将训练预料中未出现的序列判为概率为0的情况</li>
+<li>平滑技术就是用来解决这类零概率问题的；基本思想是“劫富济贫”，即提高低概率，降低高概率，尽量使概率分布趋于均匀</li>
+<li>举例：加一法<ul>
+<li>对于二元语法，假设每个二元语法出现的次数比实际出现的次数多一次</li>
+</ul>
+</li>
+<li>数据平滑是语言模型中的核心问题</li>
+</ul>
+</li>
+<li><p>数据平滑的方法</p>
+<ul>
+<li><p>加法平滑方法</p>
+<ul>
+<li>在实际应用中最简单的平滑技术之一</li>
+<li>将加一法通用化，假设每一个n元语法发生的次数比实际统计次数多$\delta$次，一般$0\leq\delta\leq1$</li>
+</ul>
+</li>
+<li><p>Good-Turing估计法</p>
+<ul>
+<li><p>由于加法平滑使得$\sum r^*\neq \sum r$，故而产生了此类方法，可以把测试集中元素在训练集中出现的总次数不变</p>
+</li>
+<li><p>对于任何一个出现r次的n元语法，都假设它出现$r^<em>$次，这里<br>$$<br>r^</em>=(r+1)\frac{n_{r+1}}{n_r}<br>$$<br>其中$n_r$是训练语料中出现r次的n元语法数目</p>
+</li>
+<li><p>其概率的计算为<br>$$<br>p_r=\frac{r^<em>}{N}<br>$$<br>其中$N=\sum_{r=0}^{\infty}n_rr^</em>$</p>
+</li>
+<li><p>按比例缩小次数</p>
+</li>
+<li><p>即N为分布中最初的计数（没有增加），故所有事件概率的总和是小于1的，而剩下的概率值就可以分配给那个r=0的事件了，这里的分配采用的是平均分配的方法</p>
+</li>
+<li><p>该方法不能直接用于估计$n_r=0$的n-gram概率，因为对于n的最大值，其无法根据公式进行估计；且该方法不能实现高阶模型与低阶模型的结合</p>
+</li>
+</ul>
+</li>
+<li><p>Katz平滑</p>
+<ul>
+<li><p>在上一方法的基础上加入了高阶模型与低阶模型的结合</p>
+</li>
+<li><p>是一种后备的平滑方法。其基本的思路是当某一事件在样本中出现的频率大于k时，其可靠性可能很高，故不劫它，运用最大似然估计经过减值来估计其概率，而当某一事件的频率小于k时，其误差可能偏大，故要打个折扣d使用低阶的语法模型作为代替高阶语法模型的后备，这种代替需要受归一化因子$\alpha$的作用</p>
+</li>
+<li><p>计算方法<br>$$<br>C_{katz}(w_{i-1}^i)=\begin{cases} d_rr，r&gt;0\ \alpha(w_{i-1})p_{ML}(w_i)， r=0\end{cases}<br>$$<br>其中$d_r$等于在Good-Turing方法中的$\frac{r^*}{r}$值，根据低一阶的分布来分配给计数为0的二元语法</p>
+</li>
+<li><p>根据低阶的语法模型分配由于减值而节省下来的剩余概率给未见事件，这比将剩余概率平均分配给未见事件更加合理</p>
+</li>
+</ul>
+</li>
+<li><p>Jelinek-Mercer平滑方法</p>
+<ul>
+<li><p>由于出现次数为0 的不同文法间往往会受对应一元文法出现的频率的影响</p>
+<ul>
+<li>如：c(SEND THE)=0;c(SEND THOU)=0；</li>
+<li>然而我们可以得出前项比后项出现的概率是更大一些的</li>
+</ul>
+</li>
+<li><p>解决上述问题，将二元文法模型与一元的文法模型进行线性插值<br>$$<br>p_{interp}(w_i|w_{i-1})=\lambda p_{ML}(w_i|w_{i-1})+(1-\lambda)p_{ML}(w_i)\ \ \lambda \in [0,1]<br>$$</p>
+</li>
+<li><p>当没有足够的语料对高阶模型的概率进行估计的时候，低阶模型往往可以提供有用的信息</p>
+</li>
+</ul>
+</li>
+<li><p>Witten-Bell平滑</p>
+<ul>
+<li><p>如果测试过程中一个实例在训练语料库中未出现过，那么他就是一个新事物，也就是说，他是第一次出现。那么可以用在语料库中看到新实例（即第一次出现的实例）的概率来代替未出现实例的概率。</p>
+</li>
+<li><p>n阶平滑模型被递归地定义为n阶最大似然模型和n-1阶平滑模型的线性插值</p>
+</li>
+<li><p>可以看做是Good-Turing 估计的近似，最少出现一次的单词的数目代替了恰好只出现一次的单词的数目</p>
+</li>
+<li><p>假设词汇在语料库出现的次数参见下表：</p>
+<p>|   r   |  1   |  2   |  3   |  4   |  5   |<br>| :—: | :–: | :–: | :–: | :–: | :–: |<br>| $n_r$ |  50  |  40  |  30  |  20  |  10  |</p>
+<p>$N=1<em>50+2</em>40++3<em>30+4</em>20+5*10=350$</p>
+<p>$T=50+40+30+20+10=150$</p>
+<p>那么就可以用$\frac{T}{N+T}=\frac{150}{350+150}=0.3$来近似表示在语料库中看到新词汇的概率</p>
+</li>
+</ul>
+</li>
+<li><p>绝对减值法</p>
+<ul>
+<li>涉及高阶和低阶模型的插值问题，通过从每个非零计数中减去一个固定值$D\leq1$的方法来建立高阶分布</li>
+</ul>
+</li>
+<li><p>Kneser-Ney平滑算法</p>
+<ul>
+<li>一元文法的概率不应该与单词出现的次数成比例，而是与它前面的不同单词的数据成比例（比如SAN FRANCISCO）</li>
+<li>采用后备模型——在计算未出现的n元语法模型时才考虑低阶模型的概率</li>
+<li>采用绝对减值法，对所有的出现的n元语法模型减去一个固定的次数D，然后在按照n-1元语法模型的概率分布分给未出现的n元语法模型</li>
+</ul>
+</li>
+<li><p>Kneser-Ney平滑算法修正版</p>
+<ul>
+<li>采用插值模型</li>
+<li>不是都减去同样的量。而是按照n元语法出现的次数的不同分为1、2和大于等于3次，三种情况减去的量不同</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>大多数平滑的算法都可以用<br>$$<br>p_{smooth}(w_i|w_{i-n+1}^{i-1})=\begin{cases} \alpha(w_i|w_{i-n+1}^{i-1}),c(w_{i-n+1}^i&gt;0)\ \gamma(w_{i-n+1}^{i-1}p_{smooth}(w_i|w_{i-n+1}^{i-1}),c(w_{i-n+1}^i=0)\end{cases}<br>$$<br>来表示（后背模型和插值模型）</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\平滑算法.png" alt="平滑算法"></p>
+</li>
+<li><p>其他平滑</p>
+<ul>
+<li>Church_Gale平滑</li>
+<li>贝叶斯平滑<ul>
+<li>用已经平滑的分布选出先验分布，然后用先验分布通过某种方式求出最终的平滑分布</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>各类平滑方法的效果<ul>
+<li>对于二元和三元语法，KN和修正后KN的效果比其他的更好一些</li>
+<li>然后是JM和Katz</li>
+<li>然后是WB</li>
+</ul>
+</li>
+<li><a href="http://blog.sciencenet.cn/blog-516696-423571.html" target="_blank" rel="noopener">关于数据平滑的一些理解</a> (这一篇讲得很清楚)</li>
+<li><p>语言模型自适应方法</p>
+<ul>
+<li><p>语言模型中的一些问题</p>
+<ul>
+<li>模型对跨领域的脆弱性<ul>
+<li>由于语料往往来自多种不同的领域，而不同领域的语言风格与类型其实差异较大，而语言模型对不同训练文本的类型十分敏感</li>
+</ul>
+</li>
+<li>独立性假设的无效性<ul>
+<li>独立性假设即当前词只与在它前面出现的N-1个词有关</li>
+<li>这种假设本来就是一种理想的状况</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>为了提高语言模型对语料的领域、主题等的适应性，提出了一系列的语言模型自适应的方法</p>
+</li>
+<li><p>基于缓存的语言模型</p>
+<ul>
+<li><p>针对在文本中刚刚出现过的一些词在后边的句子中再次出现的概率比较大的情况</p>
+</li>
+<li><p>基本思路是通过n元语法的线性插值：<br>$$<br>\hat p(w_i|w_1^{i-1})=\lambda\hat p_{Cache}(w_i|w_1^{i-1})+(1-\lambda)\hat p_{n-gram}(w_i|w_{i-n+1}^{i-1})<br>$$</p>
+</li>
+<li><p>在缓存中保留前面K个词，每个词$w_i$的概率用其在缓存中出现的相对频率计算，即<br>$$<br>正常的基于缓存的语言模型\\hat p_{Cache}(w_i|w_1^{i-1})=\frac{1}{K}\sum^{i-1}<em>{j=i-K}I</em>{w_j=w_i}<br>$$<br>其中I为指示函数，相等即为1，不等即为0</p>
+</li>
+<li><p>如果加入考虑词与当前词的距离，距离越近对缓存概率的贡献越大，其中$\alpha$为衰减率，$\beta$为归一化常数<br>$$<br>衰减的基于缓存的语言模型\\hat p_{Cache}(w_i|w_1^{i-1})=\beta\sum^{i-1}<em>{j=1}I</em>{w_j=w_i}e^{-\alpha(i-j)}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>基于混合方法的语言模型</p>
+<ul>
+<li><p>由于训练语料一般是异源的，而测试语料一般是同源的，所以模型需要适应不同类型的语料对其性能的影响</p>
+</li>
+<li><p>基本思想：将语言模型划分成n个子模型$M_1,M_2,\dots,M_n$，通过线性插值公式计算语言模型的概率<br>$$<br>\hat p(w_i|w_1^{i-1})=\sum_{j=1}^n\lambda_j\hat p_{M_j}(w_i|w_1^{i-1})<br>$$<br>其中$\lambda\in[0,1]$且$\sum_{j=1}^n\lambda_j=1$</p>
+</li>
+<li><p>主要步骤</p>
+<ul>
+<li>对训练语料按来源、主题或类型等聚类</li>
+<li>在模型运行时识别测试语料的主题或主题的集合</li>
+<li>确定适当的训练语料子集，并利用这些语料建立特定的语言模型</li>
+<li>利用针对各个语料子集的特定语言模型和插值公式，获得整个语言模型</li>
+</ul>
+</li>
+<li><p>即根据测试集的特定类型对应地选择训练集的类型（事先需要将训练集分类）</p>
+</li>
+</ul>
+</li>
+<li><p>基于最大熵的语言模型</p>
+<ul>
+<li>通过结合不同信息源的信息构建一个语言模型。每个信息匀提供一组关于模型参数的约束条件，在所有满足约束的模型中，选择熵最大的模型</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="第六章-概率图模型"><a href="#第六章-概率图模型" class="headerlink" title="第六章 概率图模型"></a>第六章 概率图模型</h5><ul>
+<li><p>概述</p>
+<ul>
+<li><p>概率图模型是在概率模型的基础上，使用了基于图的方法来表示概率分布（或者概率密度、密度函数），是一种通用化的不确定性知识表示和处理方法</p>
+</li>
+<li><p>在概率图模型中，结点表示变量，结点之间直接相连的边表示相应变量之间的概率关系</p>
+</li>
+<li><p>常见的图模型结构</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\图模型.png" alt="图模型"></p>
+</li>
+<li><p>模型简单介绍</p>
+<ul>
+<li>动态贝叶斯网络（DBN）可以用于处理随时间变化的动态系统中的推断和预测问题</li>
+<li>隐马尔科夫模型（HMM）在语音识别、汉语自动分词与词性标注和统计机器翻译等若干语音语言处理任务中有广泛应用</li>
+<li>卡尔曼滤波器在信号处理领域有应用</li>
+<li>条件随机场（CRF）广泛应用于NLP中的序列标注、特征选择、机器翻译等</li>
+<li>波尔兹曼机近年来被用于依存句法分析和语义角色标注等</li>
+</ul>
+</li>
+<li><p>生成式模型（具有某种特征，所以属于某一类）</p>
+<ul>
+<li>假设：状态（输出）序列y按照一定的规律生成观测（输入）序列x，需要因果的转换</li>
+<li>通过估计使生成概率最大的生成序列来获取y</li>
+<li>一般有严格的独立性假设，特征是事先给定的 </li>
+<li>优点：处理单类问题时比较灵活，模型变量之间的关系比较清楚，模型可以通过增量学习获得，可用于数据不完整的情况</li>
+<li>缺点：模型的推导和学习比较复杂</li>
+<li>典型模型：n元语法模型、HMM、朴素贝叶斯分类器、概率上下文无关文法等</li>
+</ul>
+</li>
+<li><p>判别式模型（因为属于某一类，所有具有哪些特征）</p>
+<ul>
+<li>符合传统的模式分类思想，认为y由x决定，对后验概率$p(y|x)$进行建模，从x中提取特征，学习模型参数，使得条件概率符合一定形式的最优</li>
+<li>特征一般可以任意给定，通过函数表示</li>
+<li>优点：处理多类问题或分辨某一类与其他类之间的差异时比较灵活，模型简单，容易建立和学习</li>
+<li>缺点：模型对的描述能力有限，变量间的关系不清楚，且大多数区分式模型是有监督的学习方法，不能扩展成无监督的学习方法</li>
+<li>代表模型：最大熵模型、条件随机场、支持向量机、最大熵马尔科夫模型、感知机等</li>
+</ul>
+</li>
+<li><p>生成与判别模型</p>
+<ul>
+<li>就分类问题而言，即给定一个数据x，要判断它对应的标签y</li>
+<li>生成模型<ul>
+<li>通过对x和y的联合概率分布P(x,y)的学习，根据贝叶斯公式来求得条件概率P(y|x)的大小，预测出条件概率最大的y——什么样的标签y就能生成什么样的标签x,所以已知当前的x，哪个y最有可能生成这个x</li>
+<li>模型表示了给定输入X产生输出Y的生成关系</li>
+</ul>
+</li>
+<li>判别模型<ul>
+<li>直接学习条件概率分布P(y|x)</li>
+</ul>
+</li>
+<li>由生成模型可以得到判别模型，但由判别模型得不到生成模型。</li>
+<li>两者目的都是使后验概率最大化，判别式是直接对后验概率建模，但是生成模型通过贝叶斯定理这一“桥梁”使问题转化为求联合概率</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>贝叶斯网络</p>
+<ul>
+<li><p>又称信度网络或信念网络，是一种基于概率推理的数学模型</p>
+</li>
+<li><p>目的是通过概率推理处理不确定性和不完整性</p>
+</li>
+<li><p>举例：</p>
+<ul>
+<li><p>如果一篇文章是关于南海岛屿的新闻，文章可能包含介绍南海岛屿历史的内容，但一般不会有太多介绍旅游风光的内容</p>
+</li>
+<li><p>构造如下：</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\贝叶斯模型.png" alt="贝叶斯模型"></p>
+</li>
+<li><p>该模型可以回答类似：如果一篇文章中含有南海岛屿历史的相关内容，该文章是关于南海新闻的可能性有多大：</p>
+<ul>
+<li>$P(N=T|H=T)$</li>
+</ul>
+</li>
+<li><p>构造贝叶斯网络设计表示、推断和学习三个方面的问题</p>
+</li>
+<li><p>贝叶斯网络是一种能不定性因果关联模型，能够在已知有限的、不完整、不确定信息的条件下进行学习和推理，广泛应用于故障诊断和维修决策等领域</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>马尔可夫模型</p>
+<ul>
+<li><p>随机过程即随机函数，是随时间而随机变化的过程</p>
+</li>
+<li><p>类似于n-gram模型，系统在时间t处于状态s的概率取决于其在时间1,2，…，t-1的状态，该概率为<br>$$<br>P(q_t=s_j|q_{t-1}=s_i,q_{t-2}=s_k,\dots<br>$$</p>
+</li>
+<li><p>如果系统在时间t的状态只与其在时间t-1的状态相关，则该系统构成一个离散的一阶马尔可夫链</p>
+</li>
+<li><p>对于一阶的马尔可夫链，如果只考虑独立于时间t的随机过程，即<br>$$<br>P(q_t=s_j|q_{t-1}=s_i)=a_{ij}<br>$$<br>则成为马尔可夫模型，$a_{ij}$是状态转移概率</p>
+</li>
+<li><p>马尔可夫模型可以视为随机的有限状态机，如图所示</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\马尔科夫模型.png" alt="马尔科夫模型" style="zoom: 33%;"></p>
+</li>
+<li><p>n元语法模型就是n-1阶马尔可夫模型</p>
+</li>
+</ul>
+</li>
+<li><p>隐马尔可夫模型</p>
+<ul>
+<li><p>由于在马尔可夫模型中，每个状态都代表了一个可观察的事件，故又可成为 可视马尔可夫模型（VMM-visible Markov model），这在某种程度上限值了模型的适应性</p>
+</li>
+<li><p>在隐马尔可夫模型（HMM）中，我们不知道模型所经过的状态序列，只知道状态的概率函数，即观察到的事件是状态的随机函数，因此模型是一个双重的随机过程。且其中模型的状态转换过程是不可观察的</p>
+</li>
+<li><p>图像如下：</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\隐马尔可夫模型.png" alt="隐马尔可夫模型"></p>
+</li>
+<li><p>举个栗子</p>
+<ul>
+<li>在一个暗室中有N个口袋，每个口袋有M种不同颜色的球，一个人根据概率分布选择口袋，然后再根据球的概率分布选择一个球，而后又随机选择一个口袋，重复操作。而外面的人只能看到他拿出来的不同颜色球序列，而不能看到口袋的序列</li>
+</ul>
+</li>
+<li><p>HMM的组成部分</p>
+<ul>
+<li>模型中状态的数目N</li>
+<li>从每个状态可能输出的不同符号的数目M</li>
+<li>状态转移概率矩阵A={$a_ij$}（即从一个口袋转向另一个口袋的概率）</li>
+<li>从状态$s_j$观察到符号$v_k$的概率分布矩阵B（即从第j个口袋取出第k种颜色的球的概率）——观察符号的概率又称符号发射概率</li>
+<li>初始状态概率分布$\pi={\pi_i}$</li>
+</ul>
+</li>
+<li><p>一般记为五元组$\mu=(S,K,A,B,\pi)$，也可简记为三元组$\mu=(A,B,\pi)$</p>
+</li>
+<li><p>求解观察序列的概率（第一个问题——估计问题）</p>
+<ul>
+<li><p>估计问题：给出观察序列O和模型$\mu$，如何快速计算出$P(O|\mu)$</p>
+</li>
+<li><p>给定观察序列O和模型$\mu$，要快速计算出给定该模型的情况下观察序列O的概率，即$P(O|\mu)$——解码问题</p>
+</li>
+<li><p>由于直接计算必须穷尽所有可能的状态序列，故可行性较低，故提出了前向算法，利用动态规划来解决这一问题</p>
+</li>
+<li><p>HMM的动态规划问题一般用格架的组织形式来描述，可以记录HMM所有输出符号的概率，较长子路径的概率可以由较短子路径的概率计算出来，如图</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\隐马尔可夫-格架.png" alt="隐马尔可夫-格架"></p>
+</li>
+<li><p>前向算法</p>
+<ul>
+<li><p>前向变量$a_t(i)$是在时间t，HMM输出序列$O_1O_2\dots O_t$，并位于状态$s_i$的概率——$a_t(i)=P(O_1O_2\dots O_t,q_t=s_i|\mu)$</p>
+</li>
+<li><p>主要思想是：如果可以快速计算$a_t(i)$，那么就可以根据$a_t(i)$计算出$P(O|\mu)$——(一个转换)</p>
+</li>
+<li><p>利用动态规划的方法，时间t+1的前向变量的值可以根据在时间t 的时候的前向变量$a_t(1),a_t(2),\dots,a_t(N)$的值来归纳计算<br>$$<br>a_{t+1}(j)=(\sum_{i=1}^Na_t(i)a_{ij})b_j(O_{t+1})<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>分解为两个步骤</p>
+<ul>
+<li>从初始时间开始到时间t，HMM到达状态$s_i$，并输出观察序列$O_1O_2\dots O_t$</li>
+<li>从状态$s_i$转移到状态$s_j$，便在状态$s_j$输出$O_{t+1}$</li>
+</ul>
+<ul>
+<li><p>具体算法：</p>
+<ul>
+<li>初始化 $a_1(i)=\pi_ib_i(O_i),\ 1\leq i\leq N$</li>
+<li>归纳计算$a_{t+1}(j)=(\sum_{i=1}^Na_t(i)a_{ij})b_j(O_{t+i}),\ \ 1\leq t\leq T-1 $</li>
+<li>求和$P(O|\mu)=\sum_{i=1}^Na_T(i)$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>后向算法</p>
+<ul>
+<li><p>定义后向变量$\beta_t(i)$</p>
+</li>
+<li><p>$\beta_t(i)$是在给定模型$\mu$后，且在时间t的状态为$s_i$的条件下，HMM输出观察序列$O_{t+2}\dots O_T$</p>
+</li>
+<li><p>同样可以利用动态规划的算法计算后向变量，可以分解为两个步骤</p>
+<ul>
+<li>从时间t到时间t+1，HMM由状态$s_i$到状态$s_j$，并从$s_j$输出$O_{t+1}$</li>
+<li>在时间t+1的状态为$s_j$的条件下，HMM输出观察序列$O_{t+2}\dots O_T$</li>
+</ul>
+</li>
+<li><p>因此归纳关系为<br>$$<br>\beta_t(i)=\sum_{j=1}^Na_{ij}b_j(O_{t+1})\beta_{t+1}(j)<br>$$</p>
+</li>
+<li><p>算法步骤</p>
+<ul>
+<li>初始化$\beta_{\gamma}(i)=1,\ 1\leq i\leq N$</li>
+<li>归纳计算$\beta_t(i)=\sum_{j=1}^Na_{ij}b_j(O_{t+1})\beta_{t+1}(j),\ \ T-1 \geq t \geq 1;1\leq i \leq N$</li>
+<li>求和$P(O|\mu)=\sum_{i=1}^N\pi_ib_i(O_1)\beta_1(i)$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>前向算法和后向算法相结合的方法来观察序列的概率</p>
+<ul>
+<li>$P(O|\mu)=\sum_{i=1}^Na_t(i)\times \beta_t(i),\ \   1\leq t \leq T$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>维特比算法（解决第二个问题——序列问题）</p>
+<ul>
+<li><p>序列问题：给定观察序列和模型，如何快速有效选择在一定意义下“最优”的状态序列，使得该状态序列可以最好地解释观察序列</p>
+</li>
+<li><p>对最优状态序列有两种理解方式</p>
+<ul>
+<li><p>第一种</p>
+<ul>
+<li>使该状态序列中每一个状态都单独地具有最大概率，即$max \ \ \gamma_t(i)=P(q_t=s_i|O,\mu)$</li>
+<li>根据贝叶斯公式可以得到在时间t的最优状态为$\hat q_t=argmax_{1\leq i \leq N}[\gamma_t(i)]$</li>
+<li>这种理解方式只考虑了每个状态都单独达到最大概率，而没有考虑状态序列中的两个状态之间的关系，可能会存在两个状态之间的转移概率为0的情况，所以可能并不是合法的序列</li>
+</ul>
+</li>
+<li><p>第二种——维特比算法</p>
+<ul>
+<li><p>在给定模型$\mu$和观察序列O的条件下，使条件概率$P(Q|O,\mu)$最大的状态序列——这种情况下优化的是整个序列，就不会出现转移概率可能为0的情况</p>
+</li>
+<li><p>同样是使用动态规划的搜索算法进行求解，首先定义一个维特比变量$\delta_t(i)$，是在时间t时，HMM沿着某一条路径到达状态$s_i$，并输出观察序列$O_1O_2\dots O_t$的最大概率</p>
+</li>
+<li><p>算法（添加一个变量$\psi$用于路径记忆）</p>
+<ul>
+<li><p>初始化变量$\delta_1(i)=\pi_ib_i(O_i),\ 1\leq i\leq N$和$\psi_1(i)=0$</p>
+</li>
+<li><p>归纳计算$\delta_t(j)=max_{1 \leq i\leq N}[\delta_{t-1}(i)\cdot a_{ij}]\cdot b_j(O_t),2\leq t\leq T;q\leq j\leq N$</p>
+<p>记忆回退路径：</p>
+<p>$\psi_t(j)=argmax_{1\leq i\leq N}[\delta_{t-1}(i)\cdot a_{ij}]\cdot b_j(O_t),2\leq t\leq T;1\leq i\leq N$</p>
+</li>
+<li><p>终结</p>
+<p>$\hat Q_T=argmax_{1\leq i\leq N}[\delta_T(i)]$</p>
+<p>$\hat P(\hat Q_T)=max_{1\leq i\leq N}[\delta_T(i)]$</p>
+</li>
+<li><p>路径（状态序列）问题回溯</p>
+<p>$\hat q_t=\psi_{t+1}(\hat q_{t+1}),\ t=T-1,T-2,\dots ,1$</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>HMM参数估计（解决第三个问题）——训练问题或参数估计问题</p>
+<ul>
+<li>给定观察序列，如何根据最大似然估计来求模型的参数值，即如何调节模型的参数，使得$P(O|\mu)$最大</li>
+<li>由于HMM中的状态序列Q是观察不到的（隐变量），因此不能使用最大似然估计，可以使用期望最大化的方法，其基本思想是初始时随机给模型的参数赋值（符合模型对参数的限制），得到模型$\mu_0$，然后，根据$\mu_0$可以得到模型中隐变量的期望值，即模型参数的新估计值，由此得到新的模型$\mu_1$。从$\mu_1$再得到隐变量的期望值，重新估计得到$\mu_2$……直到参数收敛于最大似然估计值</li>
+<li>又称为爬山算法，可以局部地使$P(O|\mu)$最大化，其具体的实现方法称为前后向算法或Baum-Welch算法<ul>
+<li>给定HMM的参数$\mu$和观察序列O，在时间t位于状态$s_i$，时间t+1位于状态$s_j$的概率$\xi_t(i,j)$可以通过条件概率公式算出</li>
+<li>给定HMM的参数$\mu$和观察序列O，在时间t位于状态$s_i$的概率为$\gamma_t(i)=\sum_{j=1}^N\xi_t(i,j)$</li>
+<li>再重新估计$\mu$的参数</li>
+<li>算法步骤<ul>
+<li>初始化，随机给模型$\mu$的变量赋值，并使其满足约束</li>
+<li>EM计算<ul>
+<li>E步骤：由公式计算出$\xi_t(i,j)$和$\gamma_t(i)$</li>
+<li>M步骤：用E中得到的值，重新估算模型$\mu$变量的值，得到模型$\mu_{i+1}$</li>
+<li>循环并重复EM，直到参数值收敛</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>层次化的隐马尔可夫模型HHMM</p>
+<ul>
+<li>由于序列长度较大时，隐马尔可夫模型的复杂会急剧增大，故提出了层次化的隐马尔可夫模型</li>
+<li>由多层随机过程构成，每个状态本身都是独立的，故一个HHMM状态就产生一个观察序列</li>
+<li>HHMM产生观察序列的方式：从根状态开始根据初始概率分布随机选择一个子状态。对每一个内部状态q，根据q的初始概率向量随机选择一个子状态，重复进行，递归的激活和选择一个子状态，指导到达一个生产状态，生产状态根据输出概率向量产生一个观察符号</li>
+<li>与HMM类似同样有三个基本问题需要解决</li>
+</ul>
+</li>
+<li><p>马尔可夫网络</p>
+<ul>
+<li>可以表示循环依赖而不能表示推导关系</li>
+<li>马尔可夫网络是一组有马尔可夫性质的随机变量的联合概率分布模型，由一个无向图G和定义于G上的势函数组成。无向图的顶点表示在集合X上的一个随机变量，每条边便是直接相连的两个随机变量之间的一种依赖关系</li>
+</ul>
+</li>
+<li><p>最大熵模型</p>
+<ul>
+<li><p>最大熵原理</p>
+<ul>
+<li>在只掌握关于未知分布的部分信息的情况下，符合已知知识的概率分布可能有多个，但使熵值最大的概率分布最真实地反映了事件的分布情况</li>
+<li>模型的特征：A表示待消歧问题所有可能的候选结果集合，B表示当前歧义点所在上下文信息构成的集合，（a,b）即为模型的一个特征</li>
+</ul>
+</li>
+<li><p>最大熵模型的参数训练</p>
+<ul>
+<li><p>选取有效的特征$f_i$及权重$\lambda_i$</p>
+</li>
+<li><p>选取有效特征$f_i$：</p>
+<ul>
+<li>由于多种特征条件和歧义候选可以组合出很多的特征函数，因此对其进行筛选<ul>
+<li>选择在训练数据中出现频次超过一定阈值的特征</li>
+<li>利用互信息作为评价尺度选择满足一定互信息要求的特征</li>
+<li>用增量式特征选择方法（比较复杂，一般不用）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>选取有效权重$\lambda_i$</p>
+<ul>
+<li><p>通用迭代算法GIS </p>
+<ul>
+<li><p>初始化$\lambda[1,\dots,l]=0$</p>
+</li>
+<li><p>根据公式计算每个特征函数$f_i$的训练样本期望值</p>
+</li>
+<li><p>执行循环，迭代计算特征函数的模型期望值$E_p(f_i)$</p>
+<ul>
+<li><p>计算概率$\hat p(a|b)$</p>
+</li>
+<li><p>若满足终止条件，则结束；否则修正$\lambda$</p>
+<p>$\lambda^{(n+1)}=\lambda^{(n)}+\frac{1}{c}ln(\frac{E_{\hat p}(f_i)}{E_{p^{(n)}}(f_i)})$</p>
+</li>
+</ul>
+</li>
+<li><p>确定$\lambda$并算出每个$\hat p(a|b)$</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>最大熵马尔可夫模型MEMM（maximum-entropy Markov model）</p>
+<ul>
+<li>又称 条件马尔可夫模型，应用于处理序列标注问题</li>
+<li>HMM存在的问题<ul>
+<li>需要用特征对观察输出进行参数化</li>
+<li>不适合处理用很多特征描述观察序列的情况</li>
+</ul>
+</li>
+<li>MEMM 采用条件概率模型，从而使观察输出可以用特征来表示，借助最大熵的框架进行特征选区</li>
+<li>在HMM中当前时刻的观察输出只取决于当前状态；在MEMM中，当前时刻的观察输出还可能取决于前一时刻的状态</li>
+<li>优点在于它允许使用任意特征刻画观察序列，有利于针对特定任务充分利用领域知识设计特征；缺点在于存在标记偏置问题</li>
+</ul>
+</li>
+<li>条件随机场CRFs（conditional random fields）<ul>
+<li>用来标注和划分序列结构数据的概率化结构模型，即对于给定的输出序列Y和观测序列X，通过条件概率$P(Y|X)$来描述模型</li>
+<li>优点在于其条件随机性，只需要考虑当前已经出现的观测状态的特性，没有独立性的严格要求，对于整个序列内部和外部的信息均可以有效利用，避免了标识偏置的问题</li>
+<li>与MEMM的区别在于MEMM使用每一个状态的指数模型来计算给定前一个状态下当前状态的条件概率，而CRF用单个指数模型来计算给定观察序列与整个标记序列的联合概率</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="第七章-自动分词、命名实体识别与词性标注"><a href="#第七章-自动分词、命名实体识别与词性标注" class="headerlink" title="第七章 自动分词、命名实体识别与词性标注"></a>第七章 自动分词、命名实体识别与词性标注</h5><ul>
+<li><p>汉语自动分词中的基本问题</p>
+<ul>
+<li>分词规范<ul>
+<li>单字词与词素之间的划界问题</li>
+<li>词与短语（词组）的划界问题</li>
+<li>从计算的严格意义上将，自动分词其实是一个没有明确定义的问题（说话的人我们本身其实也并不是很能明确究竟怎样分词是正确的）</li>
+</ul>
+</li>
+<li>歧义切分<ul>
+<li>交集型切分歧义<ul>
+<li>AJB型，“AJ”和“JB”都是词</li>
+<li>例如：大学生、从小学起等</li>
+</ul>
+</li>
+<li>组合型切分歧义<ul>
+<li>形如AB，其中A和B都是词</li>
+<li>例如：起身、才能、学生会等</li>
+</ul>
+</li>
+<li>多义组合型切分歧义<ul>
+<li>形如AB，满足A，B和AB都是词，且文本中存在一个上下文语境C，使得在C的约束下，A，B在语法和语义上都成立</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>未登录词的识别<ul>
+<li>一种是词表中没有收录的词，一种是训练语料中没有出现过的词</li>
+<li>主要可以分为：<ul>
+<li>新出现的普通词汇</li>
+<li>专有名词（人名，地名，组织机构，时间和数字表达等）</li>
+<li>专业名词和研究领域名称</li>
+<li>其他专用名词（电影，书籍等）</li>
+</ul>
+</li>
+<li>对分词精度的影响很大（比歧义切分的影响大得多）</li>
+<li>目前依据各类命名实体库中总结出来的统计知识和人工归纳出来的某些命名实体结构规则，在输入句子中猜测其可能成为命名实体的汉字串并给出置信度，然后根据对该类命名实体具有标识意义的紧邻上下文信息及全局统计量和局部统计量作进一步的鉴定。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>汉语分词方法</p>
+<ul>
+<li><p>N-最短路径方法（NSP）——也就是找能够到达该结点的最短路径</p>
+<ul>
+<li><p>根据词典，找出子串中所有可能的词，构造词语切分有向无环图。每个词对应图中的一条有向边，并赋给相应的边长（权值），然后针对该切分图，在起点到终点的所有路径中，求出长度值按严格升序排列（任何两个位置上的值一定不等）依次为第1、第2、……第N的路径集合作为相应的粗分结果集。如果两条或者两条以上的路径长度相同，则并列第i ，都列入粗分结果，且不影响其他路径的排列序号，最后粗分结果的集合大小大于或等于N</p>
+</li>
+<li><p>建图：</p>
+<ul>
+<li><p>待分的字符串$S=c_1c_2\dots c_n$，其中$c_i$为单个的字，n为字符串的长度，建立一个结点数为n+1的切分有向无环图G，各结点编号依次为$V_0,V_1,\dots V_n$</p>
+</li>
+<li><p>相邻结点$V_{k-1},V_k$间建立有向边$&lt;V_{k-1},V_k&gt;$，边的长度值为$L_k$，边对应的词默认为$c_k$</p>
+</li>
+<li><p>如果$w=c_ic_{i+1}\dots c_j$是词表中的词，则结点$V_{i-1},V_j$间建立有向边$&lt;V_{i-1},V_j&gt;$，边的长度值为$L_w$，边对应的词为$w$。</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\切分有向无环图.png" alt="切分有向无环图" style="zoom:50%;"></p>
+</li>
+</ul>
+</li>
+<li><p>这样待分字符串S中包含的所有词和切分有向无环图G中的边就可以一一对应</p>
+</li>
+<li><p>利用Dijkstra贪心算法进行简单扩展可以回溯出NSP</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\n-最短路径.png" alt="n-最短路径" style="zoom:50%;"></p>
+<p>其中每个表格都是对应结点的信息记录表，编号为路径不同长度的编号，由小到大，(i,j)表示沿当前路径的上一个结点为i，而到达i的是用i 表中编号为j的路径。</p>
+</li>
+<li><p>由于这种方法随着字符串长度和最短路径数的增大，长度相同的路径会急剧增加，对后期处理及分词很不利，故提出了一种基于统计信息的粗分模型</p>
+</li>
+<li><p>假定一个词串W经过信道传送，由于噪声干扰而丢失了词界的切分标志，成了汉字串C。使得概率$P(W|C)$为前N个最大值。因此粗分的目标就是确定P(W)最大的N种切分结果</p>
+</li>
+</ul>
+</li>
+<li><p>基于词的n元语法模型的分词方法</p>
+<ul>
+<li><p>生成式模型</p>
+</li>
+<li><p>基本思想：根据词典对句子进行简单匹配，找出所有可能的词典词，然后将他们和所有单个字作为结点，构造的n元的切分词图，图中的结点表示可能的词候选，边表示路径，边上的n元概率表示代价，最后利用相关的搜索算法从图中找到代价最小的路径作为最后的分词结果</p>
+<p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/F:/blog\source\_posts\学习\book\统计自然语言处理-笔记\分词方法2.png" alt="分词方法2" style="zoom:50%;"></p>
+</li>
+<li><p>（改进）基于统计语言模型的分词方法：</p>
+<ul>
+<li>汉语词可以定义为四类<ul>
+<li>待切分文本中能与分词词表中任意一个词相匹配的字段为一个词</li>
+<li>文本中任意一个经词法派生出来的词或短语为一个词</li>
+<li>文本中被明确定义的任意一个实体名词（日期、时间、温度、百分数等）</li>
+<li>文本中任意一个专有名词（人名、地名、机构名等）</li>
+</ul>
+</li>
+<li>随机变量S为一个汉字序列，W是S上所有可能切分出来的词序列，分词过程即求解使条件概率P(W|S)最大的切分 出来的词序列$W^*$</li>
+<li>$W^*==argmax_WP(W|S)$</li>
+<li>根据贝叶斯和化简，可以得到$W^*=argmax_WP(W)P(S|W)$</li>
+<li>将词进行分类，可以得到词类序列$C=c_1c_2\dots c_N$，即改写成$C^*=argmax_CP(C)P(S|C)$，其中$P(C)$是语言模型，P(S|C）是生成模型</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>由字构词的汉语分词方法</p>
+<ul>
+<li>将分词的过程看作是字的分类问题，每个字只可能占据一个确定的构词位置（词首，词汇总，词尾或单独成词）</li>
+<li>而后可以将分词问题转化成序列标注问题</li>
+<li>可以通过常用的判别式O型（如最大熵、条件随机场等）进行参数训练，利用解码算法找到最优的切分结果</li>
+<li>优势是可以平衡地看待词表词和未登录词的识别问题，都用统一的字标注过程来实现</li>
+</ul>
+</li>
+<li><p>基于词感知机算法的汉语分词方法</p>
+<ul>
+<li>采用平均感知机作为学习算法，使用词的相关特征</li>
+<li>根据不同的特征，利用平均感知机分类器对切分候选进行打分和排序</li>
+</ul>
+</li>
+<li><p>基于字的生成式模型和区分式模型相结合的汉语分词方法</p>
+<ul>
+<li>基于词的生成式模型：对集内词的处理可以获得较好的性能表现，对于集外词的分词效果欠佳</li>
+<li>基于字的区分式模型：对集外词的处理有较好的鲁棒性，对集内词的处理性能不好，比生成式差很多。</li>
+<li>由于所有可能的“字-标记”对候选集远远小于所有可能的词候选集合</li>
+<li>因此提出了两种模型想结合的分词方法，以加权的方法对两种模型的概率进行极大似然</li>
+</ul>
+</li>
+<li><p>其他一些分词方法</p>
+</li>
+<li><p>分词方法的比较</p>
+</li>
+</ul>
+</li>
+<li><p>命名实体识别</p>
+<ul>
+<li>方法<ul>
+<li>实体概念在文本中的引用有三种形式：命名性指称、名词性指称和代词性指称</li>
+<li>从文本中识别实体指称及其类别，即命名实体识别和分类</li>
+<li>基于统计模型的命名实体识别方法归纳：<ul>
+<li>有监督的学习方法：隐马尔可夫模型或语言模型、最大熵模型、支持向量机、条件随机场、决策树</li>
+<li>半监督的学习方法：利用标注的小数据集自举学习</li>
+<li>无监督的学习方法：利用词汇资源等进行上下文聚类</li>
+<li>混合方法：几种模型相结合或利用统计方法和人工总结的知识库</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基于CRF（条件随机场）的命名实体识别方法<ul>
+<li>与基于字的汉语分词方法原理类似，把命名实体识别的过程看做是一个序列标注问题，基本思路是：将给定的文本首先进行分词处理，然后对人名、简单地名和简单组织机构名进行识别，最后识别复合地名和复合组织机构名。</li>
+<li>属于有监督的学习方法，因此需要利用已标注的大规模语料对CRF模型的参数进行训练</li>
+<li>具体方法：<ul>
+<li>将分词语料的标记符号转化为用于命名实体序列标注的标记，若干PNB表示人名起始用字，PNI表示名字的内部用字，等。</li>
+<li>确定特征模板，一般采用当前位置的前后n个位置范围内的字串及其标记作为观察窗口，一般取n为2-3——由于不同的命名实体一般出现在不同的上下文中，因此对不同的的命名实体识别一般采用不同的特征模板——可以得到不同的特征函数</li>
+<li>训练CRF模型的参数$\lambda$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>基于多特征的命名实体识别方法<ul>
+<li>由于大颗粒度特征和小颗粒度特征有互补的作用，因此考虑同时使用多种特征</li>
+<li>模型描述<ul>
+<li>在多特征的模型命名实体识别系统中，词形包括以下几种情况：<ul>
+<li>字典中任何一个字或词单独构成一类，另外需要加上人名、人名简称、地名、地名简称、机构名、时间词和数据词这7类，即词形语言模型中共定义了|V|+7个词形</li>
+<li>词性采用汉语词性标注标记集，再加上其他词性共47个</li>
+<li></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>##### </p>
+<p>参考</p>
+<p><a href="https://blog.csdn.net/quicmous/article/details/52160940" target="_blank" rel="noopener">自然语言处理：盘点一下数据平滑算法</a></p>
+<p><a href="http://blog.sciencenet.cn/blog-516696-423571.html" target="_blank" rel="noopener">关于数据平滑的一些理解</a> (这一篇讲得很清楚)</p>
+<p><a href="https://www.zhihu.com/question/20446337/answer/256466823" target="_blank" rel="noopener">机器学习“判定模型”和“生成模型”有什么区别？ - politer的回答 - 知乎</a> </p>
+<p><a href="https://www.jianshu.com/p/4ef549eb0ad4" target="_blank" rel="noopener">机器学习面试之生成模型VS判别模型</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/30/leetcode/leetcode-134-加油站/" rel="next" title="leetcode-134-加油站">
+                <i class="fa fa-chevron-left"></i> leetcode-134-加油站
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/05/激励函数简介/" rel="prev" title="激励函数简介">
+                激励函数简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一章-绪论"><span class="nav-number">1.</span> <span class="nav-text">第一章 绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#自然语言处理"><span class="nav-number">1.1.</span> <span class="nav-text">自然语言处理</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二章-预备知识"><span class="nav-number">2.</span> <span class="nav-text">第二章 预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#概率论"><span class="nav-number">2.1.</span> <span class="nav-text">概率论</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#信息论"><span class="nav-number">2.2.</span> <span class="nav-text">信息论</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#支持向量机SVM"><span class="nav-number">2.3.</span> <span class="nav-text">支持向量机SVM</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三章-形式语言与自动机"><span class="nav-number">3.</span> <span class="nav-text">第三章 形式语言与自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#基本概念"><span class="nav-number">3.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#形式语言"><span class="nav-number">3.2.</span> <span class="nav-text">形式语言</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#自动机理论"><span class="nav-number">3.3.</span> <span class="nav-text">自动机理论</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第四章-语料库与语言知识库"><span class="nav-number">4.</span> <span class="nav-text">第四章 语料库与语言知识库</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#语料库的类型"><span class="nav-number">4.1.</span> <span class="nav-text">语料库的类型</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第五章-语言模型"><span class="nav-number">5.</span> <span class="nav-text">第五章 语言模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第六章-概率图模型"><span class="nav-number">6.</span> <span class="nav-text">第六章 概率图模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第七章-自动分词、命名实体识别与词性标注"><span class="nav-number">7.</span> <span class="nav-text">第七章 自动分词、命名实体识别与词性标注</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

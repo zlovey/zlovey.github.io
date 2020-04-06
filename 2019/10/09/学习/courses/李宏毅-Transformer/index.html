@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="妈耶——一开始又让我跳课，没有看过seq2seq ==，好的，我走了 啊由于是机器学习的系列课，有点多，所以看了简单的课程笔记我就回来了 我才发现2019李宏毅老师的合集就有观看顺序emmmmm 简单补个Seq2Seq吧：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="李宏毅-Transformer">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="妈耶——一开始又让我跳课，没有看过seq2seq ==，好的，我走了 啊由于是机器学习的系列课，有点多，所以看了简单的课程笔记我就回来了 我才发现2019李宏毅老师的合集就有观看顺序emmmmm 简单补个Seq2Seq吧：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/seq2seq.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/seq2seq2.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/2-head.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/2-head-cat.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/s2s-sa.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/transformer.png">
+<meta property="og:updated_time" content="2019-12-09T08:12:39.193Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="李宏毅-Transformer">
+<meta name="twitter:description" content="妈耶——一开始又让我跳课，没有看过seq2seq ==，好的，我走了 啊由于是机器学习的系列课，有点多，所以看了简单的课程笔记我就回来了 我才发现2019李宏毅老师的合集就有观看顺序emmmmm 简单补个Seq2Seq吧：">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog/source/_posts/学习/courses/李宏毅-Transformer/seq2seq.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>李宏毅-Transformer | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">李宏毅-Transformer
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-09 10:23:56" itemprop="dateCreated datePublished" datetime="2019-10-09T10:23:56+08:00">2019-10-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-09 16:12:39" itemprop="dateModified" datetime="2019-12-09T16:12:39+08:00">2019-12-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/course笔记/" itemprop="url" rel="index"><span itemprop="name">course笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>妈耶——一开始又让我跳课，没有看过seq2seq ==，好的，我走了</p>
+<p>啊由于是机器学习的系列课，有点多，所以看了简单的课程笔记我就回来了</p>
+<p>我才发现2019李宏毅老师的合集就有观看顺序emmmmm</p>
+<p>简单补个Seq2Seq吧：<a id="more"></a></p>
+<h5 id="Seq2Seq"><a href="#Seq2Seq" class="headerlink" title="Seq2Seq"></a>Seq2Seq</h5><ul>
+<li><p>是RNN的一个变种,又叫Encoder-Decoder模型</p>
+</li>
+<li><p>N vs M（输入与输出序列长度不同）原始模型要求序列等长，然而现实中的输入与输出序列大都不等长，且也并不要求等长，故产生了Seq2Seq</p>
+</li>
+<li><p>Encoder-Decoder结构先将输入数据编码成一个上下文向量c再进行处理，得到c后输入Decoder有两种结构：</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\seq2seq.png" alt="seq2seq"></p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\seq2seq2.png" alt="seq2seq2"></p>
+<p>左边即为Encoder，右边为Decoder</p>
+</li>
+</ul>
+<h5 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h5><ul>
+<li>CNN便于平行化，而RNN比较难</li>
+<li>RNN可以记忆，而CNN需要叠很多很多层来实现观察前面的输入</li>
+</ul>
+<h6 id="Self-Attention-Layer"><a href="#Self-Attention-Layer" class="headerlink" title="Self-Attention Layer"></a>Self-Attention Layer</h6><ul>
+<li><p>简介</p>
+<ul>
+<li>与RNN类似，可以输入一个序列和输出一个序列</li>
+<li>与RNN相比可以实现平行输入和输出（同时输入和输出整个句子）</li>
+<li>使用Self-Attention Layer 可以取代RNN实现更好的效果</li>
+</ul>
+</li>
+<li><p>实现</p>
+<ul>
+<li><p>输入$x^1,x^2,x^3,x^4$四个词</p>
+</li>
+<li><p>每个Input先通过一个embedding 得到$a$，即$a^i=Wx^i$</p>
+</li>
+<li><p>Self-Attention Layer</p>
+<ul>
+<li>将每个input ($a^i$)都分别乘上三个不同的Transformation，生成三个不同的vector，分别为q,k,v<ul>
+<li>q: query (to match others): $q^i=W^qa^i$</li>
+<li>k: key (to be matched): $k^i=W^ka^i$ </li>
+<li>v: information to be extracted（被抽取出来的信息）: $v^i=W^va^i$</li>
+</ul>
+</li>
+<li>将每个query q取对每个key k 做attention<ul>
+<li>将两个向量$(q^i,k^j)$做attention（例如相关程度），可以得到一个值$\alpha_{i,j}$ </li>
+<li>attention的计算: 在Self-Attention中使用的是Scaled Dot-Produce Attention<ul>
+<li>$\alpha_{1,i}=q^1\cdot k^i /\sqrt d$  (d是q和k 的维度大小)——点乘会随着维度的变大而增大，故除掉维度来平衡</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>将得到的$\alpha_{i,j}$ 做Soft-max处理得到$\hat\alpha_{i,j}$ ： $\hat\alpha_{i,j}=exp(\alpha_{1,j})/\sum_jexp(\alpha_{1,j})$</li>
+<li>部分结构如下</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>![self-attenion1](F:\blog\source\_posts\学习\courses\李宏毅-Transformer\self-attenion1.png)
+
+- 将$\hat\alpha_{i,j}$分别与$v^i$相乘再加起来就得到$b^i$: $b^1=\sum_i\hat\alpha_{i,i}v^i$
+
+![self-attention2](F:\blog\source\_posts\学习\courses\李宏毅-Transformer\self-attention2.png)
+</code></pre><ul>
+<li><p>可以看出其实$b^1$单个产生的输出已经看到了$x^1,x^2,x^3,x^4$四个词了（当然也可以通过控制变量为0来使得输出看不到某些输入的词）</p>
+</li>
+<li><p>并行可以计算出$b^2,b^3,b^4$等，就实现了输入seq且输出seq 且并行输入输出 且能够看到所有的输入 </p>
+</li>
+</ul>
+<ul>
+<li><p>向量实现</p>
+<ul>
+<li>将$a^1,a^2,a^3,a^4$拼接起来，作为输入I，再乘上W权值矩阵（权值矩阵根据训练得到参数矩阵），就可以得到Q,K,V矩阵</li>
+<li>$\Alpha(attention)=K^TQ$</li>
+<li>将A输入soft-max层进行处理得到$\hat\Alpha$矩阵</li>
+<li>$O(B矩阵，输出矩阵)=V\hat A$</li>
+<li>都是矩阵乘法的操作，可以通过GPU来进行加速</li>
+</ul>
+</li>
+</ul>
+<h6 id="Muli-head-Self-attention-2-heads-as-example"><a href="#Muli-head-Self-attention-2-heads-as-example" class="headerlink" title="Muli-head Self-attention(2 heads as example)"></a>Muli-head Self-attention(2 heads as example)</h6><ul>
+<li><p>示例</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\2-head.png" alt="2-head"></p>
+</li>
+<li><p>通过不同的矩阵$W^{q,1},W^{q,2}$生成两个不同的$q^{i,1},q^{i,2}$，其他的k和v向量也同理</p>
+</li>
+<li><p>在计算attention的时候$q^{i,1}$只能与$k^{i,1}，k^{j,1}$即第一步生成的向量相乘，如上图所示</p>
+</li>
+<li><p>然后通过…….等操作后得到输出$b^{i,1}$，如上图所示</p>
+</li>
+<li><p>同理将第二个head进行同样的处理后可以得到$b^{i,2}$，直接将两个输出的变量进行拼接即可</p>
+</li>
+<li><p>若拼接后向量维度不合适，也可以进行降维处理</p>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\2-head-cat.png" alt="2-head-cat"></p>
+</li>
+<li><p>优点</p>
+<ul>
+<li>不同的head看到的是不同的特征——可以学习到更多的特征</li>
+</ul>
+</li>
+</ul>
+<h6 id="Positional-Encoding"><a href="#Positional-Encoding" class="headerlink" title="Positional Encoding"></a>Positional Encoding</h6><ul>
+<li>self-attention 的缺点<ul>
+<li>self-attention对输入的顺序并不敏感，因为都是相同的输入和处理方式</li>
+</ul>
+</li>
+<li>因此在原始的论文中提出的方法是<ul>
+<li>对每个不同位置的$x^i$都有一个独一无二的位置向量$e^i$——这个$e^i$是人为给定的，并不是从数据中学习的</li>
+<li>将$e^i$加到$a^i$中，得到的结果进行下一步的操作（相加的操作其实相当于直接在原始的输入$x^i$上拼接了一个one-hot的位置向量$p^i=\begin{bmatrix} \vdots\0\1\0\ \vdots \end{bmatrix}$后，再乘上了偏移的矩阵W</li>
+</ul>
+</li>
+</ul>
+<h6 id="Seq2Seq-with-Attention"><a href="#Seq2Seq-with-Attention" class="headerlink" title="Seq2Seq with Attention"></a>Seq2Seq with Attention</h6><ul>
+<li>Seq2Seq一般由两个cnn结构构成</li>
+<li>用self-attention来替换掉原本cnn的位置即可</li>
+</ul>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\s2s-sa.png" alt="s2s-sa"></p>
+<h6 id="Transformer-1"><a href="#Transformer-1" class="headerlink" title="Transformer"></a>Transformer</h6><ul>
+<li>结构如图</li>
+</ul>
+<p><img src="/2019/10/09/学习/courses/李宏毅-Transformer/F:/blog\source\_posts\学习\courses\李宏毅-Transformer\transformer.png" alt="transformer"></p>
+<ul>
+<li>其实是一个Seq2Seq的模型，左边是Encoder右边是Decoder</li>
+<li>基本上可以用Seq2Seq的地方也都可以用Transformer</li>
+</ul>
+<h6 id="Universal-Transformer"><a href="#Universal-Transformer" class="headerlink" title="Universal Transformer"></a>Universal Transformer</h6><p>参考资料：</p>
+<p><a href="https://www.jianshu.com/p/1c6b1b0cd202" target="_blank" rel="noopener">Seq2Seq模型简介</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/" rel="next" title="李宏毅-ELMO_BERT_GPT">
+                <i class="fa fa-chevron-left"></i> 李宏毅-ELMO_BERT_GPT
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/10/bert学习笔记/" rel="prev" title="bert学习笔记">
+                bert学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Seq2Seq"><span class="nav-number">1.</span> <span class="nav-text">Seq2Seq</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Transformer"><span class="nav-number">2.</span> <span class="nav-text">Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Self-Attention-Layer"><span class="nav-number">2.1.</span> <span class="nav-text">Self-Attention Layer</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Muli-head-Self-attention-2-heads-as-example"><span class="nav-number">2.2.</span> <span class="nav-text">Muli-head Self-attention(2 heads as example)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Positional-Encoding"><span class="nav-number">2.3.</span> <span class="nav-text">Positional Encoding</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Seq2Seq-with-Attention"><span class="nav-number">2.4.</span> <span class="nav-text">Seq2Seq with Attention</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Transformer-1"><span class="nav-number">2.5.</span> <span class="nav-text">Transformer</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Universal-Transformer"><span class="nav-number">2.6.</span> <span class="nav-text">Universal Transformer</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

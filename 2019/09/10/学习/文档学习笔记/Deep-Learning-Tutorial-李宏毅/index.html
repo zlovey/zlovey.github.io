@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="书籍：Deep Learning Tutorial -李宏毅 Hung-yi Lee Outline  Lecture I: Introduction of Deep Learning  Lecture II: Tips for Training Deep Neural Network  Lecture III: Variants of Neural Network  Lecture IV: Ne">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deep-Learning-Tutorial_李宏毅">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="书籍：Deep Learning Tutorial -李宏毅 Hung-yi Lee Outline  Lecture I: Introduction of Deep Learning  Lecture II: Tips for Training Deep Neural Network  Lecture III: Variants of Neural Network  Lecture IV: Ne">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/neuron.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/neuron2.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/full_connect.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/full_connect2.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/softmax_layer.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/nn-example.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/Gradient%20Descent.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/Gradient_Descent2.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/recipe.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/example-loss-function.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/mini-batch.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/Maxout.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/Momentum.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/Momentum1.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/early-stop.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/weight-decay.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/dropout1.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/CNN网络结构.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/卷积核.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/卷积-输入.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/slide1.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/slide2.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/pk2y72bp1x.gif">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/卷积filter1.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/2filter.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/零填充.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/max-pooling.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/rnn-slot.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/rnn-str.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/bi-rnn.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/lstm-str.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/lstm-pa.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/Ultra-deep.png">
+<meta property="og:updated_time" content="2019-09-24T08:28:21.841Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Deep-Learning-Tutorial_李宏毅">
+<meta name="twitter:description" content="书籍：Deep Learning Tutorial -李宏毅 Hung-yi Lee Outline  Lecture I: Introduction of Deep Learning  Lecture II: Tips for Training Deep Neural Network  Lecture III: Variants of Neural Network  Lecture IV: Ne">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog/source/_posts/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/neuron.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Deep-Learning-Tutorial_李宏毅 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Deep-Learning-Tutorial_李宏毅
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-10 15:19:09" itemprop="dateCreated datePublished" datetime="2019-09-10T15:19:09+08:00">2019-09-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-24 16:28:21" itemprop="dateModified" datetime="2019-09-24T16:28:21+08:00">2019-09-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/文档学习笔记/" itemprop="url" rel="index"><span itemprop="name">文档学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>书籍：Deep Learning Tutorial -李宏毅 Hung-yi Lee</p>
+<p><strong>Outline</strong> </p>
+<p><strong>Lecture I: Introduction of Deep Learning</strong> </p>
+<p><strong>Lecture II: Tips for Training Deep Neural Network</strong> </p>
+<p><strong>Lecture III: Variants of Neural Network</strong> </p>
+<p><strong>Lecture IV: Next Wave</strong><a id="more"></a></p>
+<hr>
+<h4 id="Lecture-I-Introduction-of-Deep-Learning"><a href="#Lecture-I-Introduction-of-Deep-Learning" class="headerlink" title="Lecture I: Introduction of  Deep Learning"></a><strong>Lecture I: Introduction of  Deep Learning</strong></h4><ul>
+<li><strong>Introduction of Deep Learning</strong> </li>
+<li><strong>Why Deep?</strong> </li>
+<li><strong>“Hello World” for Deep Learning</strong></li>
+</ul>
+<hr>
+<h5 id="Introduction-of-Deep-Learning"><a href="#Introduction-of-Deep-Learning" class="headerlink" title="Introduction of Deep Learning"></a>Introduction of Deep Learning</h5><ul>
+<li><h6 id="Three-Steps-for-Deep-Learning"><a href="#Three-Steps-for-Deep-Learning" class="headerlink" title="Three Steps for Deep Learning"></a>Three Steps for Deep Learning</h6><ul>
+<li>Step 1:  define a set of function  </li>
+<li>Step 2:  goodness of function </li>
+<li>Step 3: pick the best function </li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>Step 1:  define a set of function  </p>
+<ul>
+<li><p>Neural Network </p>
+<ul>
+<li><p><strong><em>Neuron</em></strong>神经元</p>
+<ul>
+<li><p>$z=a_1w_1+\cdots+a_kw_k+\cdots+a_Kw_K+b$</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\neuron.png" alt="neuron"></p>
+</li>
+<li><p>举例        </p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\neuron2.png" alt="neuron2"></p>
+</li>
+</ul>
+</li>
+<li><p><strong>Neural Network</strong> 神经网络</p>
+<ul>
+<li><p>Each neurons can have different values of weights and biases.</p>
+</li>
+<li><p>Weights and biases are network parameters $\theta$</p>
+</li>
+<li><p>Fully Connect Feedforward Network </p>
+<ul>
+<li>每个神经元都与下一层全部的神经元连接即fully connect</li>
+<li>举例（中间节点即为神经元）<img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\full_connect.png" alt="full_connect"></li>
+<li>即$f([^{1}<em>{-1}])=[^{0.62}</em>{0.85}]$</li>
+<li>一般地，全连接网络如下图结构<img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\full_connect2.png" alt="full_connect2"></li>
+</ul>
+</li>
+<li><p>Output Layer </p>
+<ul>
+<li>Softmax layer <ul>
+<li>Softmax函数将多个标量映射为一个概率分布，其输出的每一个值范围在(0,1)</li>
+<li>softmax函数经常用在神经网络的最后一层，作为输出层，进行多分类</li>
+<li>如下图所示，z为output层的输入，y为输出，选取输出概率最大的为分类结果<img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\softmax_layer.png" alt="softmax_layer"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Example</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\nn-example.png" alt="nn-example"></p>
+</li>
+<li><p>purpose</p>
+<p>decide the network structure to let a good function in your function set.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Step 2:  goodness of function <ul>
+<li>Training Data</li>
+<li>Learning Target</li>
+<li>Loss: A good function should make the loss of all examples as small as possible. </li>
+<li>Total Loss  $L=\sum_{r=1}^{R}l_r$</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>Step 3: pick the best function </p>
+<ul>
+<li><p>How to pick the best function</p>
+<ul>
+<li><p>Gradient Descent</p>
+<ul>
+<li><p>Network parameters 𝜃 = {𝑤1, 𝑤2, ⋯ , 𝑏1, 𝑏2, ⋯}</p>
+</li>
+<li><p>Pick an initial value for w</p>
+</li>
+<li><p>Compute  𝜕𝐿/𝜕𝑤</p>
+<ul>
+<li>Negative: Increase w</li>
+<li>Positive: Decrease w</li>
+</ul>
+</li>
+<li><p>Compute:  $w=w-\eta 𝜕𝐿/𝜕𝑤$ ($\eta$–learning rate学习率)</p>
+</li>
+<li><p>Repeat Compute Until 𝜕𝐿/𝜕𝑤 is approximately small (when update is little)【改变很小，接近0】</p>
+</li>
+<li><p>图例</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\Gradient Descent.png" alt="Gradient Descent"></p>
+</li>
+<li><p>等高图</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\Gradient_Descent2.png" alt="Gradient_Descent2"></p>
+</li>
+<li><p>Gradient descent never guarantee global minimum（局部最低并不是全局最低）</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="Why-Deep"><a href="#Why-Deep" class="headerlink" title="Why Deep?"></a><strong>Why Deep?</strong></h5><ul>
+<li>Deeper is Better</li>
+<li>A hidden layer network can represent any continuous function. </li>
+<li>Modularization</li>
+</ul>
+<hr>
+<h5 id="“Hello-World”-for-Deep-Learning"><a href="#“Hello-World”-for-Deep-Learning" class="headerlink" title="“Hello World” for Deep Learning"></a><strong>“Hello World” for Deep Learning</strong></h5><ul>
+<li>Keras, TensorFlow, </li>
+</ul>
+<hr>
+<h4 id="Lecture-II-Tips-for-Training-DNN"><a href="#Lecture-II-Tips-for-Training-DNN" class="headerlink" title="Lecture II: Tips for Training DNN"></a><strong>Lecture II: Tips for Training DNN</strong></h4><ul>
+<li><strong>Good Results on Training Data?</strong></li>
+<li><strong>Good Results on Testing Data?</strong> </li>
+</ul>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\recipe.png" alt="recipe"></p>
+<hr>
+<h5 id="Good-Results-on-Training-Data"><a href="#Good-Results-on-Training-Data" class="headerlink" title="Good Results on Training Data?"></a><strong>Good Results on Training Data?</strong></h5><ul>
+<li><strong>Choosing proper loss</strong></li>
+<li><strong>Mini-batch</strong></li>
+<li><strong>New activation function</strong></li>
+<li><strong>Adaptive Learning Rate</strong></li>
+<li><strong>Momentum</strong></li>
+</ul>
+<hr>
+<h6 id="Choosing-proper-loss"><a href="#Choosing-proper-loss" class="headerlink" title="Choosing proper loss"></a><strong>Choosing proper loss</strong></h6><ul>
+<li><p>for example: Square Error, Cross Entropy</p>
+</li>
+<li><p>用一个数据集做测试</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\example-loss-function.png" alt="example-loss-function"></p>
+<ul>
+<li>如上，better to choose cross entropy</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="Mini-batch"><a href="#Mini-batch" class="headerlink" title="Mini-batch"></a><strong>Mini-batch</strong></h6><ul>
+<li>每次用一部分样本来更新参数，即 batch_size</li>
+</ul>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\mini-batch.png" alt="mini-batch"></p>
+<ul>
+<li>Mini-batch较全batch而言不稳定</li>
+<li>Mini-batch is faster</li>
+</ul>
+<hr>
+<h6 id="New-activation-function"><a href="#New-activation-function" class="headerlink" title="New activation function"></a><strong>New activation function</strong></h6><ul>
+<li>Deeper usually does not imply better.</li>
+<li>Vanishing Gradient Problem梯度消失问题<ul>
+<li>在神经网络中，当前面隐藏层的学习速率低于后面隐藏层的学习速率，即随着隐藏层数目的增加，分类准确率反而下降了。这种现象叫做消失的梯度问题。</li>
+<li>从求导结果可以看出，Sigmoid导数的取值范围在0~0.25之间，而我们初始化的网络权值$|w|$通常都小于1，因此，当层数增多时，小于0的值不断相乘，最后就导致梯度消失的情况出现。同理，梯度爆炸的问题也就很明显了，就是当权值$|w|$过大时，导致 $|\sigma’(z)w| &gt; 1$，最后大于1的值不断相乘，就会产生梯度爆炸。</li>
+</ul>
+</li>
+<li>ReLU（ Rectified Linear Unit ）<ul>
+<li>激活函数的导数为1，不会出现梯度消失问题</li>
+<li>优点：1)不饱和；2)计算效率高；3)收敛速度快</li>
+</ul>
+</li>
+<li>原型Maxout:<ul>
+<li>即取最大的值作为输出：<img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\Maxout.png" alt="Maxout"></li>
+<li>ReLU is a special cases of Maxout</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="Adaptive-Learning-Rate"><a href="#Adaptive-Learning-Rate" class="headerlink" title="Adaptive Learning Rate"></a><strong>Adaptive Learning Rate</strong></h6><ul>
+<li><p>Set the learning rate η carefully</p>
+<ul>
+<li>If learning rate is too large—&gt;Total loss may not decrease after each update</li>
+<li>If learning rate is too small—&gt;Training would be too slow</li>
+</ul>
+</li>
+<li><p>Popular &amp; Simple Idea: Reduce the learning rate by some factor every few epochs.</p>
+<ul>
+<li>训练开始时，距离最小点很远，于是选取较大的学习率</li>
+<li>经过一些epoch之后可以适当减小学习率的值</li>
+</ul>
+</li>
+<li><p>Adagrad</p>
+<ul>
+<li><p>解决不同参数应该使用不同的更新速率的问题</p>
+</li>
+<li><p>$w← w-\eta_w \partial L/\partial w$</p>
+</li>
+<li><p>$\eta_w$是根据学习率变换的变量<br>$$<br>\eta_w=\frac{\eta}{\sqrt{\sum_{i=0}^{t}{(g^i)^2}}}<br>$$<br>$\eta$是常数，$g^i$是在完成第i次更新后的$𝜕L/𝜕w$值</p>
+</li>
+</ul>
+</li>
+<li><p>其他的一些改善学习率的方法：</p>
+<ul>
+<li>RMSprop、Adadelta 、Adam、Nadam等</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="Momentum动量"><a href="#Momentum动量" class="headerlink" title="Momentum动量"></a><strong>Momentum动量</strong></h6><ul>
+<li><p>在训练过程中很难决定什么时候是最优的结果：</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\Momentum.png" alt="Momentum"></p>
+</li>
+<li><p>可以添加动量，使得在下降的过程倾向于达到最低点：</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\Momentum1.png" alt="Momentum1"></p>
+</li>
+<li><p>可以使用Adam</p>
+<ul>
+<li>Adam=RMSProp (Advanced Adagrad) + Momentum</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="Good-Results-on-Testing-Data"><a href="#Good-Results-on-Testing-Data" class="headerlink" title="Good Results on Testing Data?"></a><strong>Good Results on Testing Data?</strong></h5><ul>
+<li><strong>Early Stopping</strong></li>
+<li><strong>Weight Decay</strong></li>
+<li><strong>Dropout</strong></li>
+<li><strong>Network Structure</strong></li>
+</ul>
+<hr>
+<h6 id="Overfitting"><a href="#Overfitting" class="headerlink" title="Overfitting"></a><strong>Overfitting</strong></h6><ul>
+<li>原因：训练集与测试集的分布不一样</li>
+<li>方法：<ul>
+<li>增加更多的训练集</li>
+<li>创造更多的训练集（如果原本没有更多的数据了）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="Early-Stopping"><a href="#Early-Stopping" class="headerlink" title="Early Stopping"></a><strong>Early Stopping</strong></h6><ul>
+<li>简单的图示：</li>
+</ul>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\early-stop.png" alt="early-stop"></p>
+<hr>
+<h6 id="Weight-Decay-regularization-L2正则化"><a href="#Weight-Decay-regularization-L2正则化" class="headerlink" title="Weight Decay(regularization  L2正则化)"></a><strong>Weight Decay(regularization  L2正则化)</strong></h6><ul>
+<li>prunes out the useless link between neurons. 类似剪枝，对没有用或者用处很小的神经元进行删减</li>
+<li>图示</li>
+</ul>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\weight-decay.png" alt="weight-decay"></p>
+<ul>
+<li>实现(C是cost function)<ul>
+<li>$$ C = C_0 + \frac{\lambda}{2n} \sum_w w^2$$</li>
+<li>$$ \frac{\partial C}{\partial w} = \frac{\partial C_0}{\partial w} + \frac{\lambda}{n} w $$</li>
+<li>$w=w-\eta\frac{\partial C}{\partial w}$</li>
+<li>让weight变小一点，带来的好处是可以是整个神经网络对输入中的噪音（或者一点点变化）不要那么敏感；weight太大，其对应的输入的一点点变化就会起到主导作用，进而显著改变输出。</li>
+<li>从公式来看，weight decay对于比较大的weight，decay的更多，比较小的weight，decay较小；这就相当于，weight越大，惩罚越大，即可以更有效的减少Cost函数。</li>
+<li>让神经网络倾向于形成更简单的，“斜率”更小的模型；比如一个非线性模型，我们可以用很复杂的高阶多项式来表示，也可以容忍一些噪音，通过简单的低阶多项式来表示，甚至直接使用线性函数来表示。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a><strong>Dropout</strong></h6><ul>
+<li><p>Each time before updating the parameters </p>
+<ul>
+<li><p>Each neuron has p% to dropout ，让某个神经元的激活值以一定的概率p停止工作，这样可以使模型泛化性更强，因为它不会太依赖某些局部的特征</p>
+<ul>
+<li>The structure of the network is changed.  </li>
+</ul>
+</li>
+<li><p>Using the new network for training</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\dropout1.png" alt="dropout1"></p>
+</li>
+</ul>
+</li>
+<li><p>For testing：</p>
+<ul>
+<li>如果训练集的drop率为p%，则测试集的神经元权重较训练集应该乘上(1-p%）——因为测试集不做drop</li>
+</ul>
+</li>
+<li><p>Dropout之后的网络结构不同，故会训练出不同的模型，通过average可以取得更好的结果</p>
+</li>
+<li><p>可以解决过拟合的问题：</p>
+<ul>
+<li>减少神经元之间复杂的共适应关系： 因为两个神经元不一定会同时出现在一个网络里，故有利于加强他们自身更鲁棒的学习。</li>
+<li>取平均的作用：相当于对很多个不同的神经网络取平均。而不同的网络产生不同的过拟合，一些互为“反向”的拟合相互抵消就可以达到整体上减少过拟合。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="Network-Structure"><a href="#Network-Structure" class="headerlink" title="Network Structure"></a><strong>Network Structure</strong></h6><ul>
+<li>比如CNN</li>
+<li>……</li>
+</ul>
+<hr>
+<h4 id="Lecture-III-Variants-of-Neural-Networks"><a href="#Lecture-III-Variants-of-Neural-Networks" class="headerlink" title="Lecture III: Variants of Neural Networks"></a>Lecture III: Variants of Neural Networks</h4><ul>
+<li><strong>Convolutional Neural Network (CNN)</strong>——Widely used in image processing</li>
+<li><strong>Recurrent Neural Network (RNN)</strong> </li>
+</ul>
+<hr>
+<h5 id="Convolutional-Neural-Network-CNN"><a href="#Convolutional-Neural-Network-CNN" class="headerlink" title="Convolutional Neural Network (CNN)"></a><strong>Convolutional Neural Network (CNN)</strong></h5><ul>
+<li><h6 id="Why-CNN-for-Image（some-properties）"><a href="#Why-CNN-for-Image（some-properties）" class="headerlink" title="Why CNN for Image（some properties）"></a>Why CNN for Image（some properties）</h6><ul>
+<li>When processing image, the first layer of fully connected network would be very large </li>
+<li>Some patterns are much smaller than the whole image</li>
+<li>Subsampling the pixels（减小像素） will not change the object</li>
+</ul>
+</li>
+<li><h6 id="CNN的结构"><a href="#CNN的结构" class="headerlink" title="CNN的结构"></a>CNN的结构</h6><ul>
+<li><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\CNN网络结构.png" alt="CNN网络结构"></li>
+<li>Convolution:<ul>
+<li>Some patterns are much smaller than the whole image（通过鸟的喙形判断鸟的品种）</li>
+<li>The same patterns appear in different regions.（出现在图片不同位置的鸟喙） </li>
+</ul>
+</li>
+<li>Max Pooling:<ul>
+<li>Subsampling the pixels will not change the object （可以对图片进行缩放处理，减少像素点，减少网络结构的大量参数）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="Convolution卷积层"><a href="#Convolution卷积层" class="headerlink" title="Convolution卷积层"></a>Convolution卷积层</h6><ul>
+<li><p>卷积核（举例）</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\卷积核.png" alt="卷积核"></p>
+</li>
+<li><p>输入图像信息（举例）</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\卷积-输入.png" alt="卷积-输入"></p>
+</li>
+<li><p>卷积的操作</p>
+<ul>
+<li><p>步长：控制卷积核移动的距离</p>
+<ul>
+<li><p>使用filter 1，步长为1 stride=1</p>
+<p>​    <img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\slide1.png" alt="slide1"></p>
+</li>
+<li><p>使用filter 1，步长为2 stride=2（仅示例，下面结果均使用步长为1）</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\slide2.png" alt="slide2"></p>
+</li>
+<li><p>盗一个动图（与上面的数据不同，但是方便理解）</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\pk2y72bp1x.gif" alt="pk2y72bp1x"></p>
+</li>
+<li><p>filter 1 处理结束后的结果</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\卷积filter1.png" alt="卷积filter1"></p>
+</li>
+<li><p>使用filter 2同样卷积处理后的结果</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\2filter.png" alt="2filter"></p>
+</li>
+</ul>
+</li>
+<li><p>Padding填充：对数据做的操作。一般有两种，一种是不进行操作，一种是补0使得卷积后的激活映射尺寸不变。</p>
+<ul>
+<li><p>Zero Padding零填充：有时，在输入矩阵的边缘使用零值进行填充，这样我们就可以对输入图像矩阵的边缘进行滤波。零填充的一大好处是可以让我们控制特征图的大小。使用零填充的也叫做泛卷积，不使用零填充的叫做严格卷积</p>
+<ul>
+<li><p>全0填充的含义，不是在右（下）多加一行（列）0。具体加多少0要根据实际情况决定</p>
+</li>
+<li><p>使用零填充之后再使用filter 进行卷积可以使得输入和输出的维度相同</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\零填充.png" alt="零填充"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>其实我们输入的图像一般为三维，即含有R、G、B三个通道。但其实经过一个卷积核之后，三维会变成一维。它在一整个屏幕滑动的时候，其实会把三个通道的值都累加起来，最终只是输出一个一维矩阵。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="Pooling池化层-池化层一般放在卷积层后面。所以池化层的输入是卷积层的输出"><a href="#Pooling池化层-池化层一般放在卷积层后面。所以池化层的输入是卷积层的输出" class="headerlink" title="Pooling池化层(池化层一般放在卷积层后面。所以池化层的输入是卷积层的输出)"></a>Pooling池化层(池化层一般放在卷积层后面。所以池化层的输入是卷积层的输出)</h6><ul>
+<li>池化层也有padding的选项。跟卷积层一样的，在外围补0，然后再池化。</li>
+<li>最大池化 max-pooling（更常用）<ul>
+<li>为了提取最明显的特征</li>
+<li><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\max-pooling.png" alt="max-pooling"></li>
+</ul>
+</li>
+<li>平均池化 mean-pooling<ul>
+<li>顾及每一个像素，所以选择将所有的像素值都相加然后再平均</li>
+<li>即每个filter取平均值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="Flatten（扁平化）"><a href="#Flatten（扁平化）" class="headerlink" title="Flatten（扁平化）"></a>Flatten（扁平化）</h6><ul>
+<li>Flatten层用来将输入“压平”，即把多维的输入一维化，常用在从卷积层到全连接层的过渡。Flatten不影响batch的大小。</li>
+</ul>
+</li>
+<li><h6 id="BP算法（error-BackPropagation）是训练神经网络最为经典的算法"><a href="#BP算法（error-BackPropagation）是训练神经网络最为经典的算法" class="headerlink" title="BP算法（error BackPropagation）是训练神经网络最为经典的算法"></a>BP算法（error BackPropagation）是训练神经网络最为经典的算法</h6><ul>
+<li>基于梯度下降</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="Recurrent-Neural-Network-RNN-递归神经网络"><a href="#Recurrent-Neural-Network-RNN-递归神经网络" class="headerlink" title="Recurrent Neural Network (RNN)递归神经网络"></a>Recurrent Neural Network (RNN)递归神经网络</h5><ul>
+<li><p>Slot Filling</p>
+<ul>
+<li><p>填槽(<em>Slot</em> <em>filling</em>)指的是为了让用户意图转化为用户明确的指令而补全信息的过程</p>
+</li>
+<li><p>比如在一个订票系统上，我们的输入 “Arrive Taipei on November 2nd” 这样一个序列，我们设置几个槽位（Slot），希望算法能够将关键词’Taipei’放入目的地（Destination）槽位，将November和2nd放入到达时间（Time of Arrival）槽位，将Arrive和on放入其他（Other）槽位，实现对输入序列的一个归类，以便后续提取相应信息。</p>
+<p>用前馈神经网络（Feedforward Neural Network）来解决这个问题的话，我们首先要对输入序列向量化，将每一个输入的单词用向量表示，可以使用 One-of-N Encoding 或者是 Word hashing 等编码方法，输出预测槽位的概率分布。</p>
+<p>但是这样做的话，有个问题就出现了。如果现在又有一个输入是 “Leave Taipei on November 2nd”，这里Taipei是作为一个出发地（Place of Departure），所以我们应当是把Taipei放入Departure槽位而不是Destination 槽位，可是对于前馈网络来说，对于同一个输入，输出的概率分布应该也是一样的，不可能出现既是Destination的概率最高又是Departure的概率最高。</p>
+<p>所以我们就希望能够让神经网络拥有“记忆”的能力，能够根据之前的信息（在这个例子中是Arrive或Leave）从而得到不同的输出。将两段序列中的Taipei分别归入Destionation槽位和Departure槽位。</p>
+</li>
+</ul>
+</li>
+<li><p>RNN</p>
+<ul>
+<li><p>The output of hidden layer are stored in the memory.</p>
+</li>
+<li><p>Memory can be considered as another input.</p>
+</li>
+<li><p>The same network is used again and again.</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\rnn-slot.png" alt="rnn-slot"></p>
+</li>
+<li><p>整体结构</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\rnn-str.png" alt="rnn-str"></p>
+</li>
+</ul>
+</li>
+<li><p>Bidirectional RNN（双向rnn）</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\bi-rnn.png" alt="bi-rnn"></p>
+</li>
+<li><p>Long Short-term Memory (LSTM)</p>
+<ul>
+<li><p>结构：</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\lstm-str.png" alt="lstm-str"></p>
+</li>
+<li><p>参数结构：</p>
+<p><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\lstm-pa.png" alt="lstm-pa"></p>
+<ul>
+<li>由Memory Cell， Input Gate， Output Gate， Forget Gate 组成</li>
+<li>特殊的神经元结构，包含4个input（三个Gate的控制信号以及输入的数据），1个output</li>
+<li>激活函数通常选用sigmoid function， sigmoid的输出介于0到1之间，表征了Gate的打开程度</li>
+<li>Short-term，表示保留对前一时间点输出的短期记忆，相比于最原始的RNN结构中的记忆单元（每次有新的输入时记忆体的状态就会被更新，因此是短期的记忆），LSTM的记忆体拥有相对较长的记忆时间（由Forget Gate决定），所以是Long Short-term</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>学习/训练过程 to pick the best function </p>
+<ul>
+<li>损失函数<ul>
+<li>每一个时间点的RNN的输出和标签值的交叉熵（cross-entropy）之和</li>
+</ul>
+</li>
+<li>使用被称作Backpropagation through time（BPTT）的梯度下降法</li>
+<li>训练其实是比较困难的，因为Total Loss可能会出现剧烈的抖动<ul>
+<li>损失函数的表面要么非常平坦，要么非常陡峭</li>
+<li>原因：</li>
+<li>与激活函数是Sigmoid或者ReLU无关</li>
+<li>由于RNN采用时间序列的结构，权重值在不同时间点被反复使用，这种累积性的变化可能对结果造成极大的影响，也可能会很长一段时间保持平稳。（$1^{1000}=1;1.01^{1000}-&gt;20000$）</li>
+</ul>
+</li>
+<li>处理方法：<ul>
+<li>LSTM<ul>
+<li>可以处理梯度消失的问题（不能处理梯度爆炸）——只有在遗忘门关掉的时候记忆单元的值才会对输出失去影响</li>
+<li>可能会引起梯度爆炸的问题</li>
+</ul>
+</li>
+<li>GRU(Gated Recurrent Unit)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>应用</p>
+<ul>
+<li>多对一 Input is a vector sequence, but output is only one vector<ul>
+<li>情感分析</li>
+</ul>
+</li>
+<li>多对多Both input and output are both sequences,<ul>
+<li>but the output is shorter<ul>
+<li>语音识别</li>
+<li>CTC</li>
+</ul>
+</li>
+<li>with different lengths. <ul>
+<li>机器翻译</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>一对多 Input an image, but output a sequence of words<ul>
+<li>字幕生成</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="Lecture-IV-Next-Wave"><a href="#Lecture-IV-Next-Wave" class="headerlink" title="Lecture IV: Next Wave"></a>Lecture IV: Next Wave</h4><ul>
+<li><strong>Supervised Learning</strong></li>
+<li><strong>Reinforcement Learning</strong></li>
+<li><strong>Unsupervised Learning</strong><ul>
+<li>Image: Realizing what the World Looks Like</li>
+<li>Text: Understanding the Meaning of Words</li>
+<li>Audio: Learning human language without supervision</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="Supervised-Learning"><a href="#Supervised-Learning" class="headerlink" title="Supervised Learning"></a>Supervised Learning</h5><ul>
+<li><h6 id="Ultra-Deep-Network超深网络"><a href="#Ultra-Deep-Network超深网络" class="headerlink" title="Ultra Deep Network超深网络"></a>Ultra Deep Network超深网络</h6><ul>
+<li>Ultra deep network is the ensemble of many networks with different depth. </li>
+<li>FractalNet<ul>
+<li>Ultra Deep Network without residuals</li>
+<li><img src="/2019/09/10/学习/文档学习笔记/Deep-Learning-Tutorial-李宏毅/G:/blog\source\_posts\学习\文档学习笔记\Deep-Learning-Tutorial-李宏毅\Ultra-deep.png" alt="Ultra-deep"></li>
+<li>Highway Network automatically determines the layers needed</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="Attention-based-Model"><a href="#Attention-based-Model" class="headerlink" title="Attention-based Model"></a>Attention-based Model</h6><ul>
+<li>Reading Comprehension</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="Reinforcement-Learning"><a href="#Reinforcement-Learning" class="headerlink" title="Reinforcement Learning"></a>Reinforcement Learning</h6><ul>
+<li>Learning from critics</li>
+<li>Supervised Learning<ul>
+<li>Learning from teacher </li>
+</ul>
+</li>
+<li>Difficulties <ul>
+<li>It may be better to sacrifice immediate reward to gain more long-term reward</li>
+<li>Agent’s actions affect the subsequent data it receives </li>
+</ul>
+</li>
+<li>Application: Interactive Retrieval交互式检索</li>
+</ul>
+<hr>
+<h6 id="unsupervised-Leadning"><a href="#unsupervised-Leadning" class="headerlink" title="unsupervised Leadning"></a>unsupervised Leadning</h6><ul>
+<li>Generating Images <ul>
+<li>Auto-encoder</li>
+</ul>
+</li>
+<li>Machine Reading<ul>
+<li>Machine learn the meaning of words from reading a lot of documents without supervision</li>
+<li>Generating Word Vector/Embedding is unsupervised</li>
+</ul>
+</li>
+<li>Audio </li>
+</ul>
+<p>参考资料：</p>
+<p><a href="https://www.maixj.net/ict/weight-decay-19860" target="_blank" rel="noopener">理解weight decay</a></p>
+<p><a href="https://blog.csdn.net/program_developer/article/details/80737724" target="_blank" rel="noopener">深度学习中Dropout原理解析</a></p>
+<p><a href="https://blog.csdn.net/weixin_41417982/article/details/81412076" target="_blank" rel="noopener">卷积层与池化层</a></p>
+<p><a href="https://blog.csdn.net/u010159842/article/details/80760025" target="_blank" rel="noopener">Slot Filling详细讲解</a></p>
+<p><a href="https://blog.csdn.net/qq_39422642/article/details/78676567#" target="_blank" rel="noopener">循环神经网络（RNN）原理通俗解释</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/学习/文档学习笔记/深度学习文档学习笔记（一）/" rel="next" title="深度学习文档学习笔记（一）">
+                <i class="fa fa-chevron-left"></i> 深度学习文档学习笔记（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/10/学习/courses/机器学习-吴恩达/" rel="prev" title="机器学习-吴恩达">
+                机器学习-吴恩达 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Lecture-I-Introduction-of-Deep-Learning"><span class="nav-number">1.</span> <span class="nav-text">Lecture I: Introduction of  Deep Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Introduction-of-Deep-Learning"><span class="nav-number">1.1.</span> <span class="nav-text">Introduction of Deep Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Three-Steps-for-Deep-Learning"><span class="nav-number">1.1.1.</span> <span class="nav-text">Three Steps for Deep Learning</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Why-Deep"><span class="nav-number">1.2.</span> <span class="nav-text">Why Deep?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#“Hello-World”-for-Deep-Learning"><span class="nav-number">1.3.</span> <span class="nav-text">“Hello World” for Deep Learning</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lecture-II-Tips-for-Training-DNN"><span class="nav-number">2.</span> <span class="nav-text">Lecture II: Tips for Training DNN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Good-Results-on-Training-Data"><span class="nav-number">2.1.</span> <span class="nav-text">Good Results on Training Data?</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Choosing-proper-loss"><span class="nav-number">2.1.1.</span> <span class="nav-text">Choosing proper loss</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Mini-batch"><span class="nav-number">2.1.2.</span> <span class="nav-text">Mini-batch</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#New-activation-function"><span class="nav-number">2.1.3.</span> <span class="nav-text">New activation function</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Adaptive-Learning-Rate"><span class="nav-number">2.1.4.</span> <span class="nav-text">Adaptive Learning Rate</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Momentum动量"><span class="nav-number">2.1.5.</span> <span class="nav-text">Momentum动量</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Good-Results-on-Testing-Data"><span class="nav-number">2.2.</span> <span class="nav-text">Good Results on Testing Data?</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Overfitting"><span class="nav-number">2.2.1.</span> <span class="nav-text">Overfitting</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Early-Stopping"><span class="nav-number">2.2.2.</span> <span class="nav-text">Early Stopping</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Weight-Decay-regularization-L2正则化"><span class="nav-number">2.2.3.</span> <span class="nav-text">Weight Decay(regularization  L2正则化)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Dropout"><span class="nav-number">2.2.4.</span> <span class="nav-text">Dropout</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Network-Structure"><span class="nav-number">2.2.5.</span> <span class="nav-text">Network Structure</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lecture-III-Variants-of-Neural-Networks"><span class="nav-number">3.</span> <span class="nav-text">Lecture III: Variants of Neural Networks</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Convolutional-Neural-Network-CNN"><span class="nav-number">3.1.</span> <span class="nav-text">Convolutional Neural Network (CNN)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Why-CNN-for-Image（some-properties）"><span class="nav-number">3.1.1.</span> <span class="nav-text">Why CNN for Image（some properties）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#CNN的结构"><span class="nav-number">3.1.2.</span> <span class="nav-text">CNN的结构</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Convolution卷积层"><span class="nav-number">3.1.3.</span> <span class="nav-text">Convolution卷积层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Pooling池化层-池化层一般放在卷积层后面。所以池化层的输入是卷积层的输出"><span class="nav-number">3.1.4.</span> <span class="nav-text">Pooling池化层(池化层一般放在卷积层后面。所以池化层的输入是卷积层的输出)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Flatten（扁平化）"><span class="nav-number">3.1.5.</span> <span class="nav-text">Flatten（扁平化）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#BP算法（error-BackPropagation）是训练神经网络最为经典的算法"><span class="nav-number">3.1.6.</span> <span class="nav-text">BP算法（error BackPropagation）是训练神经网络最为经典的算法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Recurrent-Neural-Network-RNN-递归神经网络"><span class="nav-number">3.2.</span> <span class="nav-text">Recurrent Neural Network (RNN)递归神经网络</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lecture-IV-Next-Wave"><span class="nav-number">4.</span> <span class="nav-text">Lecture IV: Next Wave</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Supervised-Learning"><span class="nav-number">4.1.</span> <span class="nav-text">Supervised Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Ultra-Deep-Network超深网络"><span class="nav-number">4.1.1.</span> <span class="nav-text">Ultra Deep Network超深网络</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Attention-based-Model"><span class="nav-number">4.1.2.</span> <span class="nav-text">Attention-based Model</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Reinforcement-Learning"><span class="nav-number">4.1.3.</span> <span class="nav-text">Reinforcement Learning</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#unsupervised-Leadning"><span class="nav-number">4.1.4.</span> <span class="nav-text">unsupervised Leadning</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

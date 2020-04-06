@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="线性回归(univariate linear regression) model  Hypothesis假设函数  $$h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n$$   cost function代价函数  平方差；交叉熵等   梯度下降">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习-吴恩达-一周目整理">
+<meta property="og:url" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="线性回归(univariate linear regression) model  Hypothesis假设函数  $$h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n$$   cost function代价函数  平方差；交叉熵等   梯度下降">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog/source/_posts/激励函数简介/激励函数1.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/high%20variance.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/high-bias.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/nn1.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog/source/_posts/metrics的评估方法-模型评估/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/svm-decision_boundary.png">
+<meta property="og:updated_time" content="2020-04-06T03:01:41.143Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习-吴恩达-一周目整理">
+<meta name="twitter:description" content="线性回归(univariate linear regression) model  Hypothesis假设函数  $$h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n$$   cost function代价函数  平方差；交叉熵等   梯度下降">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog/source/_posts/激励函数简介/激励函数1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习-吴恩达-一周目整理 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习-吴恩达-一周目整理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-18 09:30:18" itemprop="dateCreated datePublished" datetime="2019-11-18T09:30:18+08:00">2019-11-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-06 11:01:41" itemprop="dateModified" datetime="2020-04-06T11:01:41+08:00">2020-04-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/course笔记/" itemprop="url" rel="index"><span itemprop="name">course笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h6 id="线性回归-univariate-linear-regression"><a href="#线性回归-univariate-linear-regression" class="headerlink" title="线性回归(univariate linear regression)"></a>线性回归(univariate linear regression)</h6><ul>
+<li><p>model</p>
+</li>
+<li><p>Hypothesis假设函数</p>
+<ul>
+<li>$$<br>h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n<br>$$</li>
+</ul>
+</li>
+<li><p>cost function代价函数</p>
+<ul>
+<li>平方差；交叉熵等</li>
+</ul>
+</li>
+<li><p>梯度下降<a id="more"></a></p>
+<ul>
+<li>BGD批梯度下降：每次使用所有的数据集</li>
+<li>Mini-batch GD小批次梯度下降<ul>
+<li>每次使用固定数量的数据集</li>
+<li>大小通常为2的幂次方</li>
+</ul>
+</li>
+<li>SGD（stochastic）<ul>
+<li>每次仅使用一个随机的样本来训练</li>
+<li>避免陷入随机最优，将数据shuffle打乱很重要</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>正规方程</p>
+<ul>
+<li>类似与求极值，直接通过偏导值为0求得，特征维数较多的时候计算量较大</li>
+</ul>
+</li>
+<li><p>Feature Scaling 特征缩放</p>
+<ul>
+<li>可以使训练速度加快，收敛所需的迭代次数更少</li>
+</ul>
+</li>
+<li><p>学习率</p>
+<ul>
+<li>只要学习率够小，损失函数总是会下降的</li>
+<li>选择不同的学习率，通常可以以3倍为间隙</li>
+</ul>
+</li>
+<li><p>有时定义一些新的特征会有更好的效果</p>
+</li>
+</ul>
+<hr>
+<h6 id="逻辑回归-Logistic回归-——是一种分类算法！——非线性分类问题的处理"><a href="#逻辑回归-Logistic回归-——是一种分类算法！——非线性分类问题的处理" class="headerlink" title="逻辑回归-Logistic回归 ——是一种分类算法！——非线性分类问题的处理"></a>逻辑回归-Logistic回归 ——是一种分类算法！——非线性分类问题的处理</h6><ul>
+<li>使得线性回归的值在[0,1]之间，小于0.5即为负类，大于0.5即为正类</li>
+<li><p>通过激活函数实现非线性的处理</p>
+<ul>
+<li>一般来说，卷积神经网络推荐relu，循环神经网络推荐Relu或者tanh</li>
+<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog\source\_posts\激励函数简介\激励函数1.png" alt="激励函数1"></li>
+</ul>
+</li>
+<li><p>根据激活函数修正cost function使得其为凸函数，才能GD优化</p>
+</li>
+</ul>
+<hr>
+<h6 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h6><ul>
+<li>过拟合——高方差（泛化性差）<ul>
+<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\high variance.png" alt="high variance"></li>
+<li>训练集的误差远远小于验证集上的误差</li>
+<li>减少特征数量</li>
+<li>增大数据集</li>
+<li>添加正则项（增大$\lambda$（正则项系数））</li>
+<li>一种用在神经网络中的方法：dropout<ul>
+<li>每次随机drop一些网络节点</li>
+<li>使得训练结果不会过于依赖于一些网络节点</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>欠拟合——高偏差<ul>
+<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\high-bias.png" alt="high-bias"></li>
+<li>训练集上的误差基本等于验证集上的误差</li>
+<li>添加特征数量（增加模型复杂度）</li>
+<li>减少$\lambda$</li>
+</ul>
+</li>
+<li>正则项一般是对参数进行惩罚，参数越多惩罚度越高</li>
+</ul>
+<hr>
+<h6 id="神经网络及前向-反向传播"><a href="#神经网络及前向-反向传播" class="headerlink" title="神经网络及前向/反向传播"></a>神经网络及前向/反向传播</h6><ul>
+<li><p>非线性的回归问题可以采用神经网络的方法，是非线性的算法</p>
+</li>
+<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\nn1.png" alt="nn1"></p>
+</li>
+<li><p>FP前向传播（其中$\Theta^{j}$表示从j层到j+1层的权重矩阵）——计算模型结果</p>
+<ul>
+<li><p>$a_1^{(2)}=g(\Theta_{10}^{(1)}x_0+\Theta_{11}^{(1)}x_1+\Theta_{12}^{(1)}x_2+\Theta_{13}^{(1)}x_3)$</p>
+<p>$a_2^{(2)}=g(\Theta_{20}^{(1)}x_0+\Theta_{21}^{(1)}x_1+\Theta_{22}^{(1)}x_2+\Theta_{23}^{(1)}x_3)$</p>
+<p>$a_3^{(2)}=g(\Theta_{30}^{(1)}x_0+\Theta_{31}^{(1)}x_1+\Theta_{32}^{(1)}x_2+\Theta_{33}^{(1)}x_3)$</p>
+<p>$h_\Theta(x)=a_1^{(3)}=g(\Theta_{10}^{(2)}a_0^{(2)}+\Theta_{11}^{(2)}a_1^{(2)}+\Theta_{12}^{(2)}a_2^{(2)}+\Theta_{13}^{(2)}a_3^{(2)})$</p>
+</li>
+</ul>
+</li>
+<li><p>BP反向传播——梯度优化</p>
+<ul>
+<li><p>$\delta_j^{(l)}$表示误差；$a$表示激活值</p>
+</li>
+<li><p>$\delta_j^{(4)}=a_j^{(4)}-y_j$</p>
+<p>$\delta_j^{(3)}=(\Theta^{(3)}_{ij})^T\delta^{(4)}_i$</p>
+<p>$\delta^{(2)}<em>j=((\Theta^{(2)}</em>{ij})^T\delta^{(3)}<em>i+(\Theta^{(2)}</em>{zj})^T\delta^{(3)}_z)$</p>
+</li>
+<li><p>将上述误差合总为总共的误差D</p>
+</li>
+<li><p>使用梯度下降或其他方法对D的值进行最小化计算，修改相应参数</p>
+</li>
+</ul>
+</li>
+<li><p>问题模型流程</p>
+<ul>
+<li>选择神经网路的结构（层数等）<ul>
+<li>输入层的单元数由输入得到data决定</li>
+<li>输出层的单元数由分类问题的类别数量决定</li>
+<li>默认只使用一个隐藏层或者多个单元数相同的隐藏层<ul>
+<li>一般来说单元数越多效果越好，但是计算量也越大</li>
+<li>单元数一般需要与输入层的单元数匹配，或是几倍</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>训练神经网络的步骤<ul>
+<li>随机初始化权重</li>
+<li>对每个$x^{(i)}$通过FP算法来得到$h_\Theta(x^{(i)})$</li>
+<li>计算损失函数$J(\Theta)$</li>
+<li>通过BP算法来计算偏导数的项$\frac{\partial J(\theta)}{\partial\theta_{jk}^{(l)}}$</li>
+<li>梯度检验(用$\theta +\epsilon$和$\theta-\epsilon$的斜率来近似$\theta$点的斜率（$\epsilon$一般取$10^{-4}$就好），如果近似出的斜率与与训练出的相近，就可以证明训练的方向是正确的)</li>
+<li>使用优化算法和BP结合来最小化损失函数（BP帮助确定梯度下降的方向）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h6><ul>
+<li><p>划分训练集测试集（7：3）</p>
+</li>
+<li><p>划分训练集验证集测试集（6：2：2）</p>
+<ul>
+<li>验证机由于频繁训练通常会泄露特征，故还需要测试集作为衡量模型好坏的评分</li>
+</ul>
+</li>
+<li><p>Precision查准率(在预测的结果中有多少的对的)——预测得准不准</p>
+<ul>
+<li>TP/(TP+FP)</li>
+</ul>
+</li>
+<li><p>Recall 召回率（在本该预测为正的结果中预测为中的比例）——预测得全不全</p>
+<ul>
+<li><p>TP/(TP+FN)</p>
+</li>
+<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog\source\_posts\metrics的评估方法-模型评估\1.jpg" alt="1"></p>
+</li>
+</ul>
+</li>
+<li><p>F1值：$F1=2\frac{PR}{P+R}$</p>
+</li>
+</ul>
+<hr>
+<h6 id="支持向量机SVM"><a href="#支持向量机SVM" class="headerlink" title="支持向量机SVM"></a>支持向量机SVM</h6><ul>
+<li>svm往往可以得到更加稳健，即间距最大的决策边界</li>
+<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\svm-decision_boundary.png" alt="svm-decision_boundary"></p>
+</li>
+<li><p>使用SVM实现非线性函数的方法——核函数kernel</p>
+<ul>
+<li>使用经过核函数处理过的数据值进行训练</li>
+<li>通过调节不同的参数可以得到非线性的结果</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h6><ul>
+<li><p>k-means——分类</p>
+<ul>
+<li>步骤<ul>
+<li>随机选取k个聚类中心，将所有的数据点分为K类（按照与中心点的距离远近)</li>
+<li>对每一类的数据集计算均值，将初始的聚类中心点移动到均值点处</li>
+<li>重新聚类，更新数据与聚类中心的距离及分类</li>
+<li>将重新聚类好的数据的每一类的均值点作为中心点更新</li>
+<li>平衡为止</li>
+</ul>
+</li>
+<li>随机初始化<ul>
+<li>不同的初始化可能导致不同的结果，可能会形成局部最优的情况</li>
+<li>可以采用多次随机初始化的方法减少随机性的影响（通常2-10次）</li>
+</ul>
+</li>
+<li>K的选择<ul>
+<li>根据k值大小与cost function的图像确定</li>
+<li>根据实际应用中的需求确定</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>降维</p>
+<ul>
+<li><p>PCA主成分分析</p>
+<ul>
+<li><p>在PCA前一般要先将数据均值归一化和特征规范化处理</p>
+</li>
+<li><p>找一个低维平面将数据集投影，使得数据点到预测降维平面的投影距离最小化</p>
+</li>
+<li><p>主成分数量的选择：</p>
+<ul>
+<li><p>从主成分k =1时开始计算投影的差值，直到满足方差保留要求的百分比的最小的k值</p>
+</li>
+<li><p>方差保留: 分子是投影距离之和，分母是x的方差<br>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x^{(i)}<em>{approx}||^2}{\frac{1}{m}\sum^m</em>{i=1}||x^{(i)}||^2}\leq0.01<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>应用：</p>
+<ul>
+<li>压缩（减少内存占用；加速模型训练）</li>
+<li>可视化</li>
+</ul>
+</li>
+<li><p>并不能解决过拟合的问题</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>异常检测</p>
+<ul>
+<li><p>给定训练集{$x^{(1)},x^{(2)},\dots,x^{(m)}$}</p>
+</li>
+<li><p>选择可以作为异常判断的特征$x_i$</p>
+</li>
+<li><p>我们假设$x_1\sim N(\mu_1,\sigma_1^2)$;$x_2\sim N(\mu_2,\sigma_2^2)$;……并找到参数$\mu_j$和$\sigma_j^2$——通过统计量来算</p>
+</li>
+<li><p>给出一个x，可以通过计算$p(x)=p(x_1;\mu_1,\sigma_1^2)p(x_2;\mu_2,\sigma_2^2)p(x_3;\mu_3,\sigma_3^2)\dots p(x_n;\mu_n,\sigma_n^2)=\Pi_{j=1}^np(x_j;\mu_j,\sigma_j^2)$</p>
+<p>然后判断是否有$p(x)&lt;\epsilon$来判断该x点是否异</p>
+</li>
+</ul>
+</li>
+<li><p>推荐系统</p>
+<ul>
+<li>均值归一化的处理：<ul>
+<li>可以使得每个电影的评分均值为0——这样如果用户没有评分，默认为平均值，而不是没有意义的0值</li>
+</ul>
+</li>
+<li>协同过滤<ul>
+<li>通过对不同用户对不同电影的打分情况以及他们对不累类型电影的喜好程度来预测电影的类型，通过电影的类型和用户喜欢的类型可以预测电影的打分</li>
+<li>同时对两个变量进行优化</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/14/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/20/leetcode/leetcode-45-跳跃游戏Ⅱ/" rel="prev" title="leetcode-45-跳跃游戏Ⅱ">
+                leetcode-45-跳跃游戏Ⅱ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#线性回归-univariate-linear-regression"><span class="nav-number">1.</span> <span class="nav-text">线性回归(univariate linear regression)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#逻辑回归-Logistic回归-——是一种分类算法！——非线性分类问题的处理"><span class="nav-number">2.</span> <span class="nav-text">逻辑回归-Logistic回归 ——是一种分类算法！——非线性分类问题的处理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#正则化"><span class="nav-number">3.</span> <span class="nav-text">正则化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#神经网络及前向-反向传播"><span class="nav-number">4.</span> <span class="nav-text">神经网络及前向/反向传播</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#系统设计"><span class="nav-number">5.</span> <span class="nav-text">系统设计</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#支持向量机SVM"><span class="nav-number">6.</span> <span class="nav-text">支持向量机SVM</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#无监督学习"><span class="nav-number">7.</span> <span class="nav-text">无监督学习</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

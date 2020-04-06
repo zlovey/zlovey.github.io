@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="多层感知机 Multilayer Perceptron (MLP)MLP可以被看作是一个有向图，由多个的节点层所组成，每一层都全连接到下一层。除了输入节点，每个节点都是一个带有非线性激活函数的神经元（或称处理单元）。一种被称为反向传播算法的监督学习方法常被用来训练MLP。MLP是感知器的推广，克服了感知器不能对线性不可分数据进行识别的弱点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MLP">
+<meta property="og:url" content="http://yoursite.com/2019/09/16/MLP/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="多层感知机 Multilayer Perceptron (MLP)MLP可以被看作是一个有向图，由多个的节点层所组成，每一层都全连接到下一层。除了输入节点，每个节点都是一个带有非线性激活函数的神经元（或称处理单元）。一种被称为反向传播算法的监督学习方法常被用来训练MLP。MLP是感知器的推广，克服了感知器不能对线性不可分数据进行识别的弱点。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/09/16/MLP/结构.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/16/MLP/data.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/16/MLP/mlp.png">
+<meta property="og:image" content="https://cdn.kesci.com/upload/image/pk2rc87t54.png?imageView2/0/w/640/h/640">
+<meta property="og:image" content="http://yoursite.com/2019/09/16/MLP/前馈结构.png">
+<meta property="og:updated_time" content="2019-09-26T07:09:53.245Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MLP">
+<meta name="twitter:description" content="多层感知机 Multilayer Perceptron (MLP)MLP可以被看作是一个有向图，由多个的节点层所组成，每一层都全连接到下一层。除了输入节点，每个节点都是一个带有非线性激活函数的神经元（或称处理单元）。一种被称为反向传播算法的监督学习方法常被用来训练MLP。MLP是感知器的推广，克服了感知器不能对线性不可分数据进行识别的弱点。">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/16/MLP/结构.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/16/MLP/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>MLP | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/16/MLP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MLP
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-16 14:34:43" itemprop="dateCreated datePublished" datetime="2019-09-16T14:34:43+08:00">2019-09-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-26 15:09:53" itemprop="dateModified" datetime="2019-09-26T15:09:53+08:00">2019-09-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/online/" itemprop="url" rel="index"><span itemprop="name">online</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="多层感知机-Multilayer-Perceptron-MLP"><a href="#多层感知机-Multilayer-Perceptron-MLP" class="headerlink" title="多层感知机 Multilayer Perceptron (MLP)"></a>多层感知机 Multilayer Perceptron (MLP)</h4><p>MLP可以被看作是一个有向图，由多个的节点层所组成，每一层都全连接到下一层。除了输入节点，每个节点都是一个带有非线性激活函数的神经元（或称处理单元）。一种被称为反向传播算法的监督学习方法常被用来训练MLP。MLP是感知器的推广，克服了感知器不能对线性不可分数据进行识别的弱点。<a id="more"></a></p>
+<h5 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h5><p><img src="/2019/09/16/MLP/结构.png" alt="结构"></p>
+<p>$z_2 = XW_1~$</p>
+<p>$a_2 = f(z_2)$</p>
+<p>$z_3 = a_2W_2$</p>
+<p>$\hat{y} = softmax(z_3)$ # 分类</p>
+<p>其中：</p>
+<ul>
+<li>$X$ = 输入 | $\in \mathbb{R}^{NXD}$ ($D$ 特征数量)</li>
+<li>$W_1$ = 第一层的权重 | $\in \mathbb{R}^{DXH}$ ($H$ 第一层的隐藏单元数)</li>
+<li>$z_2$ = 第一层网络的输出  $\in \mathbb{R}^{NXH}$</li>
+<li>$f$ = 非线性激活函数</li>
+<li>$a_2$ = 通过激活函数后的第一层输出 | $\in \mathbb{R}^{NXH}$</li>
+<li>$W_2$ = 第二层权重 | $\in \mathbb{R}^{HXC}$ ($C$ is 分类类别数)</li>
+<li>$\hat{y}$ = 预测值 | $\in \mathbb{R}^{NXC}$ ($N$ 样本个数)</li>
+</ul>
+<p>这是一个简单的二层多层感知机</p>
+<ul>
+<li><strong>目标:</strong> 给定输入 $X$, 预测它属于类别 $y$ 的概率。非线性激活函数的使用后可以帮助训练复杂，非线性的数据。</li>
+<li><strong>优点:</strong><ul>
+<li>在非线性数据上表现非常好</li>
+</ul>
+</li>
+<li><strong>缺点:</strong><ul>
+<li>容易过拟合</li>
+<li>计算复杂度和网络复杂度成正比</li>
+<li>可解释性不强</li>
+</ul>
+</li>
+<li><strong>其它:</strong> 未来我们会接触的神经网络会使用MLP作为向前传播得模块 (非线性操作后的仿射变换affine transformation(XW))</li>
+</ul>
+<h5 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h5><ol>
+<li>随机初始化模型权重$W$ (我们以后会对更有效的初始化权重策略做介绍)</li>
+<li>将输入值$X$传入模型进行向前传播，得到结果概率</li>
+<li>使用损失函数计算预测值 $\hat{y}$ (比如 [0.3, 0.3, 0.4]) 和实际值 $y$ (比如[0, 0, 1])的差，得到损失值 $J$ 常用的逻辑回归损失函数是交叉熵函数。<ul>
+<li>$z_2 = XW_1$</li>
+<li>$a_2 = max(0, z_2)$ # 使用ReLU激活函数</li>
+<li>$z_3 = a_2W_2$</li>
+<li>$\hat{y} = softmax(z_3)$</li>
+<li>$J(\theta) = - \sum_i y_i ln (\hat{y_i})$</li>
+</ul>
+</li>
+<li><p>根据模型权重计算损失梯度 $J(\theta)$</p>
+<ul>
+<li>$\frac{\partial{J}}{\partial{W_{2j}}} = a_2\hat{y}, \frac{\partial{J}}{\partial{W_{2y}}} = a_2(\hat{y}-1)$</li>
+<li>$\frac{\partial{J}}{\partial{W_1}} = \frac{\partial{J}}{\partial{\hat{y}}} \frac{\partial{\hat{y}}}{\partial{a_2}}  \frac{\partial{a_2}}{\partial{z_2}}  \frac{\partial{z_2}}{\partial{W_1}}  = W_2(\partial{scores})(\partial{ReLU})X$</li>
+</ul>
+</li>
+<li><p>使用梯度下降做反向传播来更新模型权重。更新后的权重将会使得输出不正确的结果 $j$ 的概率降低, 从而提高输出正确类别 $y$ 的概率</p>
+<ul>
+<li>$W_i = W_i - \alpha\frac{\partial{J}}{\partial{W_i}}$</li>
+</ul>
+</li>
+<li><p>重复2 - 4步直到模型的表现最好.</p>
+</li>
+</ol>
+<h5 id="项目相关代码"><a href="#项目相关代码" class="headerlink" title="项目相关代码"></a>项目相关代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> argparse <span class="keyword">import</span> Namespace</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成随机非线性数据</span></span><br><span class="line"><span class="comment"># 参数</span></span><br><span class="line">args = Namespace(</span><br><span class="line">    seed=<span class="number">1234</span>,</span><br><span class="line">    num_samples_per_class=<span class="number">500</span>,</span><br><span class="line">    dimensions=<span class="number">2</span>,</span><br><span class="line">    num_classes=<span class="number">3</span>,</span><br><span class="line">    train_size=<span class="number">0.75</span>,</span><br><span class="line">    test_size=<span class="number">0.25</span>,</span><br><span class="line">    num_hidden_units=<span class="number">100</span>,</span><br><span class="line">    learning_rate=<span class="number">1e-0</span>,</span><br><span class="line">    regularization=<span class="number">1e-3</span>,</span><br><span class="line">    num_epochs=<span class="number">200</span>,</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 设置随机种子来保证结果可复现</span></span><br><span class="line">np.random.seed(args.seed)</span><br><span class="line"><span class="comment"># 生成非线性数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_data</span><span class="params">(num_samples_per_class, dimensions, num_classes)</span>:</span></span><br><span class="line">    <span class="comment"># 生成螺旋状数据</span></span><br><span class="line">    X_original = np.zeros((num_samples_per_class*num_classes, dimensions))</span><br><span class="line">    y = np.zeros(num_samples_per_class*num_classes, dtype=<span class="string">'uint8'</span>)</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(num_classes):</span><br><span class="line">        ix = range(num_samples_per_class*j,num_samples_per_class*(j+<span class="number">1</span>))</span><br><span class="line">        r = np.linspace(<span class="number">0.0</span>,<span class="number">1</span>,num_samples_per_class) <span class="comment"># radius</span></span><br><span class="line">        t = np.linspace(j*<span class="number">4</span>,(j+<span class="number">1</span>)*<span class="number">4</span>,num_samples_per_class) + \</span><br><span class="line">        np.random.randn(num_samples_per_class)*<span class="number">0.2</span> <span class="comment"># theta</span></span><br><span class="line">        X_original[ix] = np.c_[r*np.sin(t), r*np.cos(t)]</span><br><span class="line">        y[ix] = j</span><br><span class="line">    X = np.hstack([X_original])</span><br><span class="line">    <span class="keyword">return</span> X, y</span><br><span class="line"><span class="comment"># 生成 X 和 y</span></span><br><span class="line">X, y = generate_data(num_samples_per_class=args.num_samples_per_class, </span><br><span class="line">                     dimensions=args.dimensions, num_classes=args.num_classes)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"X: &#123;0&#125;"</span>.format(np.shape(X)))</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"y: &#123;0&#125;"</span>.format(np.shape(y)))</span><br><span class="line"><span class="comment"># 可视化</span></span><br><span class="line">plt.title(<span class="string">"Generated non-linear data"</span>)</span><br><span class="line">plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], c=y, s=<span class="number">25</span>, cmap=plt.cm.Spectral)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>生成的非线性数据分布如图：</p>
+<p><img src="/2019/09/16/MLP/data.png" alt="data"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成的原始数据处理及切分数据集</span></span><br><span class="line"><span class="comment"># 转换为PyTorch tensor</span></span><br><span class="line">X = torch.from_numpy(X).float()</span><br><span class="line">y = torch.from_numpy(y).long()</span><br><span class="line"><span class="comment"># 打乱数据</span></span><br><span class="line">shuffle_indicies = torch.LongTensor(random.sample(range(<span class="number">0</span>, len(X)), len(X)))</span><br><span class="line">X = X[shuffle_indicies]</span><br><span class="line">y = y[shuffle_indicies]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切分训练集测试集</span></span><br><span class="line">test_start_idx = int(len(X) * args.train_size)</span><br><span class="line">X_train = X[:test_start_idx] </span><br><span class="line">y_train = y[:test_start_idx] </span><br><span class="line">X_test = X[test_start_idx:] </span><br><span class="line">y_test = y[test_start_idx:]</span><br><span class="line">print(<span class="string">"We have %i train samples and %i test samples."</span> % (len(X_train), len(X_test)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加了非线性激活函数ReLU</span></span><br><span class="line"><span class="comment"># MLP</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MLP</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, input_dim, hidden_dim, output_dim)</span>:</span></span><br><span class="line">        super(MLP, self).__init__()</span><br><span class="line">        self.fc1 = nn.Linear(input_dim, hidden_dim)</span><br><span class="line">        self.fc2 = nn.Linear(hidden_dim, output_dim)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x_in, apply_softmax=False)</span>:</span></span><br><span class="line">        a_1 = F.relu(self.fc1(x_in)) <span class="comment"># activaton function added!</span></span><br><span class="line">        y_pred = self.fc2(a_1)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> apply_softmax:</span><br><span class="line">            y_pred = F.softmax(y_pred, dim=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> y_pred</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 初始化模型</span></span><br><span class="line">model = MLP(input_dim=args.dimensions, </span><br><span class="line">            hidden_dim=args.num_hidden_units, </span><br><span class="line">            output_dim=args.num_classes)</span><br><span class="line"><span class="keyword">print</span> (model.named_modules)</span><br><span class="line"><span class="comment"># 优化</span></span><br><span class="line">loss_fn = nn.CrossEntropyLoss()</span><br><span class="line">optimizer = optim.Adam(model.parameters(), lr=args.learning_rate)</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> range(args.num_epochs):</span><br><span class="line">    <span class="comment"># 向前传播</span></span><br><span class="line">    y_pred = model(X_train)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 准确率</span></span><br><span class="line">    _, predictions = y_pred.max(dim=<span class="number">1</span>)</span><br><span class="line">    accuracy = get_accuracy(y_pred=predictions.long(), y_target=y_train)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 损失</span></span><br><span class="line">    loss = loss_fn(y_pred, y_train)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> t%<span class="number">20</span>==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"epoch: &#123;0:02d&#125; | loss: &#123;1:.4f&#125; | acc: &#123;2:.1f&#125;%"</span>.format(</span><br><span class="line">            t, loss, accuracy))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 梯度归零</span></span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 反向传播</span></span><br><span class="line">    loss.backward()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更新权重</span></span><br><span class="line">    optimizer.step()</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 预测</span></span><br><span class="line">_, pred_train = model(X_train, apply_softmax=<span class="keyword">True</span>).max(dim=<span class="number">1</span>)</span><br><span class="line">_, pred_test = model(X_test, apply_softmax=<span class="keyword">True</span>).max(dim=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 训练集和测试集的准确率</span></span><br><span class="line">train_acc = get_accuracy(y_pred=pred_train, y_target=y_train)</span><br><span class="line">test_acc = get_accuracy(y_pred=pred_test, y_target=y_test)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"train acc: &#123;0:.1f&#125;%, test acc: &#123;1:.1f&#125;%"</span>.format(train_acc, test_acc))</span><br><span class="line"><span class="comment"># 可视化</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_multiclass_decision_boundary</span><span class="params">(model, X, y)</span>:</span></span><br><span class="line">    x_min, x_max = X[:, <span class="number">0</span>].min() - <span class="number">0.1</span>, X[:, <span class="number">0</span>].max() + <span class="number">0.1</span></span><br><span class="line">    y_min, y_max = X[:, <span class="number">1</span>].min() - <span class="number">0.1</span>, X[:, <span class="number">1</span>].max() + <span class="number">0.1</span></span><br><span class="line">    xx, yy = np.meshgrid(np.linspace(x_min, x_max, <span class="number">101</span>), np.linspace(y_min, y_max, <span class="number">101</span>))</span><br><span class="line">    cmap = plt.cm.Spectral</span><br><span class="line">    </span><br><span class="line">    X_test = torch.from_numpy(np.c_[xx.ravel(), yy.ravel()]).float()</span><br><span class="line">    y_pred = model(X_test, apply_softmax=<span class="keyword">True</span>)</span><br><span class="line">    _, y_pred = y_pred.max(dim=<span class="number">1</span>)</span><br><span class="line">    y_pred = y_pred.reshape(xx.shape)</span><br><span class="line">    plt.contourf(xx, yy, y_pred, cmap=plt.cm.Spectral, alpha=<span class="number">0.8</span>)</span><br><span class="line">    plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], c=y, s=<span class="number">40</span>, cmap=plt.cm.RdYlBu)</span><br><span class="line">    plt.xlim(xx.min(), xx.max())</span><br><span class="line">    plt.ylim(yy.min(), yy.max())</span><br><span class="line"><span class="comment"># 可视化决策边界</span></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>,<span class="number">5</span>))</span><br><span class="line">plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">plt.title(<span class="string">"Train"</span>)</span><br><span class="line">plot_multiclass_decision_boundary(model=model, X=X_train, y=y_train)</span><br><span class="line">plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">plt.title(<span class="string">"Test"</span>)</span><br><span class="line">plot_multiclass_decision_boundary(model=model, X=X_test, y=y_test)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>可视化边界：对于非线性数据的分类</p>
+<p><img src="/2019/09/16/MLP/mlp.png" alt="mlp"></p>
+<p>还有其他的许多激活函数（在此处使用了ReLU()）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用法</span></span><br><span class="line"><span class="comment"># 数据</span></span><br><span class="line">x = torch.arange(<span class="number">-5.</span>, <span class="number">5.</span>, <span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Sigmoid 函数(将值限定在0到1之间.)</span></span><br><span class="line">y = torch.sigmoid(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Tanh 函数(将值限定在-1 到 1 之间)</span></span><br><span class="line">y = torch.tanh(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Relu 函数(将负值归零处理)</span></span><br><span class="line">y = F.relu(x)</span><br></pre></td></tr></table></figure>
+<p>Sigmoid:</p>
+<ul>
+<li>$f(x)=\frac{1}{1+e^{-x}}$</li>
+<li>梯度消失 (vanishing gradients)：当输入非常大或者非常小的时候，当前神经元的梯度接近于0，会导致整个网络的性能变差</li>
+<li>输出均值不是0， 会导致由正输入计算出的梯度永远为正，按batch训练的话可以缓解这个问题</li>
+</ul>
+<p>tanh:</p>
+<ul>
+<li>$tanh(x)=2sigmoid(2x)-1$</li>
+<li>均值为0，但仍有梯度消失的问题</li>
+</ul>
+<p>ReLU:</p>
+<ul>
+<li><p>$f(x)=max(0,x)$</p>
+</li>
+<li><p>当输入小于0时，输出都是0，输入大于0的情况下，输出等于输入</p>
+</li>
+<li><p>优点：只需要一个阈值就可以得到激活</p>
+<p>​            而且在使用随机梯度下降算法中收敛速度很快</p>
+</li>
+<li><p>缺点：如果一个非常大的梯度流过ReLU那这个神经元，这个神经元的梯度将永远是0</p>
+</li>
+</ul>
+<p>过拟合问题处理：</p>
+<p>解决过拟合的一个非常好的方法是增加数据的数量，不过这个方法并不一直可行。幸运的是我们还有正则化和添加 dropout 等策略来增加模型的鲁棒性。我们已经学到了正则化操作而且，它可以被非常方便地加入到优化器部分的代码中。</p>
+<p>Dropout 是(只在训练过程中)将一些神经元的输出归零的技巧。我们将它应用在每层总数 p% 的神经元，并在每个训练批次更改 p 值。Dropout 防止神经元过于依赖训练数据，并且只是作为一种采样方法，毕竟每次会删掉不同的神经元。</p>
+<p><img src="https://cdn.kesci.com/upload/image/pk2rc87t54.png?imageView2/0/w/640/h/640" alt="Image Name"></p>
+<p>代码实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 参数</span></span><br><span class="line">args.dropout_p = <span class="number">0.1</span> <span class="comment"># 40% of the neurons are dropped each pass</span></span><br><span class="line">args.lambda_l2 = <span class="number">1e-4</span> <span class="comment"># L2 regularization</span></span><br><span class="line"><span class="comment"># MLP·</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MLP</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, input_dim, hidden_dim, output_dim, dropout_p)</span>:</span></span><br><span class="line">        super(MLP, self).__init__()</span><br><span class="line">        self.fc1 = nn.Linear(input_dim, hidden_dim)</span><br><span class="line">        self.dropout = nn.Dropout(dropout_p) <span class="comment"># Defining the dropout</span></span><br><span class="line">        self.fc2 = nn.Linear(hidden_dim, output_dim)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_weights</span><span class="params">(self)</span>:</span></span><br><span class="line">        init.xavier_normal(self.fc1.weight, gain=nn.init.calculate_gain(<span class="string">'relu'</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x_in, apply_softmax=False)</span>:</span></span><br><span class="line">        z = F.relu(self.fc1(x_in))</span><br><span class="line">        z = self.dropout(z) <span class="comment"># dropping neurons</span></span><br><span class="line">        y_pred = self.fc2(z)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> apply_softmax:</span><br><span class="line">            y_pred = F.softmax(y_pred, dim=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> y_pred</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 初始化模型</span></span><br><span class="line">model = MLP(input_dim=args.dimensions, </span><br><span class="line">            hidden_dim=args.num_hidden_units, </span><br><span class="line">            output_dim=args.num_classes, </span><br><span class="line">            dropout_p=args.dropout_p)</span><br><span class="line"><span class="keyword">print</span> (model.named_modules)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 优化</span></span><br><span class="line">loss_fn = nn.CrossEntropyLoss()</span><br><span class="line">optimizer = optim.Adam(model.parameters(), lr=args.learning_rate, </span><br><span class="line">                       weight_decay=args.lambda_l2) <span class="comment"># Adding L2 regularization</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line"><span class="keyword">pass</span><span class="comment">#同上</span></span><br></pre></td></tr></table></figure>
+<h5 id="前馈结构"><a href="#前馈结构" class="headerlink" title="前馈结构"></a>前馈结构</h5><p>是最简单的神经网络结构。它包含了安排在多个层中的多个节点（神经元），相邻层的节点有连接或者边（edge），所有的连接都配有权重，下图是一个很typical的前馈神经网络。</p>
+<p><img src="/2019/09/16/MLP/前馈结构.png" alt="前馈结构"></p>
+<p>我们可以看到网络被划分成为了三个区域：最左边的输入层，中间的隐藏层，和最右侧的输出层。简单来说，输入层(input layer)负责获取外部信息, 需要注意的是，这里不会进行计算，只是向隐藏层传递信息。隐藏层(hidden layer)则负责大部分的计算，但其实一个前馈网络中，可以有多个，也可以没有隐藏层。输出层(output layer)负责一部分计算，并会向外界传递信息。</p>
+<p> 信息只作单向移动,从输入层开始前向移动，然后通过隐藏层，再到输出层，网络中没有循环或回路</p>
+<h5 id="多层感知机"><a href="#多层感知机" class="headerlink" title="多层感知机"></a><strong>多层感知机</strong></h5><p>MLP至少包含了一个隐藏层，且可以学习非线性函数。是一个三层结构</p>
+<p><strong>简单训练模式（直接调用）</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.neural_network <span class="keyword">import</span> MLPClassifier</span><br><span class="line">mlp = MLPClassifier(hidden_layer_sizes=(<span class="number">12</span>,<span class="number">12</span>,<span class="number">12</span>),max_iter=<span class="number">500</span>)</span><br><span class="line">mlp.fit(X_train,y_train)</span><br></pre></td></tr></table></figure>
+<p><strong>模型评估：</strong></p>
+<p> SciKit-Learn 自带的评估方法，如分类报告（classification report）和混淆矩阵（confusion matrix）来评估模型的性能</p>
+<p>参考资料：</p>
+<p><a href="https://www.kesci.com/home/project/5c20e1d532df80002c732205" target="_blank" rel="noopener">Practical AI 机器学习实践–08. 多层感知机</a></p>
+<p><a href="https://www.kesci.com/home/project/5a4f33596fe91734062efc4c" target="_blank" rel="noopener">浅谈MLP(多层感知机)和实践</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/学习/courses/机器学习-吴恩达/" rel="next" title="机器学习-吴恩达">
+                <i class="fa fa-chevron-left"></i> 机器学习-吴恩达
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/20/试图理解bert/" rel="prev" title="试图理解bert">
+                试图理解bert <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#多层感知机-Multilayer-Perceptron-MLP"><span class="nav-number">1.</span> <span class="nav-text">多层感知机 Multilayer Perceptron (MLP)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Overview"><span class="nav-number">1.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#训练"><span class="nav-number">1.2.</span> <span class="nav-text">训练</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#项目相关代码"><span class="nav-number">1.3.</span> <span class="nav-text">项目相关代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#前馈结构"><span class="nav-number">1.4.</span> <span class="nav-text">前馈结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#多层感知机"><span class="nav-number">1.5.</span> <span class="nav-text">多层感知机</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

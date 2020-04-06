@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="文章提出了Transformer模型，完全依赖于Attention机制，没有使用RNN或者CNN模型基础，在模型效果及计算量方面都有不错的提升  使用Attention  之前的模型都不能很好地实现对文本序列的并行处理，这极大地阻碍了模型的运行时间，而且当文本序列较长时，一方面是记忆长度被限制，另一方面运算的复杂度也会大幅上升 RNN模型即循环模型由于增加了输入数据记忆的模块，只能有顺序地训练序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Attention-is-all-you-need">
+<meta property="og:url" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="文章提出了Transformer模型，完全依赖于Attention机制，没有使用RNN或者CNN模型基础，在模型效果及计算量方面都有不错的提升  使用Attention  之前的模型都不能很好地实现对文本序列的并行处理，这极大地阻碍了模型的运行时间，而且当文本序列较长时，一方面是记忆长度被限制，另一方面运算的复杂度也会大幅上升 RNN模型即循环模型由于增加了输入数据记忆的模块，只能有顺序地训练序">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/整体结构（6个）.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/简单结构示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/Transformer.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/dot-product.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/multi-head.png">
+<meta property="og:updated_time" content="2019-12-15T07:43:23.268Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Attention-is-all-you-need">
+<meta name="twitter:description" content="文章提出了Transformer模型，完全依赖于Attention机制，没有使用RNN或者CNN模型基础，在模型效果及计算量方面都有不错的提升  使用Attention  之前的模型都不能很好地实现对文本序列的并行处理，这极大地阻碍了模型的运行时间，而且当文本序列较长时，一方面是记忆长度被限制，另一方面运算的复杂度也会大幅上升 RNN模型即循环模型由于增加了输入数据记忆的模块，只能有顺序地训练序">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/F:/blog/source/_posts/论文/Attention-is-all-you-need/整体结构（6个）.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Attention-is-all-you-need | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/13/论文/Attention-is-all-you-need/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Attention-is-all-you-need
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-13 16:57:22" itemprop="dateCreated datePublished" datetime="2019-12-13T16:57:22+08:00">2019-12-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-15 15:43:23" itemprop="dateModified" datetime="2019-12-15T15:43:23+08:00">2019-12-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/papers/" itemprop="url" rel="index"><span itemprop="name">papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><p>文章提出了Transformer模型，完全依赖于Attention机制，没有使用RNN或者CNN模型基础，在模型效果及计算量方面都有不错的提升</p>
+</li>
+<li><p>使用Attention</p>
+<ul>
+<li>之前的模型都不能很好地实现对文本序列的并行处理，这极大地阻碍了模型的运行时间，而且当文本序列较长时，一方面是记忆长度被限制，另一方面运算的复杂度也会大幅上升</li>
+<li>RNN模型即循环模型由于增加了输入数据记忆的模块，只能有顺序地训练序列，后边的输出依赖于历史的输入——故不能实现对文本序列的并行处理，而只能顺序处理（即使一些对RNN模型的优化，也未能解决顺序处理这一大问题）<a id="more"></a></li>
+<li>CNN可以对文本序列进行并行处理，然后如果想要CNN可以获得当前时刻之前的输入序列，需要重叠很多很层，便也增加了模型的复杂性</li>
+<li>Attention机制可以并行地处理文本序列，故本文尝试仅依赖Attention机制进行模型的搭建</li>
+</ul>
+</li>
+<li><p>模型结构</p>
+<ul>
+<li><p>采用经典的encoder-decoder编码器-解码器结构，在Encoder中通过输入文本序列x经处理后可以得到一个连续的输出序列z，在decoder中输入序列z后，每一次output一个预测词，并将上一次的output作为下一次的输入参数输入模型继续进行预测。</p>
+</li>
+<li><p>模型结构如下</p>
+<ul>
+<li><p>整体结构（分别由6个编码和解码器构成）</p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\整体结构（6个）.png" alt="整体结构（6个）" style="zoom: 37%;"></p>
+</li>
+<li><p>每一个编码器和解码器的简单结构示意图</p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\简单结构示意图.png" alt="简单结构示意图" style="zoom: 50%;"></p>
+</li>
+<li><p>详细的结构图</p>
+</li>
+</ul>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\Transformer.png" alt="Transformer" style="zoom: 50%;"></p>
+</li>
+<li><p>Encoder and Decoder Stacks Encoder</p>
+<ul>
+<li>Encoder: 由6个相同的层结构组成，每一层有两个子层，分别是multi-head self-attention和简单的全连接前馈网络，在每个子层的输出后面还添加了add和normalization操作，即输出为$LayerNorm(x+Sublayer(x))$，在原始输入的基础上加上经过子层处理之后的值，最后通过LN标准化处理，由于要相加，故将模型子层处理和embedding层中的向量维度都固定为512维</li>
+<li>Decoder：解码器与编码器类似，同样由6个完全相同的层构成，其每个层包含三个子层，出来编码器中的两个子层外，额外添加了一个处理编码器输出数据的multi-head attention层，在每个子层后同样添加了add和标准化操作。在标准multi-head层上添加了sequence mask操作，确保预测位置i的时候仅仅依赖于位置小于i的输出，确保预测第i个位置时不会接触到未来的信息。</li>
+</ul>
+</li>
+<li><p>Attention</p>
+<ul>
+<li><p>文章对普通的Multi-attention做了改进</p>
+</li>
+<li><p>Scaled Dot-Product Attention（点乘）</p>
+<ul>
+<li><p>结构如图</p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\dot-product.png" alt="dot-product" style="zoom: 50%;"></p>
+</li>
+<li><p>输入由queries,keys,values组成</p>
+</li>
+<li><p>$Attention(Q,K,V)=softmax(\frac{QK^T}{\sqrt{d_k}})V$</p>
+</li>
+<li><p>在attention机制中，additive attention和 dot-product attention值通常最常用的，之所以采用点乘是因为其可以通过矩阵进行运算，在实际应用中计算速度更快</p>
+</li>
+<li><p>padding mask因为每个批次输入序列长度是不一样的，也就是说，我们要对输入序列进行对齐。具体来说，就是给在较短的序列后面填充 0。但是如果输入的序列太长，则是截取左边的内容，把多余的直接舍弃。</p>
+</li>
+</ul>
+</li>
+<li><p>Multi-Head Attention</p>
+<ul>
+<li><p>结构如图</p>
+<p><img src="/2019/12/13/论文/Attention-is-all-you-need/F:/blog\source\_posts\论文\Attention-is-all-you-need\multi-head.png" alt="multi-head" style="zoom:50%;"></p>
+</li>
+<li><p>其中包含了前面的点乘attention操作，multi-head即采用不同的参数对Q,K,V重复进行h次投影，再进行后续处理，可以学习到不同的特征</p>
+</li>
+<li><p>concat将多次的投影的点乘计算的结果连接在一起：$MultiHead(Q,K,V)=Concat(head_1,\dots,head_h)W^O\head_i=Attention(QW_i^Q,KW_i^K,VW_i^V)$</p>
+</li>
+</ul>
+</li>
+<li><p>Transformer一共在三个地方用到了Attention</p>
+<ul>
+<li>encoder-decoder attention层：输入为encoder的输出和decoder的self-attention输出，其中encoder的self-attention作为 key and value，decoder的self-attention作为query。</li>
+<li>encoder层：输入的K，V，Q均来自于encoder中上一层的输出，即input embedding 和positional embedding的输出</li>
+<li>decoder层：输入的K，V，Q均来自于decoder中input embedding 和positional embedding的输出</li>
+</ul>
+</li>
+<li><p>在一般的attention模型中，Q是decoder的隐层，K是encoder的隐层，V也是encoder的隐层。所谓的self-attention就是取Q，K，V相同，均为encoder或者decoder的input embedding and positional embedding，更具体为“网络输入是三个相同的向量q, k和v，是word embedding和position embedding相加得到的结果”</p>
+</li>
+<li><p>Transformer注意力机制有效的解释：Transformer所使用的注意力机制的核心思想是去计算一句话中的每个词对于这句话中所有词的相互关系，然后认为这些词与词之间的相互关系在一定程度上反应了这句话中不同词之间的关联性以及重要程度。因此再利用这些相互关系来调整每个词的重要性（权重）就可以获得每个词新的表达。这个新的表征不但蕴含了该词本身，还蕴含了其他词与这个词的关系，因此和单纯的词向量相比是一个更加全局的表达。使用了Attention机制，将序列中的任意两个位置之间的距离缩小为一个常量。</p>
+</li>
+</ul>
+</li>
+<li><p>Position-wise Feed-Forward Networks</p>
+<ul>
+<li>位置全连接的前馈网络，是 MLP的变形</li>
+<li>包含两个线性变化和一个ReLU激活函数（在两个线性变化的中间层）</li>
+</ul>
+</li>
+<li><p>Embeddings and Softmax</p>
+<ul>
+<li>用emdedding 将输入的序列转换为向量</li>
+<li>用softmax将解码器的输出转换为下一个词的概率大小</li>
+</ul>
+</li>
+<li><p>Positional Encoding</p>
+<ul>
+<li>由于Transformer模型没有循环和卷积，故需要人为添加其位置信息</li>
+<li>使用不同频率的sin和cos函数来对不同的位置进行模拟<ul>
+<li>$PE_{(pos,2i)}=sin(pos/10000^{2i/d_{model}})\PE_{(pos,2i+1)}=cos(pos/10000^{2i/d_{model}})$</li>
+</ul>
+</li>
+<li>其实直接加经过学习的positional embedding加入模型进行训练的效果与本文位置编码 效果差不多，但是由于Positional encoding的两个优点<ul>
+<li>任意位置的$PE_{pos+k}$都可以用$PE_{pos}$的线性函数来表示（三角函数的代换），可以对单词之间的相对位置信息进行刻画</li>
+<li>如果通过直接学习positional embedding，会像词向量一样受限于词典的大小， 而用encoding就可以不受序列长度的限制，可以对 比遇到的序列长度更长的序列 进行表示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Training</p>
+<ul>
+<li>数据与Batching</li>
+<li>硬件与Schedule</li>
+<li>优化器<ul>
+<li>Adam</li>
+</ul>
+</li>
+<li>正则化<ul>
+<li>Residual Dropout：在add和标准化之前，对每个子层都进行dropout操作；在embedding和位置编码相加后的结果上也进行dropout操作</li>
+<li>Label Smoothing：在训练的过程中添加label smoothing，会增加复杂性但是准确率会上升</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Transformer 的实现代码</p>
+<ul>
+<li><a href="https://github.com/Kyubyong/transformer" target="_blank" rel="noopener">https://github.com/Kyubyong/transformer</a></li>
+<li><a href="https://blog.csdn.net/mijiaoxiaosan/article/details/74909076" target="_blank" rel="noopener">机器翻译模型Transformer代码详细解析</a></li>
+</ul>
+</li>
+</ul>
+<p>参考学习：</p>
+<p><a href="https://blog.csdn.net/Sakura55/article/details/86679826" target="_blank" rel="noopener">深度学习—-Transformer模型之图示进阶篇</a></p>
+<p><a href="https://blog.csdn.net/u012526436/article/details/86295971" target="_blank" rel="noopener">Transformer模型详解</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/06/HMM相关专题/" rel="next" title="HMM相关专题">
+                <i class="fa fa-chevron-left"></i> HMM相关专题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/" rel="prev" title="word2vec-Parameter-Learning-Explained">
+                word2vec-Parameter-Learning-Explained <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

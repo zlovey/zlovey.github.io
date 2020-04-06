@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="——对自己代码及参赛经历的总结  大概题目为网站点击率预测相关，文本分类，主要用了长度特征、分组特征、点击特征、统计特征，文本距离，tfidf及word2vec等特征，由于第一次参加，只胡乱把所有特征都放在一起，也没有做过多的筛选，如果做了筛选应该结果还会更好一点。 有些特征的实现计算其实有多种方式，有的可能效果会稍好一些，还需要进一步研究。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高校杯之复盘（上）">
+<meta property="og:url" content="http://yoursite.com/2019/08/12/竞赛总结/高校杯之复盘（上）/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="——对自己代码及参赛经历的总结  大概题目为网站点击率预测相关，文本分类，主要用了长度特征、分组特征、点击特征、统计特征，文本距离，tfidf及word2vec等特征，由于第一次参加，只胡乱把所有特征都放在一起，也没有做过多的筛选，如果做了筛选应该结果还会更好一点。 有些特征的实现计算其实有多种方式，有的可能效果会稍好一些，还需要进一步研究。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/08/12/竞赛总结/高校杯之复盘（上）/2019/08/12/竞赛总结/高校杯之复盘（上）/1.png">
+<meta property="og:updated_time" content="2019-09-11T11:15:16.906Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高校杯之复盘（上）">
+<meta name="twitter:description" content="——对自己代码及参赛经历的总结  大概题目为网站点击率预测相关，文本分类，主要用了长度特征、分组特征、点击特征、统计特征，文本距离，tfidf及word2vec等特征，由于第一次参加，只胡乱把所有特征都放在一起，也没有做过多的筛选，如果做了筛选应该结果还会更好一点。 有些特征的实现计算其实有多种方式，有的可能效果会稍好一些，还需要进一步研究。">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/12/竞赛总结/高校杯之复盘（上）/2019/08/12/竞赛总结/高校杯之复盘（上）/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/12/竞赛总结/高校杯之复盘（上）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>高校杯之复盘（上） | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/竞赛总结/高校杯之复盘（上）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">高校杯之复盘（上）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-12 19:39:54" itemprop="dateCreated datePublished" datetime="2019-08-12T19:39:54+08:00">2019-08-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-11 19:15:16" itemprop="dateModified" datetime="2019-09-11T19:15:16+08:00">2019-09-11</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>——对自己代码及参赛经历的总结</p>
+<ol>
+<li><h5 id="大概"><a href="#大概" class="headerlink" title="大概"></a>大概</h5><p>题目为网站点击率预测相关，文本分类，主要用了长度特征、分组特征、点击特征、统计特征，文本距离，tfidf及word2vec等特征，由于第一次参加，只胡乱把所有特征都放在一起，也没有做过多的筛选，如果做了筛选应该结果还会更好一点。</p>
+<p>有些特征的实现计算其实有多种方式，有的可能效果会稍好一些，还需要进一步研究。<a id="more"></a></p>
+<p>在写的时候由于基础不牢，很多语句功能自己想要实现，却各种报错，然后再一个一个从数据类型开始查。</p>
+<p>有些语法虽然完成了基本操作，但是比如index这些比较细节但是也很重要的东西，常常都考虑不到，还需要再多看看大佬的代码学习学习。</p>
+</li>
+<li><h5 id="文本分类"><a href="#文本分类" class="headerlink" title="文本分类"></a>文本分类</h5><p>本次比赛中主要用到的文本分类特征，提供query用户搜索的关键字及title网页提供的词条标题，根据用户的历史点击数据来预测将来得点击数据。数据已完全进行脱敏处理和分词：</p>
+<p>数据分析及清洗：文本一般先去停用词并进行分词；然后查看缺失值等（未进行，故不太了解）</p>
+</li>
+</ol>
+<p>   统计特征：max, min, np.mean, np.std（标准差）；分词后进行相似度比较形成列表形式，可以取统计特征；</p>
+<p>   语义特征：tfidf；Word2vec词向量特征；N-gram（与顺序相关）；lsa潜在语义分析（将词和文档映射到潜在语义空间，从而去除了原始向量空间中的一些“噪音”，提高了信息检索的精确度）（文本特征）</p>
+<p>   相似度特征：长度特征（长度的比值）；点击特征（点击率特征）；距离特征（莱文斯坦；杰卡德；余弦距离）；分组后unique特征（频率——听说是关键特征？）；query是否在title中；</p>
+<p>   模型：lgb模型，交叉验证；融合nn（未进行，听说融合nn收益较大）</p>
+<p>   特征选择：lgb-importance；卡方验证；互信息大小；pca主成分</p>
+<p>   有的特征实现有多种方法，收益不一，估计还需要多多进行尝试</p>
+<ol start="3">
+<li><h5 id="数据处理流程"><a href="#数据处理流程" class="headerlink" title="数据处理流程"></a>数据处理流程</h5><img src="/2019/08/12/竞赛总结/高校杯之复盘（上）/2019/08/12/竞赛总结/高校杯之复盘（上）/1.png" title="一">
+<p>数据分析：1）训练集和测试集是否同分布、怎样划分本地验证集使其与线上分布一致</p>
+<p>​                    2）字段类型、分布与缺失情况、标签含义、背景、评价指标</p>
+<p>数据清洗：1）尽量剔除噪音</p>
+<p>​                    2）数据缺失</p>
+<p>​                    3）数据特征与类别特征的编码</p>
+<p>特征工程：1）特征要反应数据的分布规律</p>
+<p>​                    2）不同的数据类型，需要不同的处理方式</p>
+<p>​                    3）注意leak特征及交叉特征 </p>
+<p>​                    4）特征是否有效，必须经过验证集测试 </p>
+<p>​                    PS：提取的特征不能改变数据的分布；提取特征的代码应该高效，尽量优化；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">数值特征：截断、二值化、分箱、缩放、归一化、非线性编码和统计值等；</span><br><span class="line">类别特征：自然数编码、Onehot编码、计数编码和目标编码等；</span><br><span class="line">时间特征：节假日编码、秒/分/小时信息、周期信息和滞后特征；</span><br><span class="line">空间特征：经纬度均值、位置聚类、欧式距离和曼哈顿距离等特征；</span><br><span class="line">文本特征：ngram特征、TF-IDF特征、LSA和Word2Vec等特征；</span><br><span class="line">图像特征：SIFT特征、BOF特征和CNN特征；</span><br></pre></td></tr></table></figure>
+<p>按照数据处理的流程，先进行数据分析与清理，在进行特征工程，避免重复浪费时间</p>
+</li>
+<li><h5 id="遇到的一些问题"><a href="#遇到的一些问题" class="headerlink" title="遇到的一些问题"></a>遇到的一些问题</h5><ul>
+<li>对整个比赛的时间把控不行，到最后差点没时间提交结果</li>
+<li>很多特征做了其实并没有真正应用：不能老是想着什么就去做什么，到头来啥都没做出来——可以把想法统一写在一起，如果有时间筛选实现，没有时间就算了，不要什么都做了一点，然后又什么都没做出来</li>
+<li>细心一点，有的特征跑了很久，保存错了，又得重来，真的很很很浪费时间</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/22/metrics的评估方法-模型评估/" rel="next" title="metrics的评估方法-模型评估">
+                <i class="fa fa-chevron-left"></i> metrics的评估方法-模型评估
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/02/竞赛总结/高校杯之复盘（下）/" rel="prev" title="高校杯之复盘（下）">
+                高校杯之复盘（下） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#大概"><span class="nav-number">1.</span> <span class="nav-text">大概</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文本分类"><span class="nav-number">2.</span> <span class="nav-text">文本分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据处理流程"><span class="nav-number">3.</span> <span class="nav-text">数据处理流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#遇到的一些问题"><span class="nav-number">4.</span> <span class="nav-text">遇到的一些问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

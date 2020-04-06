@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="章节1   绪论：初识机器学习 课时1  欢迎参加《机器学习》课程  课时2  什么是机器学习？  课时3  监督学习  课时4  无监督学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习-吴恩达">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="章节1   绪论：初识机器学习 课时1  欢迎参加《机器学习》课程  课时2  什么是机器学习？  课时3  监督学习  课时4  无监督学习">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/model.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/cost_function.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/2dcost_function.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/high_cost_function.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/learning_rate.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/BGD_SGD.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/BGD_SGD_costfunction.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/linear_regression.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/scaling.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/正规方程.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/sigmoid.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/决策边界.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/logistic-cost1.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/overfitting.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/nn1.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/OR.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/XOR.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/ffp.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/bpp.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/BP.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/high-bias.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/high%20variance.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/svm-cost.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/svm-decision_boundary.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/k_means_local_optima.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/kmeans-elbow.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/kmeans-albow2.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/LR-PCA.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/pca.png">
+<meta property="og:updated_time" content="2019-11-19T12:34:23.492Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习-吴恩达">
+<meta name="twitter:description" content="章节1   绪论：初识机器学习 课时1  欢迎参加《机器学习》课程  课时2  什么是机器学习？  课时3  监督学习  课时4  无监督学习">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog/source/_posts/学习/courses/机器学习-吴恩达/model.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习-吴恩达 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习-吴恩达
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-10 19:50:39" itemprop="dateCreated datePublished" datetime="2019-09-10T19:50:39+08:00">2019-09-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-19 20:34:23" itemprop="dateModified" datetime="2019-11-19T20:34:23+08:00">2019-11-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/course笔记/" itemprop="url" rel="index"><span itemprop="name">course笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h6 id="章节1-绪论：初识机器学习"><a href="#章节1-绪论：初识机器学习" class="headerlink" title="章节1   绪论：初识机器学习"></a>章节1   绪论：初识机器学习</h6><ul>
+<li>课时1  欢迎参加《机器学习》课程 </li>
+<li>课时2  什么是机器学习？ </li>
+<li>课时3  监督学习 </li>
+<li>课时4  无监督学习 <a id="more"></a></li>
+</ul>
+<hr>
+<h6 id="章节2-单变量线性回归-univariate-linear-regression"><a href="#章节2-单变量线性回归-univariate-linear-regression" class="headerlink" title="章节2   单变量线性回归(univariate linear regression)"></a>章节2   单变量线性回归(univariate linear regression)</h6><ul>
+<li><p>Notation 一些符号:</p>
+<ul>
+<li>m=Number of training examples</li>
+<li>x=”input” variable /features</li>
+<li>y=”output”variable/“target”variable</li>
+<li>(x,y)=one training example</li>
+<li>($x^i$,$y^i$)=$i^{th}$ training example</li>
+</ul>
+</li>
+<li><p>model</p>
+<ul>
+<li>模型结构</li>
+</ul>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\model.png" alt="model"></p>
+</li>
+<li><p>Hypothesis 假设函数（$\theta$为变量，是关于x的函数）</p>
+</li>
+</ul>
+<p>$$<br>h_\theta(x)=\theta_0+\theta_1x<br>$$</p>
+<ul>
+<li><p>cost function 代价函数（m是训练集容量，是关于$\theta$的函数）</p>
+<ul>
+<li><p>平方误差函数（squared error function）– 最常用的cost function</p>
+<ul>
+<li>$J(\theta_0,\theta_1)=\frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x^i)-y^i)^2$</li>
+</ul>
+</li>
+<li>交叉熵函数  –  常用的逻辑回归的损失函数<ul>
+<li>$J(\theta)=-\sum_{i}y_i\ln(\hat{y_i})$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Goal: $min_{\theta_0,\theta_1}J(\theta_0,\theta_1)$</p>
+</li>
+<li><p>Hypothesis 与 cost function（混合着老师笔记的图）</p>
+<ul>
+<li><p>with only one parameter $\theta_1$ 斜率<img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\cost_function.png" alt="cost_function"></p>
+</li>
+<li><p>with more parameters $\theta_0$ and $\theta_{1}$ </p>
+<ul>
+<li>2d图像（类似一个碗，碗底即为最小的cost function）</li>
+</ul>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\2dcost_function.png" alt="2dcost_function"></p>
+<ul>
+<li><p>等高线图（右图cost function最中间的点即为最小的cost function）</p>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\high_cost_function.png" alt="high_cost_function"></p>
+</li>
+</ul>
+</li>
+<li><p>with more and more parameters $\theta_0$ , $\theta_{1}$ , $\theta_{2}$ ……</p>
+<ul>
+<li>……需要机器来帮助我们寻找最小的cost function对应的参数值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Gradient descent 梯度下降</p>
+<ul>
+<li><p>Start with some  $\theta_0$ , $\theta_{1}$ ( 如：$\theta_0=0$ , $\theta_{1}=0$ )</p>
+</li>
+<li><p>Keep changing  $\theta_0$ , $\theta_{1}$ to reduce  $J(\theta_0, \theta_{1})$ until we hopefully end up at a minimum</p>
+</li>
+<li><p>with: repeat until convergence（收敛）{<br>$$<br>\theta_j:=\theta_j-\alpha\frac{𝜕}{𝜕\theta_j}J(\theta_0, \theta_{1}) \quad(for\quad j=0\quad and\quad j=1)<br>$$<br>}</p>
+<p>注意需要同时更新$\theta_0, \theta_{1}$</p>
+</li>
+<li><p>$\alpha$为学习率，决定每次梯度下降的幅度大小</p>
+<ul>
+<li><p>$\alpha$如果太小，梯度下降会很慢</p>
+</li>
+<li><p>$\alpha$如果太大，梯度下降容易降过了</p>
+</li>
+<li><p>如图所示：上图学习率过小；下图学习率过大</p>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\learning_rate.png" alt="learning_rate"></p>
+</li>
+<li><p>梯度下降会随着越接近最低点，下降越慢——因为越接近最低点，斜率会越小，即梯度会越小，故下降的幅度也会减缓（因此一般不必改变$\alpha$学习率）</p>
+</li>
+</ul>
+</li>
+<li><p>从微略不同的起点出发可能会得到完全不同的局部最佳点</p>
+</li>
+<li><p>Batch Gradient descent（批梯度下降，BGD）:每一次梯度下降时都用到了所有的训练集，一次迭代训练所有样本</p>
+<ul>
+<li>优点：理想状态下经过足够多的迭代后可以达到全局最优。</li>
+<li>缺点：当数据集非常大时，根本没法全部塞到内存（显存）里；而且因为每次迭代都要计算全部的样本，所以对于大数据量会非常的慢。</li>
+</ul>
+</li>
+<li><p>Mini-batch gradient descent：每次用一部分样本来更新参数，即 batch_size</p>
+<ul>
+<li>若batch_size=1 则变成了SGD，若batch_size=m 则变成了batch gradient descent</li>
+<li>batch_size通常设置为2的幂次方</li>
+</ul>
+</li>
+<li><p>stochastic gradient descent（SGD）：每次只训练一个样本去更新参数</p>
+<ul>
+<li>因为每次只用一个样本来更新参数，会导致不稳定性较大，每次更新的方向，不像batch gradient descent那样都朝着最优点的方向逼近，会在最优点附近震荡。</li>
+<li>因为每次训练的都是随机的一个样本，会导致导致梯度的方向不会像BGD那样朝着最优点。 </li>
+<li>代码中的随机把数据打乱很重要，因为这个随机性相当于引入了“噪音”，正是因为这个噪音，使得SGD可能会避免陷入局部最优解中。</li>
+</ul>
+</li>
+<li><p>训练示意图比较<img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\BGD_SGD.png" alt="BGD_SGD"></p>
+</li>
+<li><p>cost function比较<img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\BGD_SGD_costfunction.png" alt="BGD_SGD_costfunction"></p>
+</li>
+</ul>
+</li>
+<li><p>线性回归Linear regression</p>
+<ul>
+<li>即将cost function的公式代入到梯度下降中：<img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\linear_regression.png" alt="linear_regression"></li>
+<li>线性回归的代价函数总是一个凸函数</li>
+<li>对于凸函数（convex function）梯度下降总能达到全局最优的最低值，因为没有其他的局部最优解</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节3-线性代数回顾"><a href="#章节3-线性代数回顾" class="headerlink" title="章节3   线性代数回顾"></a>章节3   线性代数回顾</h6><ul>
+<li><p>矩阵与向量</p>
+<ul>
+<li>矩阵二维x<em>y;向量一维n\</em>1</li>
+<li>矩阵常用大写字母表示；向量用小写字母表示</li>
+</ul>
+</li>
+<li><p>一维假设的计算：</p>
+<ul>
+<li><p>$h_\theta(x)=-40+0.25x$</p>
+</li>
+<li><p>House sizes(x):  2104</p>
+<p>​                            1416</p>
+<p>​                            1534    </p>
+<p>​                            852</p>
+</li>
+<li><p>change into a matrix computation: 乘积即为对应的y值</p>
+<p>$$\left[<br> \begin{matrix}<br>   1 &amp; 2104 \<br>   1 &amp; 1416 \<br>   1 &amp; 1534 \<br>   1 &amp; 852<br>  \end{matrix}<br>  \right]<br>  *<br> \left[<br> \begin{matrix}<br>   -40 \<br>   0.25<br>  \end{matrix}<br>  \right]$$</p>
+</li>
+</ul>
+</li>
+<li><p>二维假设的计算：</p>
+<ul>
+<li><p>$h_\theta(x)=-40+0.25x$</p>
+<p>$h_\theta(x)=-200+0.1x$</p>
+<p>$h_\theta(x)=-150+0.4x$</p>
+</li>
+<li><p>House sizes(x):  2104</p>
+<p>​                            1416</p>
+<p>​                            1534    </p>
+<p>​                            852</p>
+</li>
+<li><p>change into a matrix computation: 乘积即为对应的y值</p>
+<p>$\left[<br> \begin{matrix}<br>   1 &amp; 2104 \<br>   1 &amp; 1416 \<br>   1 &amp; 1534 \<br>   1 &amp; 852<br>  \end{matrix}<br>  \right]<br>  *<br> \left[<br> \begin{matrix}<br>   -40 &amp; 200 &amp; -150\<br>   0.25 &amp; 0.1 &amp; 0.4<br>  \end{matrix}<br>  \right]$</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节5-多变量线性回归"><a href="#章节5-多变量线性回归" class="headerlink" title="章节5   多变量线性回归"></a>章节5   多变量线性回归</h6><ul>
+<li><p>Hypothesis:</p>
+<ul>
+<li>$h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n$($x_0=1$)</li>
+<li>$x=\left[<br> \begin{matrix}<br>   x_0 \<br>   x_1 \<br>   x_2 \<br>   \vdots \<br>   x_n   \end{matrix}<br>  \right]$          $\theta=\left[<br> \begin{matrix}<br>   \theta_0 \<br>   \theta_1 \<br>   \theta_2 \<br>   \vdots \<br>   \theta_n   \end{matrix}<br>  \right]$</li>
+<li>Multivariate linear regression 多元线性回归:$h_\theta(x)=\theta^Tx$</li>
+</ul>
+</li>
+<li><p>Cost function:</p>
+<ul>
+<li>$J(\theta)=\frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2$</li>
+</ul>
+</li>
+<li><p>Gradient descent:</p>
+<ul>
+<li><p>Repeat{</p>
+<p>$\theta_j=\theta_j-\alpha\frac{\partial}{\partial\theta_j}J(\theta)$</p>
+<p>}</p>
+</li>
+</ul>
+</li>
+<li><p>Feature Scaling 特征缩放</p>
+<ul>
+<li>在梯度下降时如果多个特征维度的scale相差较大，则梯度下降的结果可能会很不准（等高度可能会呈现出一种狭长的扭曲形式）</li>
+<li>举例：<ul>
+<li>原参数值：$x_1=size(0-2000$ feet^2) ; $x_2=$number of bedrooms (1-5)</li>
+<li>特征缩放后：$x_1=\frac{size(feet^2)}{2000}$ ; $x_2=\frac{number \, of \, bedrooms}{5}$</li>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\scaling.png" alt="scaling"></li>
+</ul>
+</li>
+<li>一般来说保证feature在[-3,3],[-1/3,1/3]都不用调整scale</li>
+<li>均一化（使数据的均值为0）<ul>
+<li>$x_1=\frac{x_1-\mu_1}{s_1}$</li>
+<li>$\mu_1$是均值，$s_1$是范围，即最大减最小</li>
+</ul>
+</li>
+<li>特征缩放可以使训练速度加快，收敛所需的迭代次数更少</li>
+</ul>
+</li>
+<li><p>learning rate学习率</p>
+<ul>
+<li>$J(\theta)$如果没有随着迭代的次数增加而减少的话<ul>
+<li>选择较小的学习率</li>
+<li>只要学习率够小，损失函数总是会下降的</li>
+<li>but 学习率如果太小，可能会收敛的很慢很慢很慢</li>
+</ul>
+</li>
+<li>可以选择不同的学习率，通常可以以3倍为间隙，通过不同的学习率来寻找比较合理的学习率</li>
+</ul>
+</li>
+<li><p>有时定义一些新的特征会有更好的效果</p>
+</li>
+<li><p>训练方法</p>
+<ul>
+<li><p>梯度下降（迭代算法）</p>
+</li>
+<li><p>正规方程（normal equation）</p>
+<ul>
+<li><p>假设损失函数：$J(\theta)=a\theta^2+b\theta+c$</p>
+<ul>
+<li>则要使得$J(\theta)$最小，取求导等于0的点即可</li>
+</ul>
+</li>
+<li><p>对于多维的$\theta$向量，则可以对每个$\theta$分别求偏导数后=0来算出使得损失函数最小的$\theta$值</p>
+</li>
+<li><p>In general</p>
+<ul>
+<li>m examples$(x^{(1)},y^{(1)}),…,(x^{(m)},y^{(m)})$;n features</li>
+<li>$x^{(i)}=\left[<br>\begin{matrix}<br>  x_0^{(i)} \<br>  x_1^{(i)} \<br>  x_2^{(i)} \<br>  \vdots \<br>  x_n^{(i)}   \end{matrix}<br> \right]$</li>
+<li>X(design matrix)=$x^{(i)}=\left[<br>\begin{matrix}<br>  (x^{(1)})^T \<br>  (x^{(2)})^T \<br>  (x^{(3)})^T \<br>  \vdots \<br> (x^{(m)})^T   \end{matrix}<br> \right]$</li>
+<li>$\theta=(X^TX)^{-1}X^Ty$即为使得$J(\theta)$最小的值<ul>
+<li>if $(X^TX)$不可逆<ul>
+<li>存在线性特征（冗余特征）使得$(X^TX)$秩为0</li>
+<li>存在太多的特征——可以删除一些特征或者采用正则化</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>正规方程的方法不用使用特征缩放</p>
+</li>
+<li><p>优缺点：</p>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\正规方程.png" alt="正规方程"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节7-Logistic回归-——是一种分类算法！"><a href="#章节7-Logistic回归-——是一种分类算法！" class="headerlink" title="章节7   Logistic回归 ——是一种分类算法！"></a>章节7   Logistic回归 ——是一种分类算法！</h6><ul>
+<li><p>对于classification分类问题，$y\in${0,1}​，一般来说</p>
+<ul>
+<li>0： Negative Class负类——没有某种结果</li>
+<li>1： Positive Class正类——有某种结果</li>
+</ul>
+</li>
+<li><p>二分类问题</p>
+<ul>
+<li>使用线性回归来处理分类问题往往不太准确<ul>
+<li>线性回归的结果值往往与0/1相差甚远</li>
+<li>样本分布不均匀对线性回归算法的影响很大</li>
+</ul>
+</li>
+<li>使用新的逻辑回归的方法<ul>
+<li>虽然是回归问题的一类演变，结果值也是连续值</li>
+<li>但其结果目的是为了对分类问题进行处理</li>
+<li>故其实际上算是一种分类算法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>logistics回归方法——Hypothesis function</p>
+<ul>
+<li><p>能够使得线性回归的值可以在[0,1]之间</p>
+</li>
+<li><p>在线性回归问题中的假设函数为$h_\theta(x)=\theta^Tx$，在逻辑回归问题中更改添加$h_\theta(x)=g(\theta^Tx)$</p>
+</li>
+<li><p>上述使用的g()即Sigmoid function(Logistic function)</p>
+<ul>
+<li><p>Sigmoid function原型（S型增长曲线）<br>$$<br>g(z)=\frac{1}{1+e^{-z}}<br>$$</p>
+</li>
+<li><p>因此可以将两个式子合并为：<br>$$<br>h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}<br>$$</p>
+</li>
+<li><p>我们指定$\begin{cases} y=1，当h_\theta(x)\geq0.5\y=0，当 h_\theta(x)&lt;0.5\end{cases}  $  </p>
+</li>
+<li><p>sigmoid函数——激活函数——用于非线性处理：</p>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\sigmoid.png" alt="sigmoid"></p>
+</li>
+<li><p>而根据sigmoid函数的图像可知，$\begin{cases}当 \theta^Tx\geq0时，h_\theta(x)\geq0.5\当\theta^Tx&lt;0时， h_\theta(x)&lt;0.5\end{cases}  $  </p>
+</li>
+<li><p>故$h_\theta(x)=g(\theta^Tx)$中，</p>
+<p>$\begin{cases}当 \theta^Tx\geq0时，y=1\当\theta^Tx&lt;0时， y=0\end{cases}$</p>
+</li>
+</ul>
+</li>
+<li><p>决策边界decision boundary</p>
+<ul>
+<li><p>例如：</p>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\决策边界.png" alt="决策边界"></p>
+</li>
+<li><p>将空间分成两个部分，一部分y=1；另一部分y=0</p>
+</li>
+<li><p>是假设函数的一个属性</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>logistics回归Cost function</p>
+<ul>
+<li><p>按照线性回归的cost function计算方法（平方函数mse）得到的$J(\theta)$不是凸函数，若使用梯度下降则不能保证其能取得最低点</p>
+</li>
+<li><p>故提出新的Cost function</p>
+<ul>
+<li><p>$J(\theta)=\frac{1}{m}\sum_{i=1}^mCost(h_\theta(x^{(i)}),y^{(i)})$</p>
+<p>$Cost(h_\theta(x),y)=\begin{cases}-log(h_\theta(x))，if \ \ y=1\-log(1-h_\theta(x))， if\ \ y=0\end{cases}$</p>
+</li>
+<li><p>图像</p>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\logistic-cost1.png" alt="logistic-cost1"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>![logistic-cost2](F:\blog\source\_posts\学习\courses\机器学习-吴恩达\logistic-cost2.png)
+</code></pre><ul>
+<li><p>可以将cost function合并为</p>
+<p>$J(\theta)=-\frac{1}{m}[\sum_{i=1}^my^{(i)}logh_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]$</p>
+</li>
+</ul>
+<ul>
+<li><p>Gradient Descent</p>
+<ul>
+<li>To min$J(\theta)$,$\theta_j=\theta_j-\partial\frac{\partial J(\theta)}{\partial\theta_j}$</li>
+<li>经推导与线性回归的梯度下降公式相同</li>
+</ul>
+</li>
+<li><p>特征缩放</p>
+<ul>
+<li>同样适用</li>
+</ul>
+</li>
+<li><p>多分类问题</p>
+<ul>
+<li>通过多个分类器对每种分类进行单独的学习（一对多的方法）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节8-正则化"><a href="#章节8-正则化" class="headerlink" title="章节8   正则化"></a>章节8   正则化</h6><ul>
+<li><p>过拟合</p>
+<ul>
+<li><p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\overfitting.png" alt="overfitting"></p>
+</li>
+<li><p>左：欠拟合偏差较大</p>
+<p>右：过拟合方差较大（泛化性很差）</p>
+</li>
+</ul>
+</li>
+<li><p>解决过拟合的问题</p>
+<ul>
+<li>减少变量数量</li>
+<li>正则化（保留特征而减少量级）</li>
+</ul>
+</li>
+<li><p>正则化</p>
+<ul>
+<li><p>Small values for parameters $\theta_0,\theta_1,…,\theta_n$</p>
+<ul>
+<li>“Simpler”hypothesis</li>
+<li>Less prone to overfitting</li>
+</ul>
+</li>
+<li><p>损失函数<br>$$<br>J(\theta)=\frac{1}{2m}[\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2+\lambda\sum_{j=1}^n\theta_j^2]<br>$$<br>其中$\lambda\sum_{j=1}^n\theta_j^2$为正则项，$\lambda$为正则化参数（惩罚度量）</p>
+</li>
+<li><p>$\lambda$如果过大，会对参数造成过大的惩罚，使得最后拟合出来的结果可能是一条直线，严重欠拟合</p>
+</li>
+<li><p>$\lambda$如果过小，对参数的惩罚过小，可能会仍旧过拟合</p>
+</li>
+<li><p>故需选择合适的$\lambda$值</p>
+</li>
+</ul>
+</li>
+<li><p>Gradient descent</p>
+<ul>
+<li><p>Repeat{<br>$$<br>\theta_0=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}<br>$$</p>
+<p>$$<br>\theta_j=\theta_j-\alpha[\frac{1}{m}\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}+\frac{\lambda}{m}\theta_j]<br>$$</p>
+<p>}</p>
+</li>
+</ul>
+</li>
+<li><p>正规方程</p>
+<ul>
+<li><p>通过求偏导使得$min_\theta J(\theta)$</p>
+</li>
+<li><p>$$<br>\theta=(X^TX+\lambda \left[<br>\begin{matrix}<br>  0 &amp; 0 &amp;\cdots&amp; 0 &amp; 0 \<br>  0 &amp; 1 &amp;\cdots&amp; 0 &amp; 0\<br>  \vdots &amp; \vdots &amp; \ddots &amp;\vdots&amp;\vdots\<br>  0 &amp; 0 &amp;\cdots&amp; 1 &amp; 0\<br>  0 &amp; 0 &amp;\cdots&amp; 0 &amp; 1  \end{matrix}<br> \right])^{-1}X^Ty<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>逻辑回归（在正则化问题上的改进）</p>
+<ul>
+<li><p>在上一节的基础上添加正则项</p>
+</li>
+<li><p>损失函数：</p>
+<p>$J(\theta)=[-\frac{1}{m}\sum_{i=1}^my^{(i)}logh_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]+\frac{\lambda}{2m}\sum_{j=1}^m\theta_j^2$</p>
+</li>
+<li><p>梯度下降：</p>
+<p>Repeat{<br>$$<br>\theta_0=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)}<br>$$</p>
+<p>$$<br>\theta_j=\theta_j-\alpha[\frac{1}{m}\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}+\frac{\lambda}{m}\theta_j]<br>$$</p>
+<p>}</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节9-神经网络学习-及-章节10-神经网络参数的反向传播算法"><a href="#章节9-神经网络学习-及-章节10-神经网络参数的反向传播算法" class="headerlink" title="章节9 神经网络学习 及 章节10 神经网络参数的反向传播算法"></a>章节9 神经网络学习 及 章节10 神经网络参数的反向传播算法</h6><ul>
+<li><p>非线性问题的处理：</p>
+<p>当处理非线性问题的时候，虽然线性回归加上一些高次项例如$x^n$也可以实现非线性，但由于变量较多，二次方，三次方的组合形式过多，挨个尝试不太现实，因此直接提出非线性的算法（神经网络）</p>
+</li>
+<li><p>神经网络</p>
+<ul>
+<li><p>weights即parameters</p>
+</li>
+<li><p>非输入/输出层即为隐藏层</p>
+</li>
+<li><p>$x_0$等，以0为下标的均为偏置单元（bias）</p>
+</li>
+<li><p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\nn1.png" alt="nn1"></p>
+</li>
+<li><p>$a_i^{(j)}$表示activation of unit i in layer j</p>
+</li>
+<li><p>$\Theta^{j}$表示从j层到j+1层的权重矩阵</p>
+</li>
+<li><p>神经网络的计算如下（FP前向传播）：</p>
+<p>$a_1^{(2)}=g(\Theta_{10}^{(1)}x_0+\Theta_{11}^{(1)}x_1+\Theta_{12}^{(1)}x_2+\Theta_{13}^{(1)}x_3)$</p>
+<p>$a_2^{(2)}=g(\Theta_{20}^{(1)}x_0+\Theta_{21}^{(1)}x_1+\Theta_{22}^{(1)}x_2+\Theta_{23}^{(1)}x_3)$</p>
+<p>$a_3^{(2)}=g(\Theta_{30}^{(1)}x_0+\Theta_{31}^{(1)}x_1+\Theta_{32}^{(1)}x_2+\Theta_{33}^{(1)}x_3)$</p>
+<p>$h_\Theta(x)=a_1^{(3)}=g(\Theta_{10}^{(2)}a_0^{(2)}+\Theta_{11}^{(2)}a_1^{(2)}+\Theta_{12}^{(2)}a_2^{(2)}+\Theta_{13}^{(2)}a_3^{(2)})$</p>
+</li>
+<li><p>计算向量化操作</p>
+<ul>
+<li><p>$z_1^{(2)}$表示$\Theta_{10}^{(1)}x_0+\Theta_{11}^{(1)}x_1+\Theta_{12}^{(1)}x_2+\Theta_{13}^{(1)}x_3$</p>
+<p>$z_2^{(2)}$表示$\Theta_{20}^{(1)}x_0+\Theta_{21}^{(1)}x_1+\Theta_{22}^{(1)}x_2+\Theta_{23}^{(1)}x_3$</p>
+<p>……</p>
+</li>
+<li><p>$x=\left[<br>\begin{matrix}<br>  x_0\<br>  x_1\<br>  x_2\<br>  x_3 \end{matrix}<br> \right]$     $z^{(2)}=\left[<br>\begin{matrix}<br>  z_1^{(2)}\<br>  z_2^{(2)}\<br>  z_3^{(2)} \end{matrix}<br> \right]$</p>
+</li>
+<li><p>有$z^{(2)}=\Theta^{(1)}x$  </p>
+<p>$a^{(2)}=g(z^{(2)})$</p>
+<p>Add $a_0^{(2)}=1$</p>
+<p>$z^{(3)}=\Theta^{(2)}a^{(2)}$</p>
+<p>$h_\Theta(x)=a^{(3)}=g(z^{(3)})$</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>一些神经网络例子：</p>
+<ul>
+<li>AND：$h_\Theta(x)=g(-30+20x_1+20x_2)$</li>
+<li>OR：$h_\Theta(x)=g(-10+20x_1+20x_2)$</li>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\OR.png" alt="OR"></li>
+<li>NOT：$h_\Theta(x)=g(10-20x_1)$使用大负数来表示非</li>
+<li>so for XNOR:</li>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\XOR.png" alt="XOR"></li>
+<li>Multi-classification<ul>
+<li>例如四分类</li>
+<li>the output is $\left[<br>\begin{matrix}<br>  1\<br>  0\<br>  0\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\<br>  1\<br>  0\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\<br>  0\<br>  1\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\<br>  0\<br>  0\<br>  1 \end{matrix}<br> \right]$来分别表示四种类型</li>
+<li>通过输入$(x^{(i)},y^{(i)})$作为训练集得到output</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>算法来实现神经网络</p>
+<ul>
+<li><p>Cost function</p>
+<ul>
+<li><p>与逻辑回归类似，只是添加求和的项</p>
+<p>$J(\Theta)=-\frac{1}{m}[\sum_{i=1}^m\sum_{k=1}^{K}y_k^{(i)}log(h_\theta(x^{(i)}))_k+(1-y^{(i)}<em>k)log(1-h</em>\theta(x^{(i)}))<em>k]+\frac{\lambda}{2m}\sum</em>{l=1}^{L-1}\sum_{i=1}^{S_l}\sum_{j=1}^{S_{l+1}}(\Theta_{ji}^{(l)})^2$</p>
+</li>
+</ul>
+</li>
+<li><p>FP算法</p>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\ffp.png" alt="ffp"></p>
+</li>
+<li><p>BP算法——The way to minimize the $J(\theta)$ of NN（梯度优化）</p>
+<ul>
+<li><p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\bpp.png" alt="bpp"></p>
+</li>
+<li><p>$a_j^{(l)}$表示第l层第j个节点的激活值</p>
+</li>
+<li><p>$\delta_j^{(l)}$表示第l层第j 个节点的误差</p>
+</li>
+<li><p>故总的计算方法为：</p>
+<p>$\delta_j^{(4)}=a_j^{(4)}-y_j$</p>
+<p>$\delta_j^{(3)}=(\Theta^{(3)})^T\delta^{(4)}*g’(a^{(3)})$</p>
+<p>$\delta^{(2)}=(\Theta^{(2)})^T\delta^{(3)}*g’(a^{(2)})$</p>
+<p>第一层没有误差</p>
+</li>
+<li><p>算法</p>
+<p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\BP.png" alt="BP"></p>
+</li>
+<li><p>D为总共的误差，是代价函数关于每个参数的偏导数——可以使用梯度下降或者是其他的算法来完成优化。</p>
+</li>
+<li><p>梯度检验</p>
+<ul>
+<li>BP算法与梯度下降或其他算法一起运行时可能会出错</li>
+<li>用$\theta +\epsilon$和$\theta-\epsilon$的斜率来近似$\theta$点的斜率（$\epsilon$一般取$10^{-4}$就好）</li>
+<li>用近似的斜率与我们训练计算出的斜率作比较，若很相近，则可以认为计算是正确的</li>
+</ul>
+</li>
+<li><p>随机初始化</p>
+<ul>
+<li>权值若只是简单的初始化为0<ul>
+<li>只会导致所有的权值都相同，所有的单元都是一样的</li>
+</ul>
+</li>
+<li>因此对变量采用随机的初始化</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>具体的整体流程</p>
+<ul>
+<li>选择神经网路的结构（层数等）<ul>
+<li>输入层的单元数由输入得到data决定</li>
+<li>输出层的单元数由分类问题的类别数量决定</li>
+<li>默认只使用一个隐藏层或者多个单元数相同的隐藏层<ul>
+<li>一般来说单元数越多效果越好，但是计算量也越大</li>
+<li>单元数一般需要与输入层的单元数匹配，或是几倍</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>训练神经网络的步骤<ul>
+<li>随机初始化权重</li>
+<li>对每个$x^{(i)}$通过FP算法来得到$h_\Theta(x^{(i)})$</li>
+<li>计算损失函数$J(\Theta)$</li>
+<li>通过BP算法来计算偏导数的项$\frac{\partial J(\theta)}{\partial\theta_{jk}^{(l)}}$</li>
+<li>梯度检验</li>
+<li>使用优化算法和BP结合来最小化损失函数（BP帮助确定梯度下降的方向）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节11-应用机器学习的建议"><a href="#章节11-应用机器学习的建议" class="headerlink" title="章节11 应用机器学习的建议"></a>章节11 应用机器学习的建议</h6><ul>
+<li>对当前的算法进行评价<ul>
+<li>如何判断模型的优劣<ul>
+<li>训练集测试集（7:3）</li>
+</ul>
+</li>
+<li>模型选择<ul>
+<li>训练集验证集测试集(6:2:2)</li>
+<li>在机器学习中，开发模型时总需要调节模型的参数，比如改变权重、选择层数或每层的大小，这个调节过程需要在训练的模型上通过验证集数据的表现来提供一个反馈信号，去修改网络模型及参数。这就是验证集的作用，这也会造成验证集的信息泄露，反馈的越多，信息泄露的越多，即模型就更清楚的认识验证集，最终会造成模型在验证集上过拟合，这时就需要一个对于模型完全陌生的数据集—–测试集来衡量模型的好坏。</li>
+</ul>
+</li>
+<li>如何判断过拟合还是欠拟合<ul>
+<li>过拟合-高方差<ul>
+<li>在训练集上的误差很小，而在验证集上的误差很大</li>
+<li>训练集的误差远远小于验证集上的误差</li>
+</ul>
+</li>
+<li>欠拟合-高偏差<ul>
+<li>在训练集和验证集上的误差都很大</li>
+<li>训练集上的误差基本等于验证集上的误差</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>学习曲线</p>
+<ul>
+<li>高偏差<ul>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\high-bias.png" alt="high-bias"></li>
+<li>m是训练集的大小，在高偏差的时候，即欠拟合的情况下，随着数据集的增加并不能对模型的效果产生较大的影响</li>
+<li>因为模型已经跟不上数据集的参数数量了，故数据集再增加多少训练集的Loss也没有明显的变化；</li>
+<li>而验证集的loss，由于一开始没有学到东西，故Loss很高，随着逐渐地学习，Loss会下降，但是由于模型参数不够，处于欠拟合状态，故无论怎样学习其loss也只能下降到某一程度</li>
+</ul>
+</li>
+<li>高方差<ul>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\high variance.png" alt="high variance"></li>
+<li>模型复杂度很高，验证集loss与训练集的loss相差很大</li>
+<li>由于模型复杂度高，故训练集的loss会保持在较低的水平</li>
+<li>验证集的loss一开始很高，然后下降，但是由于模型过拟合，故对未知数据的拟合关系并不好，loss会保持在较高的水平</li>
+<li>在这种情况下增加数据量的大小会对当前的情况有所改善</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>对高方差（过拟合）有效的处理方法</p>
+<ul>
+<li>增大数据量</li>
+<li>减少特征集大小</li>
+<li>增大$\lambda$（正则项系数）</li>
+</ul>
+</li>
+<li>对高偏差（欠拟合）有效的处理方法<ul>
+<li>增加特征</li>
+<li>增加多项式的特征</li>
+<li>减少$\lambda$</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节12-机器学习系统设计"><a href="#章节12-机器学习系统设计" class="headerlink" title="章节12 机器学习系统设计"></a>章节12 机器学习系统设计</h6><ul>
+<li>在处理机器学习问题时推荐的步骤：<ul>
+<li>从简单的算法开始，快速地实现并测试其结果</li>
+<li>画出他的学习曲线来判断是否需要更多的数据或者更多的特征等</li>
+<li>错误分析：手工观察模型出错的数据，观察其是否有固定的特征，便于改进新的特征等</li>
+</ul>
+</li>
+<li>通过打分的分数来判断模型的优劣（错误率等）</li>
+<li>正例和负例的比例相差很大，倾斜的数据样本，使用精确度作为标准来验证并不能很好地体现出预测数据集的真实情况——可以使用召回率<ul>
+<li>Precision查准率(在预测的结果中有多少的对的)——预测得准不准<ul>
+<li>TP/(TP+FP)</li>
+</ul>
+</li>
+<li>Recall 召回率（在本该预测为正的结果中预测为中的比例）——预测得全不全<ul>
+<li>TP/(TP+FN)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Precision和Recall 的权衡<ul>
+<li>保障两个数值的相对平衡</li>
+<li>一般可以根据实际处理的问题情况来判断查全还是查准，然后来调节判断的阈值（在超过20%/30%/70%/80%/…的精度时才将其判断为真）</li>
+<li>可以画出Precision和Recall 的曲线，观察情况</li>
+<li>F1值：$F1=2\frac{PR}{P+R}$</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节13-支持向量机SVM"><a href="#章节13-支持向量机SVM" class="headerlink" title="章节13 支持向量机SVM"></a>章节13 支持向量机SVM</h6><ul>
+<li>优化目标<ul>
+<li>与逻辑回归相似</li>
+<li>$min_\theta C\sum_{i=1}^m[y^{(i)}cost_1(\theta^Tx^{(i)})+(1-y^{(i)})cost_0(\theta^Tx^{(i)})]+\frac{1}{2}\sum_{j=1}^n\theta_j^2$</li>
+<li>其中cost为：左边为$cost_1$右边为$cost_0$<ul>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\svm-cost.png" alt="svm-cost"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Hypothesis:<ul>
+<li>$h_\theta(x)=\begin{cases} 1\ \ if\ \theta^Tx \geq0 \0 \ otherwise\end{cases} $</li>
+</ul>
+</li>
+<li>由于cost函数保证了1与-1的区间，那么就不仅仅是当变量值大于0或者小于0就可以产生变化，而是加强了条件，需要到1或者-1才能对y的值产生影响。</li>
+<li>svm往往可以得到更加稳健，即间距最大的决策边界：<ul>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\svm-decision_boundary.png" alt="svm-decision_boundary"></li>
+<li>因此SVM常被称为大间距分类器，他可以使分类的方法更具有鲁棒性</li>
+<li>当C值很大的时候，模型会很容易受异常点的影响，它会保证每一个样本都被正确分类，如果遇到线性不可分的问题，这样的结果是很不好的。所以可以将C值设为稍微小一点的值，这样就不会对异常点很敏感，也可以处理线性不可分的问题。</li>
+</ul>
+</li>
+<li>使用SVM实现非线性函数的方法——核函数kernel<ul>
+<li>使用核函数的标记$l^{(1)},l^{(2)},l^{(3)}$来表示新的特征，其中的Similarity函数就是kernel核函数——核函数有好几种、、、：<ul>
+<li>$f_1=similarity(x,l^{(1)})$</li>
+<li>$f_2=similarity(x,l^{(2)})$</li>
+<li>$f_3=similarity(x,l^{(3)})$</li>
+</ul>
+</li>
+<li>predict “1”when :$\theta_0+\theta_1f_1+\theta_2f_2+\theta_3f_3\geq0$</li>
+<li>通过调节不同的参数可以得到非线性的结果</li>
+<li>选取Landmarks<ul>
+<li>直接将训练的数据点作为标记点</li>
+<li>给定数据集$(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)}),\dots,(x^{(m)},y^{(m)})$，选择$l^{(1)}=x^{(1)},l^{(2)}=x^{(2)}\dots,l^{(m)}=x^{(m)}$</li>
+</ul>
+</li>
+<li>SVM中参数的选择<ul>
+<li>C：与正则项系数类似，与模型的偏差方差相关</li>
+<li>$\delta^2$：值偏大则核函数更平滑，变化更慢，容易欠拟合；值越小则核函数变化更剧烈，有更大的斜率，导致产生高的方差</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节14-无监督学习"><a href="#章节14-无监督学习" class="headerlink" title="章节14 无监督学习"></a>章节14 无监督学习</h6><ul>
+<li><p>k-means</p>
+<ul>
+<li><p>方法</p>
+<ul>
+<li>随机聚类中心把数据集简单分为K类<ul>
+<li>对每个数据点，距离哪个聚类中心最近，就将其划分为哪一类</li>
+</ul>
+</li>
+<li>使聚类中心向每一类的均值点靠近</li>
+<li>重新聚类，更新数据与聚类中心的距离及分类</li>
+<li>重新将中心点向均值点靠近</li>
+<li>平衡为止</li>
+</ul>
+</li>
+<li><p>优化目标</p>
+<ul>
+<li>$minJ(c^{(1)},\dots,c^{(m)},\mu_1,\dots,\mu_K)=\frac{1}{m}\sum_{i=1}^m||x^{(i)}-\mu_{C^{(i)}}||^2$</li>
+</ul>
+</li>
+<li><p>算法</p>
+<ul>
+<li><p>Randomly initialize K cluster centroids $\mu_1,\mu_2,\dots,\mu_K)\in R^n$</p>
+</li>
+<li><p>Repeat{</p>
+<p>​    for i=1 to m</p>
+<p>​            $c^{(i)}$=index(from 1 to K) of cluster centroid closet to $x^{(i)}$</p>
+<p>​    for k=1 to K</p>
+<p>​            $\mu_k$=average(mean) of points assigned to cluster k</p>
+<p>}</p>
+</li>
+</ul>
+</li>
+<li><p>随机初始化</p>
+<ul>
+<li>First : K&lt;m（聚类的类数小于样本数）</li>
+<li>随机选取K个训练集样本</li>
+<li>将$\mu_1,\dots,\mu_K$的值赋为与这K个样本相同的值</li>
+<li>可能会导致局部最优——因为采用了随机的初始化（如下图这些情况）：<ul>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\k_means_local_optima.png" alt="k_means_local_optima"></li>
+<li>为了避免出现局部最优的情况，可以多次随机初始化聚类中心，可以减少随机的影响（一般在50-1000次）</li>
+<li>比如选取重复100次随机初始化，那么就会得到100个聚类的结果，在这100个聚类的结果中选取代价最小的，也就是畸变最小的一个。</li>
+<li>如果聚类数在2-10之间，通常经过多次随机初始化可以找到最优解；但如果K很大。多次随机的初始化可能不会有太大改善</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>聚类数量的选择K</p>
+<ul>
+<li>观察可视化或者输出等数据来手动判断</li>
+<li>Elbow method:<ul>
+<li>改变K的值，画出K值大小与cost function代价函数的曲线:<ul>
+<li>这种情况下，可以选择3为K的最佳值<img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\kmeans-elbow.png" alt="kmeans-elbow"></li>
+<li>但常常图像是这样的：</li>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\kmeans-albow2.png" alt="kmeans-albow2"></li>
+<li>所以这个方法并不常常有效</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>通过观察哪一个聚类的数据能够更好地应用于后续的目的操作<ul>
+<li>比如T恤，分成3或4或5个码，会导致不同的营销不同的成本等很多问题，可以根据实际的需求来确定分类的数量。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节15-降维"><a href="#章节15-降维" class="headerlink" title="章节15 降维"></a>章节15 降维</h6><ul>
+<li><p>无监督学习的一类</p>
+</li>
+<li><p>why</p>
+<ul>
+<li>数据压缩<ul>
+<li>使占用内存减少</li>
+<li>加速算法的运行</li>
+</ul>
+</li>
+<li>可视化数据<ul>
+<li>通过降维的方法把数据点投影在平面上，实现数据可视化</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>数据压缩方法</p>
+<ul>
+<li>试图去掉冗余特征，将三维的数据点投影到二维的平面上；将二维平面的点投影到直线上，等。</li>
+</ul>
+</li>
+<li><p>降维的常用方法——PCA主成分分析</p>
+<ul>
+<li><p>PCA就是找一个低维平面，然后将数据投影在上面，使得每个数据投影的长度（投影误差）平方最小。Find a direction(a vector $u^{(1)}\in R^n$) onto which to project the data so as to minimize the projection error.（向量张开的空间）</p>
+</li>
+<li><p>一般在进行PCA之前会先将数据均值归一化和特征规范化</p>
+</li>
+<li><p>线性回归问题中的目标是最小化label值与预测值的距离，而PCA是最小化数据点到预测降维平面的投影距离：</p>
+<ul>
+<li>左图为线性回归，右图为PCA<img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\LR-PCA.png" alt="LR-PCA"></li>
+<li>线性回归中需要预测标签值y，而PCA只以一系列的特征作为变量，没有特殊的y值</li>
+</ul>
+</li>
+<li><p>具体算法</p>
+<ul>
+<li>数据预处理：feature scaling/mean normalization特征缩放及均值归一化</li>
+<li>计算“协方差”$\Sigma=\frac{1}{m}\sum^n_{i=1}(x^{(i)})(x^{(i)})^T$</li>
+<li>将$\Sigma$进行svd计算奇异值会得到矩阵[U,S,V]</li>
+<li>……</li>
+<li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/F:/blog\source\_posts\学习\courses\机器学习-吴恩达\pca.png" alt="pca"></li>
+</ul>
+</li>
+<li><p>主成分数量选择</p>
+<ul>
+<li><p>选择</p>
+<ul>
+<li><p>Average squared projection error/Total variation in the data</p>
+</li>
+<li><p>即选取k的最小值使得<br>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x^{(i)}<em>{approx}||^2}{\frac{1}{m}\sum^m</em>{i=1}||x^{(i)}||^2}\leq0.01<br>$$</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>常使用0.01，0.05等也可以</p>
+<ul>
+<li><p>算法</p>
+<ul>
+<li><p>从k=1开始，计算$U_{reduce},z^{(1)},z^{(2)},\dots,x^{(1)}<em>{approx},\dots,x^{(m)}</em>{approx}$</p>
+</li>
+<li><p>检查上述不等式是否满足——方差保留的百分比</p>
+</li>
+<li><p>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x^{(i)}<em>{approx}||^2}{\frac{1}{m}\sum^m</em>{i=1}||x^{(i)}||^2}\leq0.01<br>$$</p>
+</li>
+<li><p>然后不断增加k的值，直到满足上述条件为止，直到得到最小的k值满足条件</p>
+</li>
+<li><p>也可以通过svd函数计算出S矩阵来简化上述条件的判断（另一种方法）</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>PCA作为压缩算法的重构（反压缩）reconstruction</p>
+<ul>
+<li>压缩时：$z=U^T_{reduce}x$</li>
+<li>反压缩：$x^{(1)}<em>{approx}=U</em>{reduce}z^{(1)}$</li>
+</ul>
+</li>
+<li><p>PCA的应用</p>
+<ul>
+<li>仅在训练集中应用PCA的算法，在得到了从x(1000维)到z(100维)的映射之后，可以对验证集和测试集采取同样的映射方法</li>
+<li>应用<ul>
+<li>Compression压缩<ul>
+<li>减少内存占用</li>
+<li>加速学习算法的运行</li>
+</ul>
+</li>
+<li>Visualization可视化</li>
+</ul>
+</li>
+<li>对过拟合而言并不是个好方法（正则化可能效果还更好一点）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节16-异常检测"><a href="#章节16-异常检测" class="headerlink" title="章节16 异常检测"></a>章节16 异常检测</h6><ul>
+<li><p>问题描述</p>
+<ul>
+<li>给定Dataset:{$x^{(1)},x^{(2)},\dots,x^{(m)}$}，给出的数据集默认为正常数据</li>
+<li>对数据点建立模型p(x)<ul>
+<li>如果$p(x_{test})&lt;\epsilon\rightarrow$异常</li>
+<li>如果$p(x_{test})\geq\epsilon\rightarrow$正常</li>
+</ul>
+</li>
+<li>举例<ul>
+<li>欺诈检测（网站），可以根据固定用户的行为，例如日常的登录次数，打字总数，交互活动次数等构建模型，如果遇到有异常行为则可以进行防御——根据行为来判断</li>
+<li>工件质量检测</li>
+<li>计算计算机的消耗等来判断计算机运行是否正常——运用于各大数据中心</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>高斯分布（正态分布）</p>
+<ul>
+<li>$x\sim N(\mu,\sigma^2)$</li>
+<li>$\mu$决定对称轴，$\sigma$决定曲线的宽度，$\sigma$越大，图像越宽</li>
+<li>参数估计<ul>
+<li>通过给定的样本集$X^{(1)},X^{(2)},\dots,X^{(m)}$来计算其取自的正态函数的变量值</li>
+<li>$\mu=\frac{1}{m}\sum_{i=1}^mx^{(i)}$</li>
+<li>$\sigma^2=\frac{1}{m}\sum_{i=1}^m(X^{(i)}-\mu)^2$（在大的训练集中$\frac{1}{m}$或是$\frac{1}{m-1}$其实影响不大，在统计学领域常使用$\frac{1}{m-1}$，而在机器学习领域大部分会使用$\frac{1}{m}$，没有太追究）</li>
+<li>就是对$\mu$和$\sigma$进行极大似然估计</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>异常检测算法</p>
+<ul>
+<li><p>给定训练集{$x^{(1)},x^{(2)},\dots,x^{(m)}$}</p>
+</li>
+<li><p>选择可以作为异常判断的特征$x_i$</p>
+</li>
+<li><p>我们假设$x_1\sim N(\mu_1,\sigma_1^2)$;$x_2\sim N(\mu_2,\sigma_2^2)$;……并找到参数$\mu_j$和$\sigma_j^2$——通过统计量来算</p>
+</li>
+<li><p>给出一个x，可以通过计算$p(x)=p(x_1;\mu_1,\sigma_1^2)p(x_2;\mu_2,\sigma_2^2)p(x_3;\mu_3,\sigma_3^2)\dots p(x_n;\mu_n,\sigma_n^2)=\Pi_{j=1}^np(x_j;\mu_j,\sigma_j^2)$</p>
+<p>然后判断是否有$p(x)&lt;\epsilon$来判断该x点是否异常</p>
+</li>
+</ul>
+</li>
+<li><p>对于带标签的数据使用监督学习还是异常检测</p>
+<ul>
+<li>异常检测<ul>
+<li>只有很少的正样本（y=1），标记为异常的样本，通常只有0-20；而有大量的负样本（可以只使用大量的负样本来训练p(x)的参数）</li>
+<li>有多种原因造成的异常，可能每次异常都不一样；不用究其原因</li>
+</ul>
+</li>
+<li>监督学习<ul>
+<li>正样本和负样本的数量都很多</li>
+<li>可以从大量的正样本中学习到异常的原因，以此来对以后的测试集进行判断</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>如何选择异常检测算法的特征</p>
+<ul>
+<li>用图像画出特征的分布，如果特征的分布图像近似于高斯分布，则不用改动；如果图像偏差较大，可以使用一些函数对特征进行处理（取对数、取方根等），使其变得与高斯函数的分布类似</li>
+<li>根据实际情况分析不同的label出现的原因，并选取或创造新的特征</li>
+</ul>
+</li>
+<li><p>多元高斯分布</p>
+<ul>
+<li><p>在多个变量的情况下，考虑单个变量并不处于异常的范围内</p>
+</li>
+<li><p>故统一考虑多个变量，而不是对每个变量进行单独考虑</p>
+</li>
+<li><p>多元的高斯分布由变量$\mu$——n维变量和$\Sigma$——n阶协方差矩阵决定<br>$$<br>p(x;\mu,\Sigma)=\frac{1}{(2\pi)^{\frac{n}{2}}|\Sigma|^{\frac{1}{2}}}exp(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu))<br>$$</p>
+</li>
+<li><p>通过不同的变量来调节可以得到不同的分布图像</p>
+</li>
+<li><p>通过从样本空间中计算得到$\mu$和$\Sigma$的值<br>$$<br>\mu=\frac{1}{m}\sum_{i=1}^mx^{(i)}\\Sigma=\frac{1}{m}\sum_{i=1}^m(x^{(i)-\mu})(x^{(i)}-\mu)^T<br>$$</p>
+</li>
+<li><p>对于给出的实例x计算p(x)，如若p(x)的值小于阈值则为异常</p>
+</li>
+</ul>
+</li>
+<li><p>什么时候使用多元的高斯分布函数</p>
+<ul>
+<li>原始模型的计算成本比较低，故如果数据量很大的时候，最好不要用多元的高斯分布，其需要计算逆矩阵——代价很大</li>
+<li>多元高斯必须保证特征数量少于样本数量，故在样本数量较少的时候，可以用传统的计算模型</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节17-推荐系统"><a href="#章节17-推荐系统" class="headerlink" title="章节17 推荐系统"></a>章节17 推荐系统</h6><ul>
+<li>基于内容的推荐算法<ul>
+<li>比如根据评分对电影进行推荐，可以根据电影是否为动作片或者爱情片的内容进行特征提取</li>
+<li>将电影本身的特征作为向量，与不同用户对这些特征的喜爱程度作为另一个向量，相乘可以得到该用户对该电影的评分预测值</li>
+<li>将预测值与实际值的差值作为loss_function，可以添加正则项，通过梯度下降等方法进行优化</li>
+</ul>
+</li>
+<li>协同过滤<ul>
+<li>特征学习——可以自行学习其需要的特征——不基于事先给定的特征</li>
+<li>通过每个不同用户对不同类型电影的喜好程度和他们对不同电影的打分情况，可以大致判断出该电影是属于什么类型的</li>
+<li>可以一开始给定一些电影类别的猜测数据，根据基于内容的推荐算法，可以预测出用户的评分；然后根据这些用户的评分又可以判断出电影的类型……逐渐迭代，就会得到一组合理的数据</li>
+</ul>
+</li>
+<li>协同过滤算法<ul>
+<li>构建一个loss_function同时包含了所有电影类型预测的差值和所有用户评分预测的差值和正则项，同时对两个变量进行优化</li>
+<li>优点是不需要重复计算，只需要同时对两个参数都进行优化即可</li>
+<li>使用梯度下降对损失函数进行优化</li>
+</ul>
+</li>
+<li>协同过滤算法的向量化<ul>
+<li>低秩矩阵分解</li>
+</ul>
+</li>
+<li>均值归一化<ul>
+<li>使得每个电影的评分均值为0</li>
+<li>这样如果用户没有对任何电影评分，归一化之后给她平均值的评分；而如果不进行归一化，则会默认为没有意义的0值。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="章节18-大规模机器学习"><a href="#章节18-大规模机器学习" class="headerlink" title="章节18 大规模机器学习"></a>章节18 大规模机器学习</h6><ul>
+<li>BGD批梯度下降——一批计算所有的数据</li>
+<li>随机梯度下降SGD（Stochastic gradient descent）——每次只用一个数据<ul>
+<li>shuffle数据，对每一步进行梯度下降的计算使得每一次都对每个数据点拟合得更好一点（shuffle是为了使下降更快一些）</li>
+<li>由于每次金对一个数据进行优化，故其收敛得很慢，且且每次的方向可能不尽相同。到最后通常只能接近一个最优的结果，不过一般来说这也足够了</li>
+</ul>
+</li>
+<li>小批梯度下降 mini-batch GD——每次使用固定数量的数据b $\in$（2，100）<ul>
+<li>一般情况速度比BGD更快，比SGD更慢</li>
+</ul>
+</li>
+<li>学习率及收敛问题<ul>
+<li>代价函数下降</li>
+<li>SGD可以每过固定数量的数据对代价函数进行图形的绘制</li>
+<li>SGD一般不会改变学习率的值，但也可以通过减少学习率的值来使得SGD的效果更好（可以通过（迭代次数+常数）的倒数来确定学习率的值，随着迭代次数的增加，学习率逐渐下降）</li>
+</ul>
+</li>
+<li>在线学习<ul>
+<li>通过在线的网站一类对用户的行为进行在线的学习</li>
+<li>ctr 问题</li>
+</ul>
+</li>
+<li>Map Reduce实现训练的并行<ul>
+<li>将训练集划分成几份，并行训练，然后再将所有的计算结果合并，以此来实现加速的运算</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="实例中cv视觉的一些处理"><a href="#实例中cv视觉的一些处理" class="headerlink" title="实例中cv视觉的一些处理"></a>实例中cv视觉的一些处理</h6><ul>
+<li>图片中人的识别：<ul>
+<li>可以通过固定的长宽比例来对人体的图像进行识别（粗糙)</li>
+</ul>
+</li>
+<li>一个实例：识别图片中的文字<ul>
+<li>判断文字区域<ul>
+<li>提供训练集：哪些图片是文字；哪些图片不是文字，可以将原图片以很小的像素单元为单位遍历，识别出相应的像素单元中哪些是文字，哪些不是文字</li>
+<li>将是文字的部分用白色的像素点填充</li>
+<li>为了得到更加明显的文字区域边框，将白色的像素区域扩大：如果该像素的附近5-10个像素中有白色的像素点，那么就将该像素点也着白色</li>
+<li>得到扩大的白色像素区域后，根据文字的既定形状（长条形），对部分形状不符的像素点进行排除</li>
+</ul>
+</li>
+<li>对文字段进行单个字母分割<ul>
+<li>将上述步骤获得的文字块截取出来</li>
+<li>提供连接及不连接的字母作为训练集，让模型可以学会从单词中分割出每一个字母</li>
+</ul>
+</li>
+<li>对分割出的字母进行识别<ul>
+<li>类似于数字识别</li>
+<li>可以人工扩大数据集的量（通常是一个很好的方法）<ul>
+<li>人工合成数据<ul>
+<li>从网站上获取字体，分割后与任意背景图片进行拼接，构造人工数据</li>
+</ul>
+</li>
+<li>对原始数据集进行拉伸，旋转等变换，生成新的数据（需要结合实际情况分析）</li>
+</ul>
+</li>
+<li>需要保证模型处于过拟合状态，这时添加更多的数据才会对模型的效果有所改善——学习曲线</li>
+<li>可以在开始前对构造新数据所需的时间进行估计，是否值得</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>天花板分析<ul>
+<li>投入的多少与模型效果提升的多少相比较来权衡（可以用部分数据先做实验)</li>
+<li>上下限的分析——因为时间是最重要的，如果做的工作花了很多时间而其上限也仅能提升模型的0.1，那么就需要考虑是否花费这么多时间了</li>
+</ul>
+</li>
+</ul>
+<p>And Thank you !</p>
+<p>参考资料：</p>
+<p><a href="https://blog.csdn.net/u012328159/article/details/80252012" target="_blank" rel="noopener">几种梯度下降方法对比（Batch gradient descent、Mini-batch gradient descent 和 stochastic gradient descent）</a></p>
+<p><a href="https://blog.csdn.net/zpf123456789zpf/article/details/88303833" target="_blank" rel="noopener">机器学习：为什么需要验证集？</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/学习/book/Deep-Learning-Tutorial-李宏毅/" rel="next" title="Deep-Learning-Tutorial_李宏毅">
+                <i class="fa fa-chevron-left"></i> Deep-Learning-Tutorial_李宏毅
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/16/MLP/" rel="prev" title="MLP">
+                MLP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#章节1-绪论：初识机器学习"><span class="nav-number">1.</span> <span class="nav-text">章节1   绪论：初识机器学习</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节2-单变量线性回归-univariate-linear-regression"><span class="nav-number">2.</span> <span class="nav-text">章节2   单变量线性回归(univariate linear regression)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节3-线性代数回顾"><span class="nav-number">3.</span> <span class="nav-text">章节3   线性代数回顾</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节5-多变量线性回归"><span class="nav-number">4.</span> <span class="nav-text">章节5   多变量线性回归</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节7-Logistic回归-——是一种分类算法！"><span class="nav-number">5.</span> <span class="nav-text">章节7   Logistic回归 ——是一种分类算法！</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节8-正则化"><span class="nav-number">6.</span> <span class="nav-text">章节8   正则化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节9-神经网络学习-及-章节10-神经网络参数的反向传播算法"><span class="nav-number">7.</span> <span class="nav-text">章节9 神经网络学习 及 章节10 神经网络参数的反向传播算法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节11-应用机器学习的建议"><span class="nav-number">8.</span> <span class="nav-text">章节11 应用机器学习的建议</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节12-机器学习系统设计"><span class="nav-number">9.</span> <span class="nav-text">章节12 机器学习系统设计</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节13-支持向量机SVM"><span class="nav-number">10.</span> <span class="nav-text">章节13 支持向量机SVM</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节14-无监督学习"><span class="nav-number">11.</span> <span class="nav-text">章节14 无监督学习</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节15-降维"><span class="nav-number">12.</span> <span class="nav-text">章节15 降维</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节16-异常检测"><span class="nav-number">13.</span> <span class="nav-text">章节16 异常检测</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节17-推荐系统"><span class="nav-number">14.</span> <span class="nav-text">章节17 推荐系统</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#章节18-大规模机器学习"><span class="nav-number">15.</span> <span class="nav-text">章节18 大规模机器学习</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#实例中cv视觉的一些处理"><span class="nav-number">16.</span> <span class="nav-text">实例中cv视觉的一些处理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="第四章 数值计算凸集定义集合 C 为凸集，则对于 ∀ x, y ∈ C 及 θ ∈ R 其中 0 ≤ θ ≤ 1，有：  ​                                                               θx + (1 - θ)y ∈ C. 即：若取集合 C 中的两个元素，并在两个元素之间画一条线段，则该线段上的所有元素也属于 C。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习文档学习笔记">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/学习/book/深度学习文档学习笔记/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="第四章 数值计算凸集定义集合 C 为凸集，则对于 ∀ x, y ∈ C 及 θ ∈ R 其中 0 ≤ θ ≤ 1，有：  ​                                                               θx + (1 - θ)y ∈ C. 即：若取集合 C 中的两个元素，并在两个元素之间画一条线段，则该线段上的所有元素也属于 C。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/09/10/学习/book/深度学习文档学习笔记/G:/blog/source/_posts/学习/deep_learning_文档学习笔记/深度学习文档学习笔记（一）/凸集图例.png">
+<meta property="og:updated_time" content="2019-11-05T03:09:54.298Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习文档学习笔记">
+<meta name="twitter:description" content="第四章 数值计算凸集定义集合 C 为凸集，则对于 ∀ x, y ∈ C 及 θ ∈ R 其中 0 ≤ θ ≤ 1，有：  ​                                                               θx + (1 - θ)y ∈ C. 即：若取集合 C 中的两个元素，并在两个元素之间画一条线段，则该线段上的所有元素也属于 C。">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/10/学习/book/深度学习文档学习笔记/G:/blog/source/_posts/学习/deep_learning_文档学习笔记/深度学习文档学习笔记（一）/凸集图例.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/10/学习/book/深度学习文档学习笔记/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深度学习文档学习笔记 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/学习/book/深度学习文档学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习文档学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-10 14:31:48" itemprop="dateCreated datePublished" datetime="2019-09-10T14:31:48+08:00">2019-09-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-05 11:09:54" itemprop="dateModified" datetime="2019-11-05T11:09:54+08:00">2019-11-05</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/书籍学习笔记/" itemprop="url" rel="index"><span itemprop="name">书籍学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="第四章-数值计算"><a href="#第四章-数值计算" class="headerlink" title="第四章 数值计算"></a>第四章 数值计算</h3><h4 id="凸集"><a href="#凸集" class="headerlink" title="凸集"></a>凸集</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a><strong>定义</strong></h5><p>集合 C 为凸集，则对于 ∀ x, y ∈ C 及 θ ∈ R 其中 0 ≤ θ ≤ 1，有： </p>
+<p>​                                                               θ<em>x</em> + (1 - θ)y ∈ C.</p>
+<p><strong>即</strong>：若取集合 C 中的两个元素，并在两个元素之间画一条线段，则该线段上的所有元素也属于 C。<a id="more"></a></p>
+<p><img src="/2019/09/10/学习/book/深度学习文档学习笔记/G:/blog\source\_posts\学习\deep_learning_文档学习笔记\深度学习文档学习笔记（一）\凸集图例.png" alt="凸集图例"></p>
+<h5 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h5><ul>
+<li>凸集的交集：假设 C1, C2, . . ., Ck 为凸集，则其交集也是凸集。</li>
+</ul>
+<p>注意：凸集的并集通常不是凸集</p>
+<h4 id="凸函数"><a href="#凸函数" class="headerlink" title="凸函数"></a><strong>凸函数</strong></h4><h5 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a><strong>定义</strong></h5><p>函数 <em>f</em> : R^n → R 为凸函数， 若其定义域（表示为 D( <em>f</em> )）为凸集，且对于所有 <em>x</em>, y ∈ D( <em>f</em> ) 及 θ ∈ R，0 ≤ θ ≤ 1，有： </p>
+<p>​                                          f (θ<em>x</em> + (1 - θ)y) ≤ θ <em>f</em> (<em>x</em>) + (1 - θ) <em>f</em> (y)</p>
+<p>直观来看，若在凸函数的图形上任意选择两点，并在两点之间画一条线段，则函数上两点之间的部分将处于线段之下。</p>
+<h5 id="性质-1"><a href="#性质-1" class="headerlink" title="性质"></a>性质</h5><ul>
+<li>凸性的一阶条件：若函数 <em>f</em> : R^n→ R 可导（即：函数 <em>f</em> 定义域上的所有点 <strong>x</strong> 均存在梯度$∇_xf(x)$，函数为凸函数当且仅当 D( <em>f</em> ) 为凸集</li>
+<li>凸性的二阶条件：若函数 <em>f</em> : R^n→ R 为二阶可导（即：函数 <em>f</em> 定义域上的所有点 <strong>x</strong> 均存在 Hessian 矩阵$∇_x^2f(x)$)。则函数 <em>f</em> 为凸函数，当且仅当 D( <em>f</em> ) 为凸集且 Hessian 矩阵为半正定矩阵，即 ∀<strong>x</strong> ∈ D( <em>f</em> )，有： </li>
+</ul>
+<p>$$<br>∇_x^2f(x)\geq0<br>$$</p>
+<p>emmmmmm我感觉这本有点难；于是我决定先看另一本。。。。。。</p>
+<p>哎。。。另一本看完了，我又回来了</p>
+<p>==</p>
+<h4 id="优化问题"><a href="#优化问题" class="headerlink" title="优化问题"></a>优化问题</h4><h5 id="无约束优化"><a href="#无约束优化" class="headerlink" title="无约束优化"></a>无约束优化</h5><ul>
+<li>由凸函数定义知，f(x)在$x_k$处取得最小值的必要条件为$∇_x f (x_k ) = 0$</li>
+<li>梯度方向为最快速上升方向，故沿着负梯度方向即可找到凸函数的最小值</li>
+</ul>
+<h5 id="等式约束优化问题"><a href="#等式约束优化问题" class="headerlink" title="等式约束优化问题"></a>等式约束优化问题</h5><ul>
+<li><p>给定约束函数 h(x) = 0 时，求函数f(x)的最小值</p>
+</li>
+<li><p>使用拉格朗日函数 (µ 为拉格朗日乘子)：<br>$$<br>L(x, \mu) = f (x) + \mu h(x)<br>$$<br>当 $x^∗$为最小值时，必要条件有：</p>
+<ul>
+<li>$∇_xL(x, \mu) = 0$，该方程蕴含着$ ∇ f (x^<em>) = \mu ∇h(x^</em>) $</li>
+<li>$∇\mu L(x^<em>, \mu) = 0$，该方程蕴含着 $h(x^</em>) = 0$ </li>
+</ul>
+</li>
+</ul>
+<h5 id="不等式约束优化问题"><a href="#不等式约束优化问题" class="headerlink" title="不等式约束优化问题"></a>不等式约束优化问题</h5><ul>
+<li><p>在给定约束 函数 g(x) ≤ 0 时，求函数f(x)的最小值</p>
+</li>
+<li><p>定义如下拉格朗日函数：<br>$$<br>L(x, {λi}, {\mu j }) = f(x) +\sum_{i=1}^kλ_ig_i(x) +\sum_{j=1}^m\mu_jh_j(x)<br>$$<br>其中 $λ_i $为 $g_i(x) = 0 $的拉格朗日乘子，$\mu_j $为$ h_j(x) ≤ 0 $的拉格朗日乘子。此时 KKT 条件包括（当 $x^∗$ 为最小值点时，其必要条件共4条，称为 Karush-Kuhn-Tucker (KKT) 条件）：</p>
+<ul>
+<li>KKT 条件 1：$∇_xL(x^∗, {λ_i}, {\mu_j }) = 0 $</li>
+<li>KKT 条件 2：$g_i(x^∗) = 0, i = 1, . . ., k$</li>
+<li>KKT 条件 3：$h_j(x^∗ ) ≤ 0, j = 1, . . .,m $</li>
+<li>KKT 条件 4：$\mu_j ≥ 0 $</li>
+<li>KKT 条件 5：$\mu_j h_j(x^∗) = 0$</li>
+</ul>
+</li>
+</ul>
+<h4 id="一阶近似优化"><a href="#一阶近似优化" class="headerlink" title="一阶近似优化"></a>一阶近似优化</h4><h5 id="SGD"><a href="#SGD" class="headerlink" title="SGD"></a>SGD</h5><ul>
+<li><p>求解最小值点采用的梯度下降($\mu_k$为学习率)<br>$$<br>x_{k+1} = x_k - \mu_k∇ f (x_k )<br>$$</p>
+</li>
+<li><p>梯度下降算法：若每次计算时采用全量样本，则上述方法称为梯度下降算法 (Batch Gradient Descent) </p>
+</li>
+<li><p>随机梯度下降算法：若每次计算时采用一个样本则上述公式称为随机梯度下降算法 (Stochastic Gradient Descent)</p>
+</li>
+<li><p>小批量随机梯度下降算法：若采用一部分样本，上述算法又称为小批量随机梯度下降算法 (Mini-Batch Stochastic Gradient Descent) </p>
+</li>
+</ul>
+<h5 id="Adagrad"><a href="#Adagrad" class="headerlink" title="Adagrad"></a>Adagrad</h5><ul>
+<li>通过累积各变量的历史偏导数，对历史累积偏导数比较大的变量设定较小的学习率，对历史累积偏导数较大的变量设定较大的偏导数。 </li>
+</ul>
+<p>$$<br>x_{k+1} = x_k - \frac{\mu} {\sqrt{z_{k+1} + ϵ}} ∇ f (x_k)<br>$$</p>
+<p>​    上述公式 ϵ 一般取值为 $10^{-8}$。可以看到随着迭代次数增加，梯度 $z_{k+1}$ 各维度值将逐渐变大，最终导致 $x_{k+1}$ 逐渐收敛。 </p>
+<h5 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h5><ul>
+<li>综合了 Momentum 算法和 RMSprop 算法的优点，同时考虑了梯度和梯度的平方动态平均信息。</li>
+</ul>
+<h3 id="第-5-章-神经网络及反向传播"><a href="#第-5-章-神经网络及反向传播" class="headerlink" title="第 5 章 神经网络及反向传播"></a>第 5 章 神经网络及反向传播</h3>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/04/模型融合&集成学习/" rel="next" title="模型融合&集成学习">
+                <i class="fa fa-chevron-left"></i> 模型融合&集成学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/10/学习/book/Deep-Learning-Tutorial-李宏毅/" rel="prev" title="Deep-Learning-Tutorial_李宏毅">
+                Deep-Learning-Tutorial_李宏毅 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-数值计算"><span class="nav-number">1.</span> <span class="nav-text">第四章 数值计算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#凸集"><span class="nav-number">1.1.</span> <span class="nav-text">凸集</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#性质"><span class="nav-number">1.1.2.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#凸函数"><span class="nav-number">1.2.</span> <span class="nav-text">凸函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#性质-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化问题"><span class="nav-number">1.3.</span> <span class="nav-text">优化问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#无约束优化"><span class="nav-number">1.3.1.</span> <span class="nav-text">无约束优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#等式约束优化问题"><span class="nav-number">1.3.2.</span> <span class="nav-text">等式约束优化问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#不等式约束优化问题"><span class="nav-number">1.3.3.</span> <span class="nav-text">不等式约束优化问题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一阶近似优化"><span class="nav-number">1.4.</span> <span class="nav-text">一阶近似优化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SGD"><span class="nav-number">1.4.1.</span> <span class="nav-text">SGD</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Adagrad"><span class="nav-number">1.4.2.</span> <span class="nav-text">Adagrad</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Adam"><span class="nav-number">1.4.3.</span> <span class="nav-text">Adam</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-5-章-神经网络及反向传播"><span class="nav-number">2.</span> <span class="nav-text">第 5 章 神经网络及反向传播</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

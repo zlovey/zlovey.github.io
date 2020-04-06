@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="看了一些论文和博客，总的把Attention的流程理顺了一些，现在开始输出ing，带有个人理解，也不一定正确……">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Attention小结">
+<meta property="og:url" content="http://yoursite.com/2019/12/19/论文/Attention小结/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="看了一些论文和博客，总的把Attention的流程理顺了一些，现在开始输出ing，带有个人理解，也不一定正确……">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/F:/blog/source/_posts/论文/Attention小结/soft-am.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/F:/blog/source/_posts/论文/Attention小结/global-attention.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/F:/blog/source/_posts/论文/Attention小结/local-am.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/F:/blog/source/_posts/论文/Attention小结/BCNN.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/F:/blog/source/_posts/论文/Attention小结/abcnn-1.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/F:/blog/source/_posts/论文/Attention小结/ABCNN-2.png">
+<meta property="og:updated_time" content="2019-12-20T09:45:06.193Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Attention小结">
+<meta name="twitter:description" content="看了一些论文和博客，总的把Attention的流程理顺了一些，现在开始输出ing，带有个人理解，也不一定正确……">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/F:/blog/source/_posts/论文/Attention小结/soft-am.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/19/论文/Attention小结/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Attention小结 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/论文/Attention小结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Attention小结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-19 16:39:46" itemprop="dateCreated datePublished" datetime="2019-12-19T16:39:46+08:00">2019-12-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-20 17:45:06" itemprop="dateModified" datetime="2019-12-20T17:45:06+08:00">2019-12-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/papers/" itemprop="url" rel="index"><span itemprop="name">papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>看了一些论文和博客，总的把Attention的流程理顺了一些，现在开始输出ing，带有个人理解，也不一定正确……<a id="more"></a></p>
+<h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><ul>
+<li>Attention是一种根据query计算value(key)的加权求和的机制</li>
+<li>根据某些规则或某些额外的信息(query)，从向量表达集合(values)中抽取特定的向量进行加权组合(attention)的方法</li>
+<li>即只要从部分向量中添加了加权求和，就算是attention</li>
+</ul>
+<h5 id="soft-Attention"><a href="#soft-Attention" class="headerlink" title="soft Attention"></a>soft Attention</h5><ul>
+<li>在论文《Neural Machine Translation by Jointly Learning to Align and Translate》中首次提出attention并将其应用于神经网络机器翻译（NMT）任务中，使用简单的前馈网络计算attention的分数并进行加权——需要计算所有词的attention概率</li>
+</ul>
+<p><img src="/2019/12/19/论文/Attention小结/F:/blog\source\_posts\论文\Attention小结\soft-am.png" alt="soft-am"></p>
+<ul>
+<li>$c_i=\sum_{j=1}^{T_x}\alpha_{ij}h_j$</li>
+<li>$\alpha_{ij}=softmax(e_{ij})$</li>
+<li>$e_{ij}=a(s_{i-1},h_j)$其中a是一个经过训练的前馈网络</li>
+</ul>
+<h5 id="Hard-Attention"><a href="#Hard-Attention" class="headerlink" title="Hard Attention"></a>Hard Attention</h5><ul>
+<li>直接从句子中指定某个特定的单词作为对齐的词，其attention的概率赋为1，其余的词硬性地认为对齐概率为0</li>
+<li>$\alpha_i=\begin{cases}0 \quad if \ i=p_t\1\quad else \end{cases}$</li>
+<li>其他变量都是一样的计算方式</li>
+</ul>
+<h5 id="Global-Attention"><a href="#Global-Attention" class="headerlink" title="Global Attention"></a>Global Attention</h5><ul>
+<li>在论文《Effective Approaches to Attention-based Neural Machine Translation》中提出，与soft-attention类似的结构</li>
+<li><img src="/2019/12/19/论文/Attention小结/F:/blog\source\_posts\论文\Attention小结\global-attention.png" alt="global-attention"></li>
+<li>$c_t=\sum_{s=1}^{T_x}\alpha_t(s)h_s$</li>
+<li>$\alpha_t(s)=align(h_t,\bar {h_s})=softmax(e_{ij})=softmax(score(h_t,\bar{h_s}))$</li>
+<li>$score(h_t,\bar{h_s})=\begin{cases} h_t^T\bar{h_s}\ 点积-Basic\ dot-product\ attention\ht_TW_a\bar{h_s}\ 乘积-Multiplication\ attention\v_a^Ttanh(W_a[h_t;\bar{h_s}])\ 加法-Additive attention \end{cases}$</li>
+</ul>
+<h5 id="Local-Attention"><a href="#Local-Attention" class="headerlink" title="Local Attention"></a>Local Attention</h5><ul>
+<li><p>同上在《Effective Approaches to Attention-based Neural Machine Translation》中提出，由于soft-attention类似结构需要计算出所有词的attention概率，代价过大，于是提出了类似hard-attention机制的处于不硬不软中间的一种方法——根据计算出的对齐位置p_t，取该位置附近的窗口大小为D的词语进行计算</p>
+</li>
+<li><p><img src="/2019/12/19/论文/Attention小结/F:/blog\source\_posts\论文\Attention小结\local-am.png" alt="local-am" style="zoom: 50%;"></p>
+</li>
+<li><h6 id="local-m-Monotonic-alignment-单调对齐"><a href="#local-m-Monotonic-alignment-单调对齐" class="headerlink" title="local-m(Monotonic alignment)单调对齐"></a>local-m(Monotonic alignment)单调对齐</h6><ul>
+<li>$p_t=t$直接对目标词汇的位置进行映射</li>
+<li>$\alpha_t(s)$的定义与global attention相同</li>
+<li>$c_t=\sum_i^N\alpha_ih_i$与前同</li>
+</ul>
+</li>
+<li><h6 id="local-p-Predictive-alighment-预测对齐"><a href="#local-p-Predictive-alighment-预测对齐" class="headerlink" title="local-p(Predictive alighment)预测对齐"></a>local-p(Predictive alighment)预测对齐</h6></li>
+<li><p>$p_t=S\cdot sigmoid(v^Ttanh(W_ph_t))$其中$S$是原句子的长度</p>
+</li>
+<li><p>$\alpha_t(s)=align(h_t,\bar{h_s})exp(-\frac{(s-p_t)^2}{2\sigma^2})$其中$\sigma=\frac{D}{2}$，且align函数与global的attention相同——添加了$p_t$附近类似高斯分布的取词方法</p>
+</li>
+<li><p>$c_t=\sum_i^N\alpha_ih_i$与前同</p>
+</li>
+</ul>
+<h5 id="静态Attention"><a href="#静态Attention" class="headerlink" title="静态Attention"></a>静态Attention</h5><ul>
+<li>对输出句子共用一个$S_t$的attention，其实是指对于一个文档或者句子，计算每个词的注意力概率分布，然后加权得到一个向量来代表这个文档或者句子的向量表示。soft AM在Decoder的过程中每一次都需要重新对所有词计算一遍注意力概率分布，然后加权得到context vector，而静态AM只计算一次得到句子的向量表示即可。</li>
+</ul>
+<h5 id="一些特殊的Attention"><a href="#一些特殊的Attention" class="headerlink" title="一些特殊的Attention"></a>一些特殊的Attention</h5><ul>
+<li><h6 id="self-attention"><a href="#self-attention" class="headerlink" title="self attention"></a>self attention</h6><ul>
+<li><p>又称内部注意力，是通过对句子本身信息的抽取而得到相关的信息</p>
+</li>
+<li><p>Q，K，V都是句子本身</p>
+</li>
+<li><p>两种计算方式</p>
+<ul>
+<li><p>第一种</p>
+<ul>
+<li>当前隐藏单元的分数是以当前的隐藏状态去计算和前面的隐藏状态的得分</li>
+<li>$e_{h_i}=h_t^TWh_i$($h_t$是前一个状态的隐藏状态，$h_i$是当前的隐藏状态)</li>
+</ul>
+</li>
+<li><p>第二种</p>
+<ul>
+<li>直接以当前状态本身去计算得分</li>
+<li>$e_{h_i}=v_a^Ttanh(W_ah_i)或e_{h_i}=tanh(w^Th_i+b)$</li>
+</ul>
+</li>
+<li><p>使用向量的方式可以表示如下：</p>
+<p>$A=softmax(V_atanh(W_aH^T))$</p>
+<p>$C=AH$</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="key-value-attention"><a href="#key-value-attention" class="headerlink" title="key-value attention"></a>key-value attention</h6><ul>
+<li>即将隐状态$h_i$拆分成两部分，然后再使用的时候将这两部分分开使用</li>
+<li>计算attention权重的时候只用key的部分；在进行加权求和的时候只用value的部分</li>
+<li>$\begin{bmatrix} k_t\v_t\end{bmatrix}=h_t$</li>
+<li>$M_t=tanh(W^Y[k_{t-L}\dots k_{k-1}]+(W^hk_t)l^T)$</li>
+<li>$\alpha_t=softmax(w^TM_t)$</li>
+<li>$r_t=[v_{t-L}\dots v_{t-1}]\alpha^T$</li>
+<li>$h_t^*=tanh(W^rr_t+W^xv_t)$</li>
+<li>其中$l$是attention窗口长度</li>
+</ul>
+</li>
+<li><h6 id="multi-head-attention"><a href="#multi-head-attention" class="headerlink" title="multi-head attention"></a>multi-head attention</h6><ul>
+<li>即通过多次的模型计算，将结果拼接起来即可</li>
+</ul>
+</li>
+</ul>
+<h5 id="其他的Attention"><a href="#其他的Attention" class="headerlink" title="其他的Attention"></a>其他的Attention</h5><ul>
+<li><p>ABCNN</p>
+<ul>
+<li><p>基于论文《ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs》，将Attention的方法应用于CNN，主要用来处理输入是句子对的情况，通过在输入层与卷积层之间；卷积层与池化层之间添加attention层，获取两个句子的相关关系，更好地完成句子对的处理任务</p>
+</li>
+<li><p>原始的BCNN模型结构（未添加Attention）</p>
+<p><img src="/2019/12/19/论文/Attention小结/F:/blog\source\_posts\论文\Attention小结\BCNN.png" alt="BCNN" style="zoom: 50%;"></p>
+<ul>
+<li>有四种类型的层：input、convolution、average poolilng and output</li>
+<li>input: 负责将输入的两个句子padding 成相同的长度，再经过embedding操作生成$d_o *s$维的向量，$d_o$是词向量维度，s是句子长度</li>
+<li>convolution: 生成representation矩阵$p_i=tanh(W\cdot c_i+b)$</li>
+<li>average pooling: 一共有两种pooling方式<ul>
+<li>w-ap：在中间的pooling层采用的方式：以大小为w的窗口对卷积层输出的矩阵进行按列的平均，最后输出为$s$列的representation矩阵</li>
+<li>all-ap: 在最后输出层前面的pooling层采用的方式：对所有列进行按列平均，最后分别输出一列向量</li>
+</ul>
+</li>
+<li>output: 输出层根据任务确定，二分类则可以使用逻辑回归等函数</li>
+</ul>
+</li>
+<li><p>ABCNN-1</p>
+<ul>
+<li><p>在输入层和卷积层中间添加attention层</p>
+</li>
+<li><p><img src="/2019/12/19/论文/Attention小结/F:/blog\source\_posts\论文\Attention小结\abcnn-1.png" alt="abcnn-1" style="zoom: 67%;"></p>
+</li>
+<li><p>通过处理输入层的embedding值，计算两个矩阵中第i词和第j词的match程度</p>
+<p>$A_{i,j}=match-score(F_{0,r}[:,i],F_{1,r}[:,j])$</p>
+</li>
+<li><p>然后通过attention矩阵A计算出两个feature map</p>
+<p>$F_{0,a}=W_0A^T$,$F_{1,a}=W_1A$</p>
+</li>
+<li><p>将input层输入的两个矩阵和经过A处理后的两个矩阵都输入卷积层进行计算</p>
+</li>
+<li><p>由于参数过多且需输入两次，易导致过拟合</p>
+</li>
+</ul>
+</li>
+<li><p>ABCNN-2</p>
+<ul>
+<li>在卷积层和pooling层添加attention层</li>
+<li><img src="/2019/12/19/论文/Attention小结/F:/blog\source\_posts\论文\Attention小结\ABCNN-2.png" alt="ABCNN-2" style="zoom:50%;"></li>
+<li>通过卷积层的输出计算出矩阵A的值得操作与ABCNN-1相同</li>
+<li>$F_{i,r}^p[:,j]=\sum_{k=j:j+w}a_{i,k}F_{i,r}^c[:,k],j=1\dots s_i$作为权值的计算</li>
+</ul>
+</li>
+<li><p>ABCNN-3</p>
+<ul>
+<li>基本等于ABCNN-1+ABCNN-2</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/17/论文/NEURAL-MACHINE-TRANSLATION-BY-JOINTLY-LEARNING-TO-ALIGN-AND-TRANSLATE/" rel="next" title="NEURAL-MACHINE-TRANSLATION-BY-JOINTLY-LEARNING-TO-ALIGN-AND-TRANSLATE">
+                <i class="fa fa-chevron-left"></i> NEURAL-MACHINE-TRANSLATION-BY-JOINTLY-LEARNING-TO-ALIGN-AND-TRANSLATE
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/24/论文/Deep-Contextualized-Word-Representations/" rel="prev" title="Deep-Contextualized-Word-Representations">
+                Deep-Contextualized-Word-Representations <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#soft-Attention"><span class="nav-number">2.</span> <span class="nav-text">soft Attention</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hard-Attention"><span class="nav-number">3.</span> <span class="nav-text">Hard Attention</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Global-Attention"><span class="nav-number">4.</span> <span class="nav-text">Global Attention</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Local-Attention"><span class="nav-number">5.</span> <span class="nav-text">Local Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#local-m-Monotonic-alignment-单调对齐"><span class="nav-number">5.1.</span> <span class="nav-text">local-m(Monotonic alignment)单调对齐</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#local-p-Predictive-alighment-预测对齐"><span class="nav-number">5.2.</span> <span class="nav-text">local-p(Predictive alighment)预测对齐</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#静态Attention"><span class="nav-number">6.</span> <span class="nav-text">静态Attention</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一些特殊的Attention"><span class="nav-number">7.</span> <span class="nav-text">一些特殊的Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#self-attention"><span class="nav-number">7.1.</span> <span class="nav-text">self attention</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#key-value-attention"><span class="nav-number">7.2.</span> <span class="nav-text">key-value attention</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#multi-head-attention"><span class="nav-number">7.3.</span> <span class="nav-text">multi-head attention</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#其他的Attention"><span class="nav-number">8.</span> <span class="nav-text">其他的Attention</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

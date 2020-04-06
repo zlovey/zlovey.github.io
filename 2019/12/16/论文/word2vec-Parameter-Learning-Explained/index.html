@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文对word2vec的模型的两种实现方法（CBOW和SG)进行了详细的结构上的描述，并对改进的方法Hierarchical Softmax和Negative Sampling进行了讲解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="word2vec-Parameter-Learning-Explained">
+<meta property="og:url" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="本文对word2vec的模型的两种实现方法（CBOW和SG)进行了详细的结构上的描述，并对改进的方法Hierarchical Softmax和Negative Sampling进行了讲解">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/simple-CBOW.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/mulit-CBOW.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/SG.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/hierachical-softmax.png">
+<meta property="og:updated_time" content="2019-12-17T06:40:16.708Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="word2vec-Parameter-Learning-Explained">
+<meta name="twitter:description" content="本文对word2vec的模型的两种实现方法（CBOW和SG)进行了详细的结构上的描述，并对改进的方法Hierarchical Softmax和Negative Sampling进行了讲解">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog/source/_posts/论文/word2vec-Parameter-Learning-Explained/simple-CBOW.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>word2vec-Parameter-Learning-Explained | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">word2vec-Parameter-Learning-Explained
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-16 19:12:09" itemprop="dateCreated datePublished" datetime="2019-12-16T19:12:09+08:00">2019-12-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-17 14:40:16" itemprop="dateModified" datetime="2019-12-17T14:40:16+08:00">2019-12-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/papers/" itemprop="url" rel="index"><span itemprop="name">papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><p>本文对word2vec的模型的两种实现方法（CBOW和SG)进行了详细的结构上的描述，并对改进的方法Hierarchical Softmax和Negative Sampling进行了讲解<a id="more"></a></p>
+</li>
+<li><p>原始的词向量表示是使用one-hot的方法，这种方法无法对不同词之间的关系做一个表征，后来就出现了分布式表征的方法</p>
+</li>
+<li><p>word2vec是一种分布式表征词向量的方法，每一个词都可以用元素的分布式权重来表示，向量的每一维都表示一个特征向量，作用于所有的单词</p>
+</li>
+<li><p>CBOW</p>
+<ul>
+<li><p>根据给定词的上下文推测出该词</p>
+</li>
+<li><p>当上下文只有一个词的情况：</p>
+<p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog\source\_posts\论文\word2vec-Parameter-Learning-Explained\simple-CBOW.png" alt="simple-CBOW" style="zoom: 50%;"></p>
+</li>
+<li><p>当上下文存在多个词的情况</p>
+<p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog\source\_posts\论文\word2vec-Parameter-Learning-Explained\mulit-CBOW.png" alt="mulit-CBOW" style="zoom:50%;"></p>
+</li>
+<li><p>从输入到隐藏层</p>
+<ul>
+<li>权重矩阵W</li>
+<li>每个词都采用one-hot的方式输入模型，因此经过权重矩阵W的计算后得到的结果相当于选择了W的其中一行，在多个词的情况下也就是选择了W中的C 行</li>
+<li>只有一个词的情况：<ul>
+<li>$h=W^Tx=W^T_{(k,\cdot)}=v^T_{w_I}$</li>
+<li>隐藏层的输入就等于权重矩阵W中的某一行的值，即$v_{w_I}$是输入词$w_I$的向量表示</li>
+</ul>
+</li>
+<li>在有多个输入词的情况：<ul>
+<li>$h=\frac{1}{C}W^T(x_1+x_2+\dots +x_C)\=\frac{1}{C}(v_{w_1}+v_{w_2}+\dots +v_{w_C})^T$</li>
+<li>即将所有的输入词中提取出来的行求和再求平均即得到隐藏层的输入值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>从隐藏层到输出层</p>
+<ul>
+<li><p>权重矩阵$W’$</p>
+</li>
+<li><p>只有一个词的情况：</p>
+<ul>
+<li><p>通过权重矩阵$W’$可以计算得到每个词的一个分数$u_j=v’^T_{w_j}h$</p>
+<p>其中$v’_{w_j}$是矩阵$W’$的第j列</p>
+</li>
+<li><p>根据每个词得到的分数经过softmax函数之后就可以计算出单词的后验分布</p>
+</li>
+<li><p>$p(w_j|w_I)=y_j=\frac{exp(u_j)}{\sum_{j’=1}^Vexp(u_{j’})}$</p>
+</li>
+<li><p>其中$y_j$是输出层第j个神经元的输出值</p>
+</li>
+<li><p>将前面的式子代入这个式子就可以计算出每个词的后验概率了，选取后验概率最大的值即为模型的结果</p>
+</li>
+</ul>
+</li>
+<li><p>有多个输入词的情况：同上</p>
+</li>
+</ul>
+</li>
+<li><p>下面是只有一个词的反向传播的情况</p>
+</li>
+<li><p>权重参数的更新（后向传播）——从隐藏层到输出层的参数更新</p>
+<ul>
+<li><p>由上面的推导可以得出我们需要模型达到的是上述后验概率的最大化，求到最合适的那个词，即</p>
+</li>
+<li><p>$max\ p(w_O|w_I)\=max\ y_{j<em>}\=max\ log\  y_{j</em>}\=u_{j*}-log\sum_{j’=1}^Vexp(u_{j’}):=-E$</p>
+</li>
+<li><p>$j^*$是在输出层中真实实际输出的单词的下标</p>
+</li>
+<li><p>将最后的式子令成我们需要优化的损失函数E</p>
+</li>
+<li><p>将E对得分$u_j$求偏导</p>
+<p>$\frac{\partial E}{\partial u_j}=y_j-t_j:=e_j$</p>
+<p>其中$t_j$只在$j=j^*$时为1，其余时候为0</p>
+</li>
+<li><p>将E对矩阵$W’$元素$w’_{ij}$求偏导</p>
+<p>$\frac{\partial E}{\partial w’_{ij}}=\frac{\partial E}{\partial u_j}\cdot \frac{\partial u_j}{\partial w’_{ij}}=e_j\cdot h_i$</p>
+</li>
+<li><p>采用随机梯度下降进行优化可以得到</p>
+<p>$w’^{(new)}<em>{ij}=w’^{(old)}</em>{ij}-\eta\cdot e_j\cdot h_i或v’^{(new)}_{w_j}=v’^{(old)}_{w_j}-\eta\cdot e_j\cdot h$</p>
+<p>其中$\eta$是学习率，$h_i$是隐藏层第i个神经元，$v’_{w_j}$是$w_j$的输出向量</p>
+</li>
+<li><p>在更新权重参数的时候需要计算词汇表中的每一个单词，计算其输出概率$y_j$并与期望概率$t_j$比较</p>
+<ul>
+<li>如果$y_j&gt;t_j$(“overestimating”)，那么就从向量$v′_{w_j}$中减去隐藏向量h的一部分（例如$v_{w_I}$），这样向量$v′_{w_j}$就会与向量$v_{w_I}$相差更远。 </li>
+<li>如果$y_j&lt;t_j$（“underestimating”），这种情况只有在$t_j=1$时，才会发生，此时$w_j=w_O$，则将隐藏向量h的一部分加入$v′_{w_O}$，使得$v′_{w_O}$与$v_{w_I}$更接近。 </li>
+<li>如果$y_j$与$t_j$非常接近，则此时$e_j=y_j−t_j$，更新参数基本上没什么变化。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>从输入词到隐藏层的参数更新</p>
+<ul>
+<li><p>对损失函数E求$h_i$的偏导数</p>
+</li>
+<li><p>对E求权重矩阵$W$的偏导数</p>
+</li>
+<li><p>用张量乘积的方法可以得到矩阵W的更新公式为</p>
+<p>$v^{(new)}_{w_I}=v^{(old)}_{w_I}-\eta EH^T$</p>
+<p>其中$v_{w_I}$是矩阵W的一行，是上下文单词的输入向量</p>
+</li>
+<li><p>分析比较可得</p>
+<ul>
+<li>如果过高地估计了某个单词$w_j$作为最终输出单词的概率（即：$y_j&gt;t_j$），则上下文单词$w_I$（context word ）的输入向量与单词$w_j$的输出向量在更新的过程中会相差越来越大。</li>
+<li>如果相反，某个单词$w_j$作为最终输出单词的概率被低估（即：$y_j&lt;t_j$），则单词$w_I$的输入向量与单词$w_j$的输出向量在更新过程中会越来越接近。</li>
+<li>如果对于单词$w_I$的概率预测是准确的，则对于单词的输入向量在更新过程中几乎保持不变。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>多输入的反向传播过程</p>
+<ul>
+<li><p>由于h有变化，故损失函数E会相应的变化</p>
+</li>
+<li><p>从隐藏层到输出层的权重公式不变</p>
+</li>
+<li><p>从输入层到隐藏层的权重更新公式变化为</p>
+<p>$v^{(new)}_{w_{I,c}}=v^{(old)}_{w_{I,c}}-\frac {1}{C}\eta EH^T$</p>
+<p>其中$v_{w_{I,c}}$是输入向量的第c个词</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Skip-Gram Model</p>
+<ul>
+<li><p>输入给定的词，推测其上下文，与CBOW相反</p>
+</li>
+<li><p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog\source\_posts\论文\word2vec-Parameter-Learning-Explained\SG.png" alt="SG" style="zoom:50%;"></p>
+</li>
+<li><p>由于输入唯一，因此从输入层到隐藏层的公式相同</p>
+<p>$h=W^Tx=W^T_{(k,\cdot)}=v^T_{w_I}$</p>
+</li>
+<li><p>由于SG有C个输出，因此对每个输出都需要进行相同的计算</p>
+<p>$p(w_{c,j}=w_{O,c}|w_I)=y_{c,j}=\frac{exp(u_{c,j})}{\sum_{j’=1}^Vexp(u_{j’})}$</p>
+</li>
+<li><p>反向传播</p>
+<ul>
+<li>损失函数有变化</li>
+<li>从隐藏层到输出层：</li>
+<li>$w’^{(new)}<em>{ij}=w’^{(old)}</em>{ij}-\eta\cdot EI_j\cdot h_i或v’^{(new)}_{w_j}=v’^{(old)}_{w_j}-\eta\cdot EI_j\cdot h$</li>
+<li>从输入层到隐藏层：</li>
+<li>$v^{(new)}_{w_I}=v^{(old)}_{w_I}-\eta EH^T\其中\EH_i=\sum_{j=1}^VEI_j\cdot w’_{ij}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>优化方案</p>
+<ul>
+<li><p>Hierarchical Softmax</p>
+<ul>
+<li><p>通过一个二叉树来表示词汇表中的所有单词（常用哈夫曼树），V个词均为叶子结点，对每个词，都存在唯一的从根到叶子结点的路径，这条路径用来估计被叶节点所表示的单词的概率</p>
+</li>
+<li><p><img src="/2019/12/16/论文/word2vec-Parameter-Learning-Explained/F:/blog\source\_posts\论文\word2vec-Parameter-Learning-Explained\hierachical-softmax.png" alt="hierachical-softmax" style="zoom:50%;"></p>
+</li>
+<li><p>往左边结点的概率为</p>
+<p>$p(n,left)=\sigma(v’^T_n\cdot h)$</p>
+</li>
+<li><p>往右边节点的概率为</p>
+<p>$p(n,right)=1-\sigma(v’^T_n\cdot h)=\sigma(-v’^T_n\cdot h)$</p>
+</li>
+<li><p>因此例如$w_2$点，其作为输出单词的概率为</p>
+<p>$p(w_2=w_O)=p(n(w_2,1),left)\cdotp(n(w_2,2),left)\cdotp(n(w_2,3),right)$</p>
+</li>
+<li><p>优点是不用对V个单词都进行计算，而只用对$log_2(V)$个单词进行计算就好了，这样训练的时间就更快</p>
+</li>
+</ul>
+</li>
+<li><p>Negative Sampling</p>
+<ul>
+<li><p>由于在每一次的迭代过程中有大量的输出向量需要更新，负采样则在每一次迭代的过程中只对一部分变量进行更新，确保目标输出词在这一部分变量中，且采样一些其他的单词作为负样本，在采样的过程中，我们可以任意选择一种概率分布。我们将这种概率分布称为“噪声分布”（the noise distribution）</p>
+</li>
+<li><p>如果词$w_i$在语料中的出现频率$f(w_i)$ 大于阈值t，则有$P(w_i)$ 的概率在训练时跳过这个词。训练集中每一个词都有一个丢弃概率$P(w_i)$.</p>
+<p>$P(w_i)=1-\sqrt\frac{t}{f(w_i)}$</p>
+</li>
+<li><p>经过选定损失函数E后计算得到其输出向量的更新公式为</p>
+<p>$v’^{(new)}_{w_j}=v’^{(old)}_{w_j}-\eta(\sigma(v’^T_{w_j}h)-t_j)h$</p>
+</li>
+<li><p>每次只对${w_j|w_j\in{w_O}\cup  W_{neg}}$的词进行更新</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>简单的gensim库word2vec的使用</p>
+<ul>
+<li><p>函数定义</p>
+</li>
+<li><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</span><br><span class="line">model=Word2Vec(sentences,sg=<span class="number">1</span>,size=<span class="number">100</span>,window=<span class="number">5</span>,min_count=<span class="number">5</span>,negative=<span class="number">3</span>,sample=<span class="number">0.001</span>,hs=<span class="number">1</span>,workers=<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sg=1是skip-gram算法，对低频词敏感；默认sg=0为CBOW算法。</p>
+</li>
+<li><p>size是输出词向量的维数，值太小会导致词映射因为冲突而影响结果，值太大则会耗内存并使算法计算变慢，一般值取为100到200之间。</p>
+</li>
+<li><p>window是句子中当前词与目标词之间的最大距离，3表示在目标词前看3-b个词，后面看b个词（b在0-3之间随机）。</p>
+</li>
+<li><p>min_count是对词进行过滤，频率小于min-count的单词则会被忽视，默认值为5。</p>
+</li>
+<li><p>negative和sample可根据训练结果进行微调，sample表示更高频率的词被随机下采样到所设置的阈值，默认值为1e-3。</p>
+</li>
+<li><p>hs=1表示层级softmax将会被使用，默认hs=0且negative不为0，则负采样将会被选择使用。</p>
+</li>
+<li><p>workers控制训练的并行，此参数只有在安装了Cpython后才有效，否则只能使用单核。</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>代码实现</p>
+<ul>
+<li>参考<a href="https://blog.csdn.net/qq_34290470/article/details/102843763" target="_blank" rel="noopener">Word2vec代码实现</a> 很容易懂且注释很详细（本来论文看得倒懂不懂的，看这个代码给我看懂了）</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>补充：</li>
+<li>word embedding 和 word2vec<ul>
+<li>通过降维的操作，将高维的词向量嵌入到低维的空间，就是词嵌入，使得每个词带有语义关系</li>
+<li>而word2vec是实现embedding的一种手段</li>
+</ul>
+</li>
+<li>softmax<ul>
+<li>归一化指数函数，使得每个元素的范围都在(0,1)之间且所有元素的和为1</li>
+</ul>
+</li>
+</ul>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/zl_best/article/details/53433072" target="_blank" rel="noopener">word2vec词向量训练及gensim的使用</a></p>
+<p><a href="https://blog.csdn.net/lanyu_01/article/details/80097350" target="_blank" rel="noopener">《word2vec Parameter Learning Explained》论文学习笔记</a></p>
+<p><a href="https://blog.csdn.net/qq_39832864/article/details/88549643" target="_blank" rel="noopener">简单理解word embedding和word2vec</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/13/论文/Attention-is-all-you-need/" rel="next" title="Attention-is-all-you-need">
+                <i class="fa fa-chevron-left"></i> Attention-is-all-you-need
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/17/论文/NEURAL-MACHINE-TRANSLATION-BY-JOINTLY-LEARNING-TO-ALIGN-AND-TRANSLATE/" rel="prev" title="NEURAL-MACHINE-TRANSLATION-BY-JOINTLY-LEARNING-TO-ALIGN-AND-TRANSLATE">
+                NEURAL-MACHINE-TRANSLATION-BY-JOINTLY-LEARNING-TO-ALIGN-AND-TRANSLATE <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>
