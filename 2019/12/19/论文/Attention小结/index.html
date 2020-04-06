@@ -121,7 +121,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/BCNN.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/abcnn-1.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/ABCNN-2.png">
-<meta property="og:updated_time" content="2020-04-06T06:36:11.390Z">
+<meta property="og:updated_time" content="2020-04-06T07:58:16.281Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Attention小结">
 <meta name="twitter:description" content="看了一些论文和博客，总的把Attention的流程理顺了一些，现在开始输出ing，带有个人理解，也不一定正确……">
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:36:11" itemprop="dateModified" datetime="2020-04-06T14:36:11+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 15:58:16" itemprop="dateModified" datetime="2020-04-06T15:58:16+08:00">2020-04-06</time>
               
             
           </span>
@@ -447,7 +447,7 @@
 </ul>
 <h5 id="Hard-Attention"><a href="#Hard-Attention" class="headerlink" title="Hard Attention"></a>Hard Attention</h5><ul>
 <li>直接从句子中指定某个特定的单词作为对齐的词，其attention的概率赋为1，其余的词硬性地认为对齐概率为0</li>
-<li>$\alpha_i=\begin{cases}0 \quad if \ i=p_t\1\quad else \end{cases}$</li>
+<li>$\alpha_i=\begin{cases}0 \quad if \ i=p_t\\ 1\quad else \end{cases}$</li>
 <li>其他变量都是一样的计算方式</li>
 </ul>
 <h5 id="Global-Attention"><a href="#Global-Attention" class="headerlink" title="Global Attention"></a>Global Attention</h5><ul>
@@ -455,7 +455,7 @@
 <li><img src="/2019/12/19/论文/Attention小结/global-attention.png" alt="global-attention"></li>
 <li>$c_t=\sum_{s=1}^{T_x}\alpha_t(s)h_s$</li>
 <li>$\alpha_t(s)=align(h_t,\bar {h_s})=softmax(e_{ij})=softmax(score(h_t,\bar{h_s}))$</li>
-<li>$score(h_t,\bar{h_s})=\begin{cases} h_t^T\bar{h_s}\ 点积-Basic\ dot-product\ attention\ht_TW_a\bar{h_s}\ 乘积-Multiplication\ attention\v_a^Ttanh(W_a[h_t;\bar{h_s}])\ 加法-Additive attention \end{cases}$</li>
+<li>$score(h_t,\bar{h_s})=\begin{cases} h_t^T\bar{h_s}\ 点积-Basic\ dot-product\ attention\\ ht_TW_a\bar{h_s}\ 乘积-Multiplication\ attention\\ v_a^Ttanh(W_a[h_t;\bar{h_s}])\ 加法-Additive attention \end{cases}$</li>
 </ul>
 <h5 id="Local-Attention"><a href="#Local-Attention" class="headerlink" title="Local Attention"></a>Local Attention</h5><ul>
 <li><p>同上在《Effective Approaches to Attention-based Neural Machine Translation》中提出，由于soft-attention类似结构需要计算出所有词的attention概率，代价过大，于是提出了类似hard-attention机制的处于不硬不软中间的一种方法——根据计算出的对齐位置p_t，取该位置附近的窗口大小为D的词语进行计算</p>
@@ -510,7 +510,7 @@
 <li><h6 id="key-value-attention"><a href="#key-value-attention" class="headerlink" title="key-value attention"></a>key-value attention</h6><ul>
 <li>即将隐状态$h_i$拆分成两部分，然后再使用的时候将这两部分分开使用</li>
 <li>计算attention权重的时候只用key的部分；在进行加权求和的时候只用value的部分</li>
-<li>$\begin{bmatrix} k_t\v_t\end{bmatrix}=h_t$</li>
+<li>$\begin{bmatrix} k_t\\ v_t\end{bmatrix}=h_t$</li>
 <li>$M_t=tanh(W^Y[k_{t-L}\dots k_{k-1}]+(W^hk_t)l^T)$</li>
 <li>$\alpha_t=softmax(w^TM_t)$</li>
 <li>$r_t=[v_{t-L}\dots v_{t-1}]\alpha^T$</li>

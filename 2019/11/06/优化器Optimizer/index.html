@@ -117,7 +117,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/11/06/优化器Optimizer/base.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/06/优化器Optimizer/momentum.png">
-<meta property="og:updated_time" content="2020-04-06T06:15:18.905Z">
+<meta property="og:updated_time" content="2020-04-06T08:18:21.949Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优化器Optimizer">
 <meta name="twitter:description" content="怎样加速神经网络的训练过程——优化器的选择  SGD随机梯度下降（每次只使用一个样本进行训练）  传统参数的更新方法是$W=-Learning\ rate*dx$，会使训练的过程十分曲折：  走路像一个喝醉酒的人~">
@@ -375,7 +375,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:15:18" itemprop="dateModified" datetime="2020-04-06T14:15:18+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 16:18:21" itemprop="dateModified" datetime="2020-04-06T16:18:21+08:00">2020-04-06</time>
               
             
           </span>
@@ -448,28 +448,28 @@
 <ul>
 <li>可以添加动量，使得在下降的过程倾向于达到最低点。像是把这个人放在山坡上，使其不自觉得向下行走</li>
 <li><img src="/2019/11/06/优化器Optimizer/momentum.png" alt="momentum"></li>
-<li>其数学形式的参数更新方式为：$m=b1<em>m-Learning\ rate</em>dx$,    $W+=m$</li>
+<li>其数学形式的参数更新方式为：$m=b1 \times m-Learning\ rate \times dx$,    $W+=m$</li>
 </ul>
 </li>
 <li><p>AdaGrad</p>
 <ul>
 <li>使得不同参数都有其与众不同的更新速率</li>
 <li>类似有一双不好走路的鞋，若是摇摇晃晃便会脚疼~</li>
-<li>数学形式：$v+=dx^2$;    $W+=-Learning\ rate*dx/ \sqrt{v}$</li>
+<li>数学形式：$v+=dx^2$;    $W+=-Learning\ rate \times dx/ \sqrt{v}$</li>
 </ul>
 </li>
 <li><p>RMSProp</p>
 <ul>
 <li>简单结合Momentum和AdaGrad的方式（有部分未结合）</li>
-<li>$v=b1<em>v+(1-b1)</em>dx^2$;    $W+=-Learning\ rate*dx/\sqrt{v}$</li>
+<li>$v=b1 \times v+(1-b1) \times dx^2$;    $W+=-Learning\ rate \times dx/\sqrt{v}$</li>
 </ul>
 </li>
 <li><p>Adam</p>
 <ul>
 <li>结合Momentum和AdaGrad的方式</li>
-<li>$m=b1<em>m+(1-b1)</em>dx$ ——  Momentum</li>
-<li>$v=b2<em>v+(1-b2)</em>dx^2$ —— AdaGrad</li>
-<li>$W+=-Learning \ rate*m/\sqrt{v}$</li>
+<li>$m=b1 \times m+(1-b1)\times dx$ ——  Momentum</li>
+<li>$v=b2 \times v+(1-b2) \times dx^2$ —— AdaGrad</li>
+<li>$W+=-Learning \ rate \times m/\sqrt{v}$</li>
 <li>大多数模型使用Adam作为优化器的效果都不错</li>
 </ul>
 </li>

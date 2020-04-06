@@ -116,7 +116,7 @@
 <meta property="og:description" content="word2vec有两种模型，一种是CBOW，一种是Skip-gram，其中CBOW是输入给定词上下文，预测得到该词；而Skip-gram是输入给定词，来预测上下文  左边为Skip-gram模型，右边为CBOW模型   本文是在Skip-gram模型上的改进，Skip-gram模型的目标是使得log概率的平均值最大化，即   $$\frac{1}{T}\sum_{t=1}^T\sum_{-c\l">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/12/03/论文/Distributed-Representations-of-Words-and-Phrases-and-their-Compositionality/word2vec.png">
-<meta property="og:updated_time" content="2020-04-06T06:34:57.334Z">
+<meta property="og:updated_time" content="2020-04-06T08:08:32.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Distributed_Representations_of_Words_and_Phrases_and_their_Compositionality">
 <meta name="twitter:description" content="word2vec有两种模型，一种是CBOW，一种是Skip-gram，其中CBOW是输入给定词上下文，预测得到该词；而Skip-gram是输入给定词，来预测上下文  左边为Skip-gram模型，右边为CBOW模型   本文是在Skip-gram模型上的改进，Skip-gram模型的目标是使得log概率的平均值最大化，即   $$\frac{1}{T}\sum_{t=1}^T\sum_{-c\l">
@@ -374,7 +374,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:34:57" itemprop="dateModified" datetime="2020-04-06T14:34:57+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 16:08:32" itemprop="dateModified" datetime="2020-04-06T16:08:32+08:00">2020-04-06</time>
               
             
           </span>
@@ -436,13 +436,13 @@
 </ul>
 <p>$$<br>\frac{1}{T}\sum_{t=1}^T\sum_{-c\leq j\leq c,j\neq0}logp(w_{t+j}|w_t)<br>$$</p>
 <p>​        其中c是训练集上下文的大小，即每次取c个连续的词进行训练（c越大一般准确率更好，但运算量更大）<a id="more"></a></p>
-<p>​        $p(w_{t+j}|w_t)$表示$w_{t+j}$在$w_t$出现的条件下出现的概率大小，一般是使用softmax 函数进行计算<br>$$<br>p(w_O|w_I)=\frac{exp(v^{‘\ \ \ T}_{w_O}v_{w_I})}{\sum_{w=1}^Wexp(v^{‘\ \ \ T}_wv_{w_I})}<br>$$<br>​        然而上述公式的计算量与W的大小成正比，而W往往$10^5\sim10^7$大小，所以在实际的计算中是不现实的</p>
+<p>​        $p(w_{t+j}|w_t)$表示$w_{t+j}$在$w_t$出现的条件下出现的概率大小，一般是使用softmax 函数进行计算<br>$$<br>p(w_O|w_I)=\frac{exp(v^{‘\ \ \ T}_{w_O}v_{w_I})}{\sum_{w=1}^Wexp(v^{‘\ \ \ T}<em>wv</em>{w_I})}<br>$$<br>​        然而上述公式的计算量与W的大小成正比，而W往往$10^5\sim10^7$大小，所以在实际的计算中是不现实的</p>
 <ul>
 <li><p>对softmax函数的一种常见的近似是使用Hierarchical softmax，通过构造一棵二叉树来各个节点的概率</p>
 <p>从树的根节点可以到达每个词w，Hierarchical softmax对概率的计算如下：</p>
 </li>
 </ul>
-<p>$$<br>p(w|w_I)=\Pi_{j=1}^{L(w)-1}\sigma([n(w,j+1)=ch(n(w,j))]\cdot v^{‘\ \ \ T}<em>{n(w,j)}v</em>{wI})<br>$$</p>
+<p>$$<br>p(w|w_I)=\Pi_{j=1}^{L(w)-1}\sigma([n(w,j+1)=ch(n(w,j))]\cdot v_{n(w,j)}^{‘\ \ \ T}v_{wI})<br>$$</p>
 <p>​        其中$n(w,j)$是从根节点到w节点的路上的第j个节点，$L(w)$是这条路径的长度</p>
 <p>​        ch(n)是任意一个n节点的孩子节点，[x]：当x的结果为true则为1，-1 otherwise。</p>
 <p>​        $\sigma(x)$是一个固定的函数：$\sigma(x)=1/(1+exp(-x))$</p>

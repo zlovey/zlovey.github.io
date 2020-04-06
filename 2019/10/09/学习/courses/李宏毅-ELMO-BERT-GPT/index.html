@@ -125,7 +125,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/case2.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/Case3.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/case4.png">
-<meta property="og:updated_time" content="2020-04-06T06:38:42.130Z">
+<meta property="og:updated_time" content="2020-04-06T08:29:00.489Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="李宏毅-ELMO_BERT_GPT">
 <meta name="twitter:description" content="BERT发展1-of-N Encoding one-hot编码  将不同的词用固定维度的向量来表示  举例：">
@@ -383,7 +383,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:38:42" itemprop="dateModified" datetime="2020-04-06T14:38:42+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 16:29:00" itemprop="dateModified" datetime="2020-04-06T16:29:00+08:00">2020-04-06</time>
               
             
           </span>
@@ -516,7 +516,7 @@
 <p>由于深度神经网络进行多层训练，故会生成多个embedding</p>
 <p>like this:</p>
 <p><img src="/2019/10/09/学习/courses/李宏毅-ELMO-BERT-GPT/elmo1.png" alt="elmo1"></p>
-<p>例如是两层的网络，那么就会输出h1和h2两个embedding，EMLO的做法是将最后使用的embedding (比如h3)，有$h3=\alpha _1<em>h1+\alpha_2</em>h2$，而其中的两个参数$\alpha_1$和$\alpha_2$则作为变量输入下游的具体任务，在具体的任务（情感分析、QA等）中来确定这两个参数的值。</p>
+<p>例如是两层的网络，那么就会输出h1和h2两个embedding，EMLO的做法是将最后使用的embedding (比如h3)，有$h3=\alpha _1 \times h1+\alpha_2 \times h2$，而其中的两个参数$\alpha_1$和$\alpha_2$则作为变量输入下游的具体任务，在具体的任务（情感分析、QA等）中来确定这两个参数的值。</p>
 </li>
 </ul>
 <h5 id="BERT（Bidirectional-Encoder-Representations-from-Transformers）"><a href="#BERT（Bidirectional-Encoder-Representations-from-Transformers）" class="headerlink" title="BERT（Bidirectional Encoder Representations from Transformers）"></a>BERT（Bidirectional Encoder Representations from Transformers）</h5><ul>

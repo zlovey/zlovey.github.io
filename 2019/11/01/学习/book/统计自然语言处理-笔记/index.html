@@ -125,7 +125,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/切分有向无环图.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/n-最短路径.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/01/学习/book/统计自然语言处理-笔记/分词方法2.png">
-<meta property="og:updated_time" content="2020-04-06T06:44:08.380Z">
+<meta property="og:updated_time" content="2020-04-06T08:49:04.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="统计自然语言处理-笔记">
 <meta name="twitter:description" content="书籍：统计自然语言处理 - 宗成庆 第一章 绪论 自然语言处理 自然语言处理（natural language processing，NLP）也称自然语言理解（natural language understanding，NLU）">
@@ -383,7 +383,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:44:08" itemprop="dateModified" datetime="2020-04-06T14:44:08+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 16:49:04" itemprop="dateModified" datetime="2020-04-06T16:49:04+08:00">2020-04-06</time>
               
             
           </span>
@@ -675,7 +675,7 @@
 </li>
 <li><p>语言模型与句子是否合乎语法关系无关，即使一个句子完全合乎语法逻辑，但是在预料中的出现频次为0，我们仍然认为它出现的概率接近为零。</p>
 </li>
-<li><p>对于一个有l个基元（字、词、短语等）构成的句子$s=w_1w_2\dots w_l$，其概率计算公式可以表示为<br>$$<br>p(s)=p(w_1)p(w_2|w_1)p(w_3|w_1w_2)\dots p(w_l|w_1\dots w_{l-1})\=\Pi_{i=1}^lp(w_i|w_1\dots w_{i-1})<br>$$</p>
+<li><p>对于一个有l个基元（字、词、短语等）构成的句子$s=w_1w_2\dots w_l$，其概率计算公式可以表示为<br>$$<br>p(s)=p(w_1)p(w_2|w_1)p(w_3|w_1w_2)\dots p(w_l|w_1\dots w_{l-1})\\=\Pi_{i=1}^lp(w_i|w_1\dots w_{i-1})<br>$$</p>
 </li>
 <li><p>在这种模型中，随着历史长度的增加，不同的历史数目按指数级增长，要实现真正的计算近乎是不可能的。但其实有很多历史在训练数据中完全不会出现，故提出了使用等价类来对不同的历史进行映射的方法，可以将历史按照某个法则映射到等价类中，使得等价类的数目远远小于不同的历史数目</p>
 </li>
@@ -726,11 +726,11 @@
 </li>
 <li><p>Good-Turing估计法</p>
 <ul>
-<li><p>由于加法平滑使得$\sum r^*\neq \sum r$，故而产生了此类方法，可以把测试集中元素在训练集中出现的总次数不变</p>
+<li><p>由于加法平滑使得$\sum r^ \ast \neq \sum r$，故而产生了此类方法，可以把测试集中元素在训练集中出现的总次数不变</p>
 </li>
-<li><p>对于任何一个出现r次的n元语法，都假设它出现$r^<em>$次，这里<br>$$<br>r^</em>=(r+1)\frac{n_{r+1}}{n_r}<br>$$<br>其中$n_r$是训练语料中出现r次的n元语法数目</p>
+<li><p>对于任何一个出现r次的n元语法，都假设它出现$r^ \ast$次，这里<br>$$<br>r^ \ast=(r+1)\frac{n_{r+1}}{n_r}<br>$$<br>其中$n_r$是训练语料中出现r次的n元语法数目</p>
 </li>
-<li><p>其概率的计算为<br>$$<br>p_r=\frac{r^<em>}{N}<br>$$<br>其中$N=\sum_{r=0}^{\infty}n_rr^</em>$</p>
+<li><p>其概率的计算为<br>$$<br>p_r=\frac{r^ \ast }{N}<br>$$<br>其中$N=\sum_{r=0}^{\infty}n_rr^ \ast $</p>
 </li>
 <li><p>按比例缩小次数</p>
 </li>
@@ -746,7 +746,7 @@
 </li>
 <li><p>是一种后备的平滑方法。其基本的思路是当某一事件在样本中出现的频率大于k时，其可靠性可能很高，故不劫它，运用最大似然估计经过减值来估计其概率，而当某一事件的频率小于k时，其误差可能偏大，故要打个折扣d使用低阶的语法模型作为代替高阶语法模型的后备，这种代替需要受归一化因子$\alpha$的作用</p>
 </li>
-<li><p>计算方法<br>$$<br>C_{katz}(w_{i-1}^i)=\begin{cases} d_rr，r&gt;0\ \alpha(w_{i-1})p_{ML}(w_i)， r=0\end{cases}<br>$$<br>其中$d_r$等于在Good-Turing方法中的$\frac{r^*}{r}$值，根据低一阶的分布来分配给计数为0的二元语法</p>
+<li><p>计算方法<br>$$<br>C_{katz}(w_{i-1}^i)=\begin{cases} d_rr，r&gt;0\\ \alpha(w_{i-1})p_{ML}(w_i)， r=0\end{cases}<br>$$<br>其中$d_r$等于在Good-Turing方法中的$\frac{r^*}{r}$值，根据低一阶的分布来分配给计数为0的二元语法</p>
 </li>
 <li><p>根据低阶的语法模型分配由于减值而节省下来的剩余概率给未见事件，这比将剩余概率平均分配给未见事件更加合理</p>
 </li>
@@ -802,7 +802,7 @@
 </li>
 </ul>
 </li>
-<li><p>大多数平滑的算法都可以用<br>$$<br>p_{smooth}(w_i|w_{i-n+1}^{i-1})=\begin{cases} \alpha(w_i|w_{i-n+1}^{i-1}),c(w_{i-n+1}^i&gt;0)\ \gamma(w_{i-n+1}^{i-1}p_{smooth}(w_i|w_{i-n+1}^{i-1}),c(w_{i-n+1}^i=0)\end{cases}<br>$$<br>来表示（后背模型和插值模型）</p>
+<li><p>大多数平滑的算法都可以用<br>$$<br>p_{smooth}(w_i|w_{i-n+1}^{i-1})=\begin{cases} \alpha(w_i|w_{i-n+1}^{i-1}),c(w_{i-n+1}^i&gt;0)\\ \gamma(w_{i-n+1}^{i-1}p_{smooth}(w_i|w_{i-n+1}^{i-1}),c(w_{i-n+1}^i=0)\end{cases}<br>$$<br>来表示（后背模型和插值模型）</p>
 <p><img src="/2019/11/01/学习/book/统计自然语言处理-笔记/平滑算法.png" alt="平滑算法"></p>
 </li>
 <li><p>其他平滑</p>
@@ -844,9 +844,9 @@
 </li>
 <li><p>基本思路是通过n元语法的线性插值：<br>$$<br>\hat p(w_i|w_1^{i-1})=\lambda\hat p_{Cache}(w_i|w_1^{i-1})+(1-\lambda)\hat p_{n-gram}(w_i|w_{i-n+1}^{i-1})<br>$$</p>
 </li>
-<li><p>在缓存中保留前面K个词，每个词$w_i$的概率用其在缓存中出现的相对频率计算，即<br>$$<br>正常的基于缓存的语言模型\\hat p_{Cache}(w_i|w_1^{i-1})=\frac{1}{K}\sum^{i-1}<em>{j=i-K}I</em>{w_j=w_i}<br>$$<br>其中I为指示函数，相等即为1，不等即为0</p>
+<li><p>在缓存中保留前面K个词，每个词$w_i$的概率用其在缓存中出现的相对频率计算，即<br>$$<br>正常的基于缓存的语言模型\\ \hat p_{Cache}(w_i|w_1^{i-1})=\frac{1}{K}\sum_{j=i-K}^{i-1}I_{w_j=w_i}<br>$$<br>其中I为指示函数，相等即为1，不等即为0</p>
 </li>
-<li><p>如果加入考虑词与当前词的距离，距离越近对缓存概率的贡献越大，其中$\alpha$为衰减率，$\beta$为归一化常数<br>$$<br>衰减的基于缓存的语言模型\\hat p_{Cache}(w_i|w_1^{i-1})=\beta\sum^{i-1}<em>{j=1}I</em>{w_j=w_i}e^{-\alpha(i-j)}<br>$$</p>
+<li><p>如果加入考虑词与当前词的距离，距离越近对缓存概率的贡献越大，其中$\alpha$为衰减率，$\beta$为归一化常数<br>$$<br>衰减的基于缓存的语言模型\\ \hat p_{Cache}(w_i|w_1^{i-1})=\beta\sum_{j=1}^{i-1}I_{w_j=w_i}e^{-\alpha(i-j)}<br>$$</p>
 </li>
 </ul>
 </li>

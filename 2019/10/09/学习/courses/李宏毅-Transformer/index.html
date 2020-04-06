@@ -121,7 +121,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/2-head-cat.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/s2s-sa.png">
 <meta property="og:image" content="http://yoursite.com/2019/10/09/学习/courses/李宏毅-Transformer/transformer.png">
-<meta property="og:updated_time" content="2020-04-06T06:37:59.473Z">
+<meta property="og:updated_time" content="2020-04-06T08:27:07.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="李宏毅-Transformer">
 <meta name="twitter:description" content="妈耶——一开始又让我跳课，没有看过seq2seq ==，好的，我走了 啊由于是机器学习的系列课，有点多，所以看了简单的课程笔记我就回来了 我才发现2019李宏毅老师的合集就有观看顺序emmmmm 简单补个Seq2Seq吧：">
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:37:59" itemprop="dateModified" datetime="2020-04-06T14:37:59+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 16:27:07" itemprop="dateModified" datetime="2020-04-06T16:27:07+08:00">2020-04-06</time>
               
             
           </span>
@@ -508,8 +508,8 @@
 <li><p>向量实现</p>
 <ul>
 <li>将$a^1,a^2,a^3,a^4$拼接起来，作为输入I，再乘上W权值矩阵（权值矩阵根据训练得到参数矩阵），就可以得到Q,K,V矩阵</li>
-<li>$\Alpha(attention)=K^TQ$</li>
-<li>将A输入soft-max层进行处理得到$\hat\Alpha$矩阵</li>
+<li>$\Alpha (attention)=K^TQ$</li>
+<li>将A输入soft-max层进行处理得到$\hat \Alpha$矩阵</li>
 <li>$O(B矩阵，输出矩阵)=V\hat A$</li>
 <li>都是矩阵乘法的操作，可以通过GPU来进行加速</li>
 </ul>
@@ -543,7 +543,7 @@
 </li>
 <li>因此在原始的论文中提出的方法是<ul>
 <li>对每个不同位置的$x^i$都有一个独一无二的位置向量$e^i$——这个$e^i$是人为给定的，并不是从数据中学习的</li>
-<li>将$e^i$加到$a^i$中，得到的结果进行下一步的操作（相加的操作其实相当于直接在原始的输入$x^i$上拼接了一个one-hot的位置向量$p^i=\begin{bmatrix} \vdots\0\1\0\ \vdots \end{bmatrix}$后，再乘上了偏移的矩阵W</li>
+<li>将$e^i$加到$a^i$中，得到的结果进行下一步的操作（相加的操作其实相当于直接在原始的输入$x^i$上拼接了一个one-hot的位置向量$p^i=\begin{bmatrix} \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \end{bmatrix}$后，再乘上了偏移的矩阵W</li>
 </ul>
 </li>
 </ul>

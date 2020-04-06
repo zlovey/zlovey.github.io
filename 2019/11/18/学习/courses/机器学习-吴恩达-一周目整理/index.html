@@ -115,17 +115,17 @@
 <meta property="og:site_name" content="Garden">
 <meta property="og:description" content="线性回归(univariate linear regression) model  Hypothesis假设函数  $$h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n$$   cost function代价函数  平方差；交叉熵等   梯度下降">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/激励函数简介/激励函数1.png">
-<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/机器学习-吴恩达/high%20variance.png">
-<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/机器学习-吴恩达/high-bias.png">
-<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/机器学习-吴恩达/nn1.png">
-<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/metrics的评估方法-模型评估/1.jpg">
-<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/机器学习-吴恩达/svm-decision_boundary.png">
-<meta property="og:updated_time" content="2020-04-06T06:42:39.267Z">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/激励函数1.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/high%20variance.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/high-bias.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/nn1.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/svm-decision_boundary.png">
+<meta property="og:updated_time" content="2020-04-06T08:52:45.818Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习-吴恩达-一周目整理">
 <meta name="twitter:description" content="线性回归(univariate linear regression) model  Hypothesis假设函数  $$h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n$$   cost function代价函数  平方差；交叉熵等   梯度下降">
-<meta name="twitter:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/激励函数简介/激励函数1.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/激励函数1.png">
 
 
 
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:42:39" itemprop="dateModified" datetime="2020-04-06T14:42:39+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 16:52:45" itemprop="dateModified" datetime="2020-04-06T16:52:45+08:00">2020-04-06</time>
               
             
           </span>
@@ -490,7 +490,7 @@
 <li><p>通过激活函数实现非线性的处理</p>
 <ul>
 <li>一般来说，卷积神经网络推荐relu，循环神经网络推荐Relu或者tanh</li>
-<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/激励函数简介\激励函数1.png" alt="激励函数1"></li>
+<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/激励函数1.png" alt="激励函数1"></li>
 </ul>
 </li>
 <li><p>根据激活函数修正cost function使得其为凸函数，才能GD优化</p>
@@ -499,7 +499,7 @@
 <hr>
 <h6 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h6><ul>
 <li>过拟合——高方差（泛化性差）<ul>
-<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/机器学习-吴恩达/high variance.png" alt="high variance"></li>
+<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/high variance.png" alt="high variance"></li>
 <li>训练集的误差远远小于验证集上的误差</li>
 <li>减少特征数量</li>
 <li>增大数据集</li>
@@ -512,7 +512,7 @@
 </ul>
 </li>
 <li>欠拟合——高偏差<ul>
-<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/机器学习-吴恩达/high-bias.png" alt="high-bias"></li>
+<li><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/high-bias.png" alt="high-bias"></li>
 <li>训练集上的误差基本等于验证集上的误差</li>
 <li>添加特征数量（增加模型复杂度）</li>
 <li>减少$\lambda$</li>
@@ -524,7 +524,7 @@
 <h6 id="神经网络及前向-反向传播"><a href="#神经网络及前向-反向传播" class="headerlink" title="神经网络及前向/反向传播"></a>神经网络及前向/反向传播</h6><ul>
 <li><p>非线性的回归问题可以采用神经网络的方法，是非线性的算法</p>
 </li>
-<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/机器学习-吴恩达/nn1.png" alt="nn1"></p>
+<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/nn1.png" alt="nn1"></p>
 </li>
 <li><p>FP前向传播（其中$\Theta^{j}$表示从j层到j+1层的权重矩阵）——计算模型结果</p>
 <ul>
@@ -591,7 +591,7 @@
 <ul>
 <li><p>TP/(TP+FN)</p>
 </li>
-<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/metrics的评估方法-模型评估\1.jpg" alt="1"></p>
+<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/1.jpg" alt="1"></p>
 </li>
 </ul>
 </li>
@@ -601,7 +601,7 @@
 <hr>
 <h6 id="支持向量机SVM"><a href="#支持向量机SVM" class="headerlink" title="支持向量机SVM"></a>支持向量机SVM</h6><ul>
 <li>svm往往可以得到更加稳健，即间距最大的决策边界</li>
-<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/机器学习-吴恩达/svm-decision_boundary.png" alt="svm-decision_boundary"></p>
+<li><p><img src="/2019/11/18/学习/courses/机器学习-吴恩达-一周目整理/svm-decision_boundary.png" alt="svm-decision_boundary"></p>
 </li>
 <li><p>使用SVM实现非线性函数的方法——核函数kernel</p>
 <ul>
@@ -646,7 +646,7 @@
 <ul>
 <li><p>从主成分k =1时开始计算投影的差值，直到满足方差保留要求的百分比的最小的k值</p>
 </li>
-<li><p>方差保留: 分子是投影距离之和，分母是x的方差<br>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x^{(i)}<em>{approx}||^2}{\frac{1}{m}\sum^m</em>{i=1}||x^{(i)}||^2}\leq0.01<br>$$</p>
+<li><p>方差保留: 分子是投影距离之和，分母是x的方差<br>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x_{approx}^{(i)}||^2}{\frac{1}{m}\sum_{i=1}^m||x^{(i)}||^2}\leq0.01<br>$$</p>
 </li>
 </ul>
 </li>

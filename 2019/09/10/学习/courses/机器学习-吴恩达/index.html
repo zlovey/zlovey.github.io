@@ -144,7 +144,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/kmeans-albow2.png">
 <meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/LR-PCA.png">
 <meta property="og:image" content="http://yoursite.com/2019/09/10/学习/courses/机器学习-吴恩达/pca.png">
-<meta property="og:updated_time" content="2020-04-06T06:41:27.003Z">
+<meta property="og:updated_time" content="2020-04-06T08:37:45.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习-吴恩达">
 <meta name="twitter:description" content="章节1   绪论：初识机器学习 课时1  欢迎参加《机器学习》课程  课时2  什么是机器学习？  课时3  监督学习  课时4  无监督学习">
@@ -402,7 +402,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:41:27" itemprop="dateModified" datetime="2020-04-06T14:41:27+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 16:37:45" itemprop="dateModified" datetime="2020-04-06T16:37:45+08:00">2020-04-06</time>
               
             
           </span>
@@ -600,7 +600,7 @@
 <p>​                            852</p>
 </li>
 <li><p>change into a matrix computation: 乘积即为对应的y值</p>
-<p>$$\left[<br> \begin{matrix}<br>   1 &amp; 2104 \<br>   1 &amp; 1416 \<br>   1 &amp; 1534 \<br>   1 &amp; 852<br>  \end{matrix}<br>  \right]<br>  *<br> \left[<br> \begin{matrix}<br>   -40 \<br>   0.25<br>  \end{matrix}<br>  \right]$$</p>
+<p>$$\left[<br> \begin{matrix}<br>   1 &amp; 2104 \\<br>   1 &amp; 1416 \\<br>   1 &amp; 1534 \\<br>   1 &amp; 852<br>  \end{matrix}<br>  \right]<br>  *<br> \left[<br> \begin{matrix}<br>   -40 \\<br>   0.25<br>  \end{matrix}<br>  \right]$$</p>
 </li>
 </ul>
 </li>
@@ -616,7 +616,7 @@
 <p>​                            852</p>
 </li>
 <li><p>change into a matrix computation: 乘积即为对应的y值</p>
-<p>$\left[<br> \begin{matrix}<br>   1 &amp; 2104 \<br>   1 &amp; 1416 \<br>   1 &amp; 1534 \<br>   1 &amp; 852<br>  \end{matrix}<br>  \right]<br>  *<br> \left[<br> \begin{matrix}<br>   -40 &amp; 200 &amp; -150\<br>   0.25 &amp; 0.1 &amp; 0.4<br>  \end{matrix}<br>  \right]$</p>
+<p>$\left[<br> \begin{matrix}<br>   1 &amp; 2104 \\<br>   1 &amp; 1416 \\<br>   1 &amp; 1534 \\<br>   1 &amp; 852<br>  \end{matrix}<br>  \right]<br>  *<br> \left[<br> \begin{matrix}<br>   -40 &amp; 200 &amp; -150\\<br>   0.25 &amp; 0.1 &amp; 0.4<br>  \end{matrix}<br>  \right]$</p>
 </li>
 </ul>
 </li>
@@ -626,7 +626,7 @@
 <li><p>Hypothesis:</p>
 <ul>
 <li>$h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+…+\theta_nx_n$($x_0=1$)</li>
-<li>$x=\left[<br> \begin{matrix}<br>   x_0 \<br>   x_1 \<br>   x_2 \<br>   \vdots \<br>   x_n   \end{matrix}<br>  \right]$          $\theta=\left[<br> \begin{matrix}<br>   \theta_0 \<br>   \theta_1 \<br>   \theta_2 \<br>   \vdots \<br>   \theta_n   \end{matrix}<br>  \right]$</li>
+<li>$x=\left[<br> \begin{matrix}<br>   x_0 \\<br>   x_1 \\<br>   x_2 \\<br>   \vdots \\<br>   x_n   \end{matrix}<br>  \right]$          $\theta=\left[<br> \begin{matrix}<br>   \theta_0 \\<br>   \theta_1 \\<br>   \theta_2 \\<br>   \vdots \\<br>   \theta_n   \end{matrix}<br>  \right]$</li>
 <li>Multivariate linear regression 多元线性回归:$h_\theta(x)=\theta^Tx$</li>
 </ul>
 </li>
@@ -690,8 +690,8 @@
 <li><p>In general</p>
 <ul>
 <li>m examples$(x^{(1)},y^{(1)}),…,(x^{(m)},y^{(m)})$;n features</li>
-<li>$x^{(i)}=\left[<br>\begin{matrix}<br>  x_0^{(i)} \<br>  x_1^{(i)} \<br>  x_2^{(i)} \<br>  \vdots \<br>  x_n^{(i)}   \end{matrix}<br> \right]$</li>
-<li>X(design matrix)=$x^{(i)}=\left[<br>\begin{matrix}<br>  (x^{(1)})^T \<br>  (x^{(2)})^T \<br>  (x^{(3)})^T \<br>  \vdots \<br> (x^{(m)})^T   \end{matrix}<br> \right]$</li>
+<li>$x^{(i)}=\left[<br>\begin{matrix}<br>  x_0^{(i)} \\<br>  x_1^{(i)} \\<br>  x_2^{(i)} \\<br>  \vdots \\<br>  x_n^{(i)}   \end{matrix}<br> \right]$</li>
+<li>X(design matrix)=$x^{(i)}=\left[<br>\begin{matrix}<br>  (x^{(1)})^T \\<br>  (x^{(2)})^T \\<br>  (x^{(3)})^T \\<br>  \vdots \\<br> (x^{(m)})^T   \end{matrix}<br> \right]$</li>
 <li>$\theta=(X^TX)^{-1}X^Ty$即为使得$J(\theta)$最小的值<ul>
 <li>if $(X^TX)$不可逆<ul>
 <li>存在线性特征（冗余特征）使得$(X^TX)$秩为0</li>
@@ -747,15 +747,15 @@
 </li>
 <li><p>因此可以将两个式子合并为：<br>$$<br>h_\theta(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}<br>$$</p>
 </li>
-<li><p>我们指定$\begin{cases} y=1，当h_\theta(x)\geq0.5\y=0，当 h_\theta(x)&lt;0.5\end{cases}  $  </p>
+<li><p>我们指定$\begin{cases} y=1，当h_\theta(x)\geq0.5\\ y=0，当 h_\theta(x)&lt;0.5\end{cases}  $  </p>
 </li>
 <li><p>sigmoid函数——激活函数——用于非线性处理：</p>
 <p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/sigmoid.png" alt="sigmoid"></p>
 </li>
-<li><p>而根据sigmoid函数的图像可知，$\begin{cases}当 \theta^Tx\geq0时，h_\theta(x)\geq0.5\当\theta^Tx&lt;0时， h_\theta(x)&lt;0.5\end{cases}  $  </p>
+<li><p>而根据sigmoid函数的图像可知，$\begin{cases}当 \theta^Tx\geq0时，h_\theta(x)\geq0.5\\ 当\theta^Tx&lt;0时， h_\theta(x)&lt;0.5\end{cases}  $  </p>
 </li>
 <li><p>故$h_\theta(x)=g(\theta^Tx)$中，</p>
-<p>$\begin{cases}当 \theta^Tx\geq0时，y=1\当\theta^Tx&lt;0时， y=0\end{cases}$</p>
+<p>$\begin{cases}当 \theta^Tx\geq0时，y=1\\ 当\theta^Tx&lt;0时， y=0\end{cases}$</p>
 </li>
 </ul>
 </li>
@@ -779,7 +779,7 @@
 <li><p>故提出新的Cost function</p>
 <ul>
 <li><p>$J(\theta)=\frac{1}{m}\sum_{i=1}^mCost(h_\theta(x^{(i)}),y^{(i)})$</p>
-<p>$Cost(h_\theta(x),y)=\begin{cases}-log(h_\theta(x))，if \ \ y=1\-log(1-h_\theta(x))， if\ \ y=0\end{cases}$</p>
+<p>$Cost(h_\theta(x),y)=\begin{cases}-log(h_\theta(x))，if \ \ y=1\\ -log(1-h_\theta(x))， if\ \ y=0\end{cases}$</p>
 </li>
 <li><p>图像</p>
 <p><img src="/2019/09/10/学习/courses/机器学习-吴恩达/logistic-cost1.png" alt="logistic-cost1"></p>
@@ -789,7 +789,7 @@
 </ul>
 </li>
 </ul>
-<pre><code>![logistic-cost2](F:\blog\source\_posts\学习\courses\机器学习-吴恩达\logistic-cost2.png)
+<pre><code>![logistic-cost2](机器学习-吴恩达\logistic-cost2.png)
 </code></pre><ul>
 <li><p>可以将cost function合并为</p>
 <p>$J(\theta)=-\frac{1}{m}[\sum_{i=1}^my^{(i)}logh_\theta(x^{(i)})+(1-y^{(i)})log(1-h_\theta(x^{(i)}))]$</p>
@@ -860,7 +860,7 @@
 <ul>
 <li><p>通过求偏导使得$min_\theta J(\theta)$</p>
 </li>
-<li><p>$$<br>\theta=(X^TX+\lambda \left[<br>\begin{matrix}<br>  0 &amp; 0 &amp;\cdots&amp; 0 &amp; 0 \<br>  0 &amp; 1 &amp;\cdots&amp; 0 &amp; 0\<br>  \vdots &amp; \vdots &amp; \ddots &amp;\vdots&amp;\vdots\<br>  0 &amp; 0 &amp;\cdots&amp; 1 &amp; 0\<br>  0 &amp; 0 &amp;\cdots&amp; 0 &amp; 1  \end{matrix}<br> \right])^{-1}X^Ty<br>$$</p>
+<li><p>$$<br>\theta=(X^TX+\lambda \left[<br>\begin{matrix}<br>  0 &amp; 0 &amp;\cdots&amp; 0 &amp; 0 \\<br>  0 &amp; 1 &amp;\cdots&amp; 0 &amp; 0 \\<br>  \vdots &amp; \vdots &amp; \ddots &amp;\vdots&amp;\vdots \\<br>  0 &amp; 0 &amp;\cdots&amp; 1 &amp; 0 \\<br>  0 &amp; 0 &amp;\cdots&amp; 0 &amp; 1  \end{matrix}<br> \right])^{-1}X^Ty<br>$$</p>
 </li>
 </ul>
 </li>
@@ -910,7 +910,7 @@
 <p>$z_2^{(2)}$表示$\Theta_{20}^{(1)}x_0+\Theta_{21}^{(1)}x_1+\Theta_{22}^{(1)}x_2+\Theta_{23}^{(1)}x_3$</p>
 <p>……</p>
 </li>
-<li><p>$x=\left[<br>\begin{matrix}<br>  x_0\<br>  x_1\<br>  x_2\<br>  x_3 \end{matrix}<br> \right]$     $z^{(2)}=\left[<br>\begin{matrix}<br>  z_1^{(2)}\<br>  z_2^{(2)}\<br>  z_3^{(2)} \end{matrix}<br> \right]$</p>
+<li><p>$x=\left[<br>\begin{matrix}<br>  x_0\\<br>  x_1\\<br>  x_2\\<br>  x_3 \end{matrix}<br> \right]$     $z^{(2)}=\left[<br>\begin{matrix}<br>  z_1^{(2)}\\<br>  z_2^{(2)}\\<br>  z_3^{(2)} \end{matrix}<br> \right]$</p>
 </li>
 <li><p>有$z^{(2)}=\Theta^{(1)}x$  </p>
 <p>$a^{(2)}=g(z^{(2)})$</p>
@@ -932,7 +932,7 @@
 <li><img src="/2019/09/10/学习/courses/机器学习-吴恩达/XOR.png" alt="XOR"></li>
 <li>Multi-classification<ul>
 <li>例如四分类</li>
-<li>the output is $\left[<br>\begin{matrix}<br>  1\<br>  0\<br>  0\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\<br>  1\<br>  0\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\<br>  0\<br>  1\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\<br>  0\<br>  0\<br>  1 \end{matrix}<br> \right]$来分别表示四种类型</li>
+<li>the output is $\left[<br>\begin{matrix}<br>  1\\<br>  0\\<br>  0\\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\\<br>  1\\<br>  0\\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\\<br>  0\\<br>  1\\<br>  0 \end{matrix}<br> \right]$ or $\left[<br>\begin{matrix}<br>  0\\<br>  0\\<br>  0\\<br>  1 \end{matrix}<br> \right]$来分别表示四种类型</li>
 <li>通过输入$(x^{(i)},y^{(i)})$作为训练集得到output</li>
 </ul>
 </li>
@@ -943,7 +943,7 @@
 <li><p>Cost function</p>
 <ul>
 <li><p>与逻辑回归类似，只是添加求和的项</p>
-<p>$J(\Theta)=-\frac{1}{m}[\sum_{i=1}^m\sum_{k=1}^{K}y_k^{(i)}log(h_\theta(x^{(i)}))_k+(1-y^{(i)}<em>k)log(1-h</em>\theta(x^{(i)}))<em>k]+\frac{\lambda}{2m}\sum</em>{l=1}^{L-1}\sum_{i=1}^{S_l}\sum_{j=1}^{S_{l+1}}(\Theta_{ji}^{(l)})^2$</p>
+<p>$J(\Theta)=-\frac{1}{m}[\sum_{i=1}^m\sum_{k=1}^{K}y_k^{(i)}log(h_\theta(x^{(i)}))_k+(1-y_k^{(i)})log(1-h_\theta(x^{(i)}))<em>k]+\frac{\lambda}{2m}\sum</em>{l=1}^{L-1}\sum_{i=1}^{S_l}\sum_{j=1}^{S_{l+1}}(\Theta_{ji}^{(l)})^2$</p>
 </li>
 </ul>
 </li>
@@ -1113,7 +1113,7 @@
 </ul>
 </li>
 <li>Hypothesis:<ul>
-<li>$h_\theta(x)=\begin{cases} 1\ \ if\ \theta^Tx \geq0 \0 \ otherwise\end{cases} $</li>
+<li>$h_\theta(x)=\begin{cases} 1\ \ if\ \theta^Tx \geq0 \\ 0 \ otherwise\end{cases} $</li>
 </ul>
 </li>
 <li>由于cost函数保证了1与-1的区间，那么就不仅仅是当变量值大于0或者小于0就可以产生变化，而是加强了条件，需要到1或者-1才能对y的值产生影响。</li>
@@ -1264,7 +1264,7 @@
 <ul>
 <li><p>Average squared projection error/Total variation in the data</p>
 </li>
-<li><p>即选取k的最小值使得<br>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x^{(i)}<em>{approx}||^2}{\frac{1}{m}\sum^m</em>{i=1}||x^{(i)}||^2}\leq0.01<br>$$</p>
+<li><p>即选取k的最小值使得<br>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x_{approx}^{(i)}||^2}{\frac{1}{m}\sum_{i=1}^m||x^{(i)}||^2}\leq0.01<br>$$</p>
 </li>
 </ul>
 </li>
@@ -1280,7 +1280,7 @@
 </li>
 <li><p>检查上述不等式是否满足——方差保留的百分比</p>
 </li>
-<li><p>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x^{(i)}<em>{approx}||^2}{\frac{1}{m}\sum^m</em>{i=1}||x^{(i)}||^2}\leq0.01<br>$$</p>
+<li><p>$$<br>\frac{\frac{1}{m}\sum^m_{i==1}||x^{(i)}-x_{approx}^{(i)}||^2}{\frac{1}{m}\sum_{i=1}^m||x^{(i)}||^2}\leq0.01<br>$$</p>
 </li>
 <li><p>然后不断增加k的值，直到满足上述条件为止，直到得到最小的k值满足条件</p>
 </li>
@@ -1293,7 +1293,7 @@
 <li><p>PCA作为压缩算法的重构（反压缩）reconstruction</p>
 <ul>
 <li>压缩时：$z=U^T_{reduce}x$</li>
-<li>反压缩：$x^{(1)}<em>{approx}=U</em>{reduce}z^{(1)}$</li>
+<li>反压缩：$x_{approx}^{(1)}=U_{reduce}z^{(1)}$</li>
 </ul>
 </li>
 <li><p>PCA的应用</p>
@@ -1388,7 +1388,7 @@
 </li>
 <li><p>通过不同的变量来调节可以得到不同的分布图像</p>
 </li>
-<li><p>通过从样本空间中计算得到$\mu$和$\Sigma$的值<br>$$<br>\mu=\frac{1}{m}\sum_{i=1}^mx^{(i)}\\Sigma=\frac{1}{m}\sum_{i=1}^m(x^{(i)-\mu})(x^{(i)}-\mu)^T<br>$$</p>
+<li><p>通过从样本空间中计算得到$\mu$和$\Sigma$的值<br>$$<br>\mu=\frac{1}{m}\sum_{i=1}^mx^{(i)}\\\Sigma=\frac{1}{m}\sum_{i=1}^m(x^{(i)-\mu})(x^{(i)}-\mu)^T<br>$$</p>
 </li>
 <li><p>对于给出的实例x计算p(x)，如若p(x)的值小于阈值则为异常</p>
 </li>

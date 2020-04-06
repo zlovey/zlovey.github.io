@@ -119,7 +119,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/mulit-CBOW.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/SG.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/16/论文/word2vec-Parameter-Learning-Explained/hierachical-softmax.png">
-<meta property="og:updated_time" content="2020-04-06T06:34:19.490Z">
+<meta property="og:updated_time" content="2020-04-06T08:02:03.099Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="word2vec-Parameter-Learning-Explained">
 <meta name="twitter:description" content="本文对word2vec的模型的两种实现方法（CBOW和SG)进行了详细的结构上的描述，并对改进的方法Hierarchical Softmax和Negative Sampling进行了讲解">
@@ -377,7 +377,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:34:19" itemprop="dateModified" datetime="2020-04-06T14:34:19+08:00">2020-04-06</time>
+                <time title="修改时间：2020-04-06 16:02:03" itemprop="dateModified" datetime="2020-04-06T16:02:03+08:00">2020-04-06</time>
               
             
           </span>
@@ -455,7 +455,7 @@
 </ul>
 </li>
 <li>在有多个输入词的情况：<ul>
-<li>$h=\frac{1}{C}W^T(x_1+x_2+\dots +x_C)\=\frac{1}{C}(v_{w_1}+v_{w_2}+\dots +v_{w_C})^T$</li>
+<li>$h=\frac{1}{C}W^T(x_1+x_2+\dots +x_C)\\ =\frac{1}{C}(v_{w_1}+v_{w_2}+\dots +v_{w_C})^T$</li>
 <li>即将所有的输入词中提取出来的行求和再求平均即得到隐藏层的输入值</li>
 </ul>
 </li>
@@ -490,7 +490,7 @@
 <ul>
 <li><p>由上面的推导可以得出我们需要模型达到的是上述后验概率的最大化，求到最合适的那个词，即</p>
 </li>
-<li><p>$max\ p(w_O|w_I)\=max\ y_{j<em>}\=max\ log\  y_{j</em>}\=u_{j*}-log\sum_{j’=1}^Vexp(u_{j’}):=-E$</p>
+<li><p>$max\ p(w_O|w_I)\\ =max\ y_{j<em>}\\ =max\ log\  y_{j</em>}\\ =u_{j*}-log\sum_{j’=1}^Vexp(u_{j’}):=-E$</p>
 </li>
 <li><p>$j^*$是在输出层中真实实际输出的单词的下标</p>
 </li>
@@ -542,7 +542,7 @@
 <li><p>从隐藏层到输出层的权重公式不变</p>
 </li>
 <li><p>从输入层到隐藏层的权重更新公式变化为</p>
-<p>$v^{(new)}_{w_{I,c}}=v^{(old)}_{w_{I,c}}-\frac {1}{C}\eta EH^T$</p>
+<p>$v^{(new)}<em>{w</em>{I,c}}=v^{(old)}<em>{w</em>{I,c}}-\frac {1}{C}\eta EH^T$</p>
 <p>其中$v_{w_{I,c}}$是输入向量的第c个词</p>
 </li>
 </ul>
@@ -565,9 +565,9 @@
 <ul>
 <li>损失函数有变化</li>
 <li>从隐藏层到输出层：</li>
-<li>$w’^{(new)}<em>{ij}=w’^{(old)}</em>{ij}-\eta\cdot EI_j\cdot h_i或v’^{(new)}_{w_j}=v’^{(old)}_{w_j}-\eta\cdot EI_j\cdot h$</li>
+<li>$w_{ij}’^{(new)}=w_{ij}’^{(old)}-\eta\cdot EI_j\cdot h_i或v_{w_j}’^{(new)}=v_{w_j}’^{(old)}-\eta\cdot EI_j\cdot h$</li>
 <li>从输入层到隐藏层：</li>
-<li>$v^{(new)}_{w_I}=v^{(old)}_{w_I}-\eta EH^T\其中\EH_i=\sum_{j=1}^VEI_j\cdot w’_{ij}$</li>
+<li>$v^{(new)}_{w_I}=v^{(old)}_{w_I}-\eta EH^T\\ 其中\\ EH_i=\sum_{j=1}^VEI_j\cdot w’_{ij}$</li>
 </ul>
 </li>
 </ul>
