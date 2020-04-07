@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="欧式距离 Euclidean distance数学上的一个距离公式：   例1：计算“产品经理”和“产业经理是什么”之间的欧氏距离  过程如下：  文本向量A=（产，品，经，理），即x1=产，x2=品，x3=经，x4=理，x5、x6、x7均为空；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文本相似性-nlp">
+<meta property="og:url" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="欧式距离 Euclidean distance数学上的一个距离公式：   例1：计算“产品经理”和“产业经理是什么”之间的欧氏距离  过程如下：  文本向量A=（产，品，经，理），即x1=产，x2=品，x3=经，x4=理，x5、x6、x7均为空；">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/v.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/7.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/6.png">
+<meta property="og:updated_time" content="2020-04-06T06:17:40.043Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="文本相似性-nlp">
+<meta name="twitter:description" content="欧式距离 Euclidean distance数学上的一个距离公式：   例1：计算“产品经理”和“产业经理是什么”之间的欧氏距离  过程如下：  文本向量A=（产，品，经，理），即x1=产，x2=品，x3=经，x4=理，x5、x6、x7均为空；">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>文本相似性-nlp | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/18/专题整理/文本相似性-nlp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文本相似性-nlp
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-18 20:45:50" itemprop="dateCreated datePublished" datetime="2019-07-18T20:45:50+08:00">2019-07-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-06 14:17:40" itemprop="dateModified" datetime="2020-04-06T14:17:40+08:00">2020-04-06</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="欧式距离-Euclidean-distance"><a href="#欧式距离-Euclidean-distance" class="headerlink" title="欧式距离 Euclidean distance"></a>欧式距离 Euclidean distance</h4><p>数学上的一个距离公式：</p>
+<p><img src="/2019/07/18/专题整理/文本相似性-nlp/1.jpg" alt="1"></p>
+<blockquote>
+<p>例1<strong>：</strong>计算“产品经理”和“产业经理是什么”之间的欧氏距离</p>
+</blockquote>
+<p>过程如下：</p>
+<ul>
+<li>文本向量A=（产，品，经，理），即x1=产，x2=品，x3=经，x4=理，x5、x6、x7均为空；<a id="more"></a></li>
+<li>文本向量B=（产，业，经，理，是，什，么），即y1=产，y2=业，y3=经，y4=理，y5=是，y6=什，y7=么。</li>
+</ul>
+<p>这里规定，若xi=yi，则xi-yi=0；若xi≠yi，|xi-yi|=1。所以，欧氏距离是2</p>
+<h5 id="（1）适用场景"><a href="#（1）适用场景" class="headerlink" title="（1）适用场景"></a><strong>（1）适用场景</strong></h5><p>编码检测等类似领域。两串编码必须完全一致，才能通过检测，这时一个移位或者一个错字，可能会造成非常严重的后果。比如一个二维码是“这是一篇文本相似度的文章”，另一个是“这是一篇文本相似度文章”。从人的理解来看，这两句话相似度非常高，但是生成的二维码却千差万别。</p>
+<h5 id="（2）不适用场景"><a href="#（2）不适用场景" class="headerlink" title="（2）不适用场景"></a><strong>（2）不适用场景</strong></h5><p>文本相似度，意味着要能区分相似/差异的程度，而欧氏距离更多的只能区分出是否完全一样。而且，欧氏距离<strong>对位置、顺序非常敏感</strong>，比如“我的名字是孙行者”和“孙行者是我的名字”，在人看来，相似度非常高，但是用欧氏距离计算，两个文本向量每个位置的值都不同，即完全不匹配。</p>
+<h4 id="曼哈顿距离-Manhattan-distance"><a href="#曼哈顿距离-Manhattan-distance" class="headerlink" title="曼哈顿距离 Manhattan distance"></a>曼哈顿距离 Manhattan distance</h4><p>和欧氏距离非常相似（把平方换成了绝对值，拿掉了根号），公式如下：</p>
+<p><img src="/2019/07/18/专题整理/文本相似性-nlp/2.jpg" alt="2"></p>
+<h4 id="编辑距离（Levenshtein距离、莱文斯坦距离）"><a href="#编辑距离（Levenshtein距离、莱文斯坦距离）" class="headerlink" title="编辑距离（Levenshtein距离、莱文斯坦距离）"></a>编辑距离（Levenshtein距离、莱文斯坦距离）</h4><p>将文本A编辑成文本B需要的<strong>最少变动次数</strong>（每次只能增加、删除或修改一个字）。</p>
+<p><strong>编辑距离与文本的顺序有关。</strong></p>
+<h5 id="（1）适用场景-1"><a href="#（1）适用场景-1" class="headerlink" title="（1）适用场景"></a><strong>（1）适用场景</strong></h5><p>编辑距离算出来很小，文本相似度肯定很高。如果用算法语言来说的话，就是<strong>精确率很高</strong>（即虽然会漏掉一些好的case，但可以确保选出来的case一定非常好）。</p>
+<h5 id="（2）不适用场景-1"><a href="#（2）不适用场景-1" class="headerlink" title="（2）不适用场景"></a><strong>（2）不适用场景</strong></h5><p>反过来说，虽然<strong>精确率很高，但召回率不高</strong>（准确率、精确率、召回率的定义见文章底部外链）。在某些业务场景中，漏掉的case会引起严重后果，比如“批发零售”和“零售批发”，人的理解应该非常相似，可编辑距离却是4，相当于<strong>完全不匹配</strong>，这显然不符合预期。</p>
+<h4 id="Jaccard相似度"><a href="#Jaccard相似度" class="headerlink" title="Jaccard相似度"></a>Jaccard相似度</h4><p>文本A与文本B中交集的字数除以并集的字数：</p>
+<p><img src="/2019/07/18/专题整理/文本相似性-nlp/3.jpg" alt="3"></p>
+<p><strong>杰卡德相似度与文本的位置、顺序均无关</strong></p>
+<h5 id="（1）适用场景-2"><a href="#（1）适用场景-2" class="headerlink" title="（1）适用场景"></a><strong>（1）适用场景</strong></h5><ul>
+<li>对字/词的顺序不敏感的文本，比如前述的“零售批发”和“批发零售”，可以很好地兼容。</li>
+<li>长文本，比如一篇论文，甚至一本书。如果两篇论文相似度较高，说明交集比较大，很多用词是重复的，存在抄袭嫌疑。 </li>
+</ul>
+<h5 id="（2）不适用场景-2"><a href="#（2）不适用场景-2" class="headerlink" title="（2）不适用场景"></a><strong>（2）不适用场景</strong></h5><ul>
+<li>重复字符较多的文本，比如“这是是是是是是一个文本”和“这是一个文文文文文文本”，这两个文本有很多字不一样，直观感受相似度不会太高，但计算出来的相似度却是100%（交集=并集）。</li>
+<li>对文字顺序很敏感的场景，比如“一九三八年”和“一八三九年”，杰卡德相似度是100%，意思却完全不同。</li>
+</ul>
+<h4 id="余弦相似度（Cosine-similaraity）"><a href="#余弦相似度（Cosine-similaraity）" class="headerlink" title="余弦相似度（Cosine similaraity）"></a>余弦相似度（Cosine similaraity）</h4><p>来自于数学中的余弦定理，两个向量夹角的余弦值。夹角为90度，相似度为0，方向相同，相似度为1，方向相反，相似度为-1，取值范围也在-1到+1之间。因此，我们将它归一化到0到1之间。</p>
+<p><img src="/2019/07/18/专题整理/文本相似性-nlp/4.jpg" alt="4"></p>
+<blockquote>
+<p><strong>例4：</strong>文本一是“一个雨伞”，文本二是“下雨了开雨伞”，计算它们的余弦相似度。</p>
+</blockquote>
+<p>它们的并集是{一，个，雨，伞，下，了，开}，共7个字。</p>
+<ul>
+<li>若并集中的第1个字符在文本一中出现了n次，则A1=n（n=0，1，2……）。</li>
+<li>若并集中的第2个字符在文本一中出现了n次，则A2=n（n=0，1，2……）。 </li>
+</ul>
+<p>依此类推，得到： </p>
+<ul>
+<li>A=（1，1，1，1，0，0，0）。</li>
+<li>B=（0，0，2，1，1，1，1）。 </li>
+</ul>
+<p>将A、B代入计算公式，得到</p>
+<p><img src="/2019/07/18/专题整理/文本相似性-nlp/v.jpg" alt="v"></p>
+<h5 id="（1）适用场景-3"><a href="#（1）适用场景-3" class="headerlink" title="（1）适用场景"></a><strong>（1）适用场景</strong></h5><p>余弦相似度和杰卡德相似度虽然计算方式差异较大，但性质上很类似（与文本的交集高度相关），所以适用场景也非常类似。 </p>
+<p>余弦相似度相比杰卡德相似度最大的不同在于它考虑到了文本的频次，比如上面例子出现了2次“雨”，和只出现1次“雨”，相似度是不同的；再比如“这是是是是是是一个文本”和“这是一个文文文文文文本”，余弦相似度是39%，整体上符合“相同的内容少于一半，但超过1/3”的观感（仅从文本来看，不考虑语义）。 </p>
+<h5 id="（2）不适用场景-3"><a href="#（2）不适用场景-3" class="headerlink" title="（2）不适用场景"></a><strong>（2）不适用场景</strong></h5><p>向量之间方向相同，但大小不同的情况（这种情况下余弦相似度是100%）。 </p>
+<p>比如“太棒了”和“太棒了太棒了太棒了”，向量分别是（1，1，1）和（3，3，3），计算出的相似度是100%。这时候要根据业务场景进行取舍，有些场景下我们认为它们意思差不多，只是语气程度不一样，这时候余弦相似度是很给力的；有些场景下我们认为它们差异很大，哪怕意思差不多，但从文本的角度来看相似度并不高（最直白的，一个3个字，一个9个字），这时候余弦相似度就爱莫能助了。</p>
+<h4 id="TF-IDF"><a href="#TF-IDF" class="headerlink" title="TF-IDF"></a>TF-IDF</h4><p>用统计学语言表达，就是在词频的基础上，要对每个词分配一个”重要性”权重。最常见的词（”的”、”是”、”在”）给予最小的权重，较常见的词（”中国”）给予较小的权重，较少见的词（”蜜蜂”、”养殖”）给予较大的权重。这个权重叫做”逆文档频率”（Inverse Document Frequency，缩写为IDF），它的大小与一个词的常见程度成反比。</p>
+<p>知道了”词频”（TF）和”逆文档频率”（IDF）以后，将这两个值相乘，就得到了一个词的TF-IDF值。某个词对文章的重要性越高，它的TF-IDF值就越大。所以，排在最前面的几个词，就是这篇文章的关键词。</p>
+<p>详细介绍见<a href="http://www.ruanyifeng.com/blog/2013/03/tf-idf.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/03/tf-idf.html</a></p>
+<h4 id="simhash"><a href="#simhash" class="headerlink" title="simhash"></a>simhash</h4><p><img src="/2019/07/18/专题整理/文本相似性-nlp/7.jpg" alt="7"></p>
+<p>simhash是为了计算一篇文档之间的相似度存在的，通过simhash算法可以计算出文档的simhash值，通过各个文档计算出的二进制值来计算文档之间的汉明距离，然后根据汉明距离来比较文档之间的相似度。汉明距离是指两个相同长度的字符串相同位置上不同的字符的个数。</p>
+<p>simhash中使用了一种局部敏感型的hash算法。所谓<strong>局部敏感性hash</strong>，与传统hash算法不同的是（如MD5，当原始文本越是相似，其hash数值差异越大），simhash中的hash对于越是相似的内容产生的签名越相近。</p>
+<p>simhash算法分为5个步骤：分词、hash、加权、合并、降维</p>
+<p><img src="/2019/07/18/专题整理/文本相似性-nlp/8.png" alt="8"></p>
+<p>然后进行相似度比较：</p>
+<p>通过上面的步骤，我们可以利用SimHash算法为每一个网页生成一个向量指纹，在simhash中，判断2篇文本的相似性使用的是汉明距离。</p>
+<h4 id="LCS-最长公共子序列（Longest-Common-Subsequence）"><a href="#LCS-最长公共子序列（Longest-Common-Subsequence）" class="headerlink" title="LCS 最长公共子序列（Longest Common Subsequence）"></a>LCS 最长公共子序列（Longest Common Subsequence）</h4><p>• 一个序列S任意删除若干个字符得到的新序列T，则T叫做S的子序列<br>– 字符串acdfg与adfc的最长公共子序列为adf<br>• 注意区别最长公共子串（Longest Common Substring）最长公共子串要求连续<br>• ”描述两段文字之间的“相似度“<br>• 辨别抄袭</p>
+<h4 id="统计学之三大相关性系数（pearson、spearman、kendall）"><a href="#统计学之三大相关性系数（pearson、spearman、kendall）" class="headerlink" title="统计学之三大相关性系数（pearson、spearman、kendall）"></a>统计学之三大相关性系数（pearson、spearman、kendall）</h4><h5 id="（1）person皮尔逊相关系数："><a href="#（1）person皮尔逊相关系数：" class="headerlink" title="（1）person皮尔逊相关系数："></a>（1）person皮尔逊相关系数：</h5><p>这个参数用来度量两个向量之间的相似度。corroef（）进行计算，皮尔逊相关系数取值从-1到+1，我们可以通过0.5+0.5*corrcoef（）来计算，将值调整归一化到0到1之间。</p>
+<p><img src="/2019/07/18/专题整理/文本相似性-nlp/5.png" alt="5"></p>
+<p>相关系数描述的是两个变量间线性相关强弱的程度</p>
+<p>数据要求：成对数据、连续 符合正态分布；数据间差异不能太大；变量准差不能为0即两变量中任何一个值不能都是相同。</p>
+<p>用途：  </p>
+<pre><code> 1.连续数据，正态分布，线性关系，用pearson相关系数是最恰当，用spearman相关系数也可以，效率没有pearson相关系数高。
+ 2.上述任一条件不满足，就用spearman相关系数，不能用pearson相关系数。
+ 3.两个定序测量数据之间也用spearman相关系数，不能用pearson相关系数。 
+其实, Spearman 和Pearson相关系数在算法上完全相同. 只是PEARSON相关系数是用原来的数值计算积差相关系数, 而SPEARMAN是用原来数值的秩次计算积差相关系数.
+</code></pre><p> <strong>（2）spearman correlation coefficient（斯皮尔曼相关性系数）</strong></p>
+<p>“秩”，可以理解成是一种顺序或者排序，它是根据原始数据的排序位置进行求解</p>
+<p>用途：用于解决称名数据和顺序数据相关的问题。适用于两列变量，而且具有等级变量性质和线性关系的资料。能够很哈处理序列中相同值和异常值。</p>
+<p>公式：n为等级个数        d为二列成对变量的等级差数</p>
+<p><img src="/2019/07/18/专题整理/文本相似性-nlp/6.png" alt="6"></p>
+<p>先对两变量（X, Y）排序，记下排序以后位置（X’, Y’），（X’, Y’）值称为秩次，秩次差值就是上面公式中的di，n就是变量中数据的个数，最后带入公式就可求解结果。</p>
+<p><strong>（3）kendall correlation coefficient（肯德尔相关性系数）</strong></p>
+<p>kendalltau：等级相关系数，适用于两个变量均为有序分类的情况</p>
+<p>用途：</p>
+<p>​    肯德尔相关性系数,它也是一种秩相关系数，不过它所计算的对象是分类变量。分类变量可以理解成有类别的变量，可以分无序的，比如性别（男、女）、血型（A、B、O、AB）；有序的，比如肥胖等级（重度肥胖，中度肥胖、轻度肥胖、不肥胖）。通常需要求相关性系数的都是有序分类变量。</p>
+<p>计算公式：</p>
+<p>R=（P-(n*(n-1)/2-P))/(n*(n-1)/2)=(4P/(n*(n-1)))-1</p>
+<h4 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h4><p>算法中的重要概念（指标）——<strong>准确率、精确率、召回率</strong>。其中准确率和精确率很容易混淆，详细差别可以点开以下链接：<a href="http://t.cn/R6y8ay9" target="_blank" rel="noopener">http://t.cn/R6y8ay9</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/27/影视/悟空传/" rel="next" title="悟空传">
+                <i class="fa fa-chevron-left"></i> 悟空传
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/22/专题整理/metrics的评估方法-模型评估/" rel="prev" title="metrics的评估方法-模型评估">
+                metrics的评估方法-模型评估 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">49</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#欧式距离-Euclidean-distance"><span class="nav-number">1.</span> <span class="nav-text">欧式距离 Euclidean distance</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）适用场景"><span class="nav-number">1.1.</span> <span class="nav-text">（1）适用场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）不适用场景"><span class="nav-number">1.2.</span> <span class="nav-text">（2）不适用场景</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#曼哈顿距离-Manhattan-distance"><span class="nav-number">2.</span> <span class="nav-text">曼哈顿距离 Manhattan distance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编辑距离（Levenshtein距离、莱文斯坦距离）"><span class="nav-number">3.</span> <span class="nav-text">编辑距离（Levenshtein距离、莱文斯坦距离）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）适用场景-1"><span class="nav-number">3.1.</span> <span class="nav-text">（1）适用场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）不适用场景-1"><span class="nav-number">3.2.</span> <span class="nav-text">（2）不适用场景</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jaccard相似度"><span class="nav-number">4.</span> <span class="nav-text">Jaccard相似度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）适用场景-2"><span class="nav-number">4.1.</span> <span class="nav-text">（1）适用场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）不适用场景-2"><span class="nav-number">4.2.</span> <span class="nav-text">（2）不适用场景</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#余弦相似度（Cosine-similaraity）"><span class="nav-number">5.</span> <span class="nav-text">余弦相似度（Cosine similaraity）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）适用场景-3"><span class="nav-number">5.1.</span> <span class="nav-text">（1）适用场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）不适用场景-3"><span class="nav-number">5.2.</span> <span class="nav-text">（2）不适用场景</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TF-IDF"><span class="nav-number">6.</span> <span class="nav-text">TF-IDF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#simhash"><span class="nav-number">7.</span> <span class="nav-text">simhash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LCS-最长公共子序列（Longest-Common-Subsequence）"><span class="nav-number">8.</span> <span class="nav-text">LCS 最长公共子序列（Longest Common Subsequence）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计学之三大相关性系数（pearson、spearman、kendall）"><span class="nav-number">9.</span> <span class="nav-text">统计学之三大相关性系数（pearson、spearman、kendall）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）person皮尔逊相关系数："><span class="nav-number">9.1.</span> <span class="nav-text">（1）person皮尔逊相关系数：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯公式"><span class="nav-number">10.</span> <span class="nav-text">贝叶斯公式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>
