@@ -108,17 +108,24 @@
 
 
 
-  <meta name="description" content="进化ing">
+  <meta name="description" content="定义在模型的评估过程中：   左：欠拟合偏差较大       右：过拟合方差较大（泛化性差）  过拟合：由于训练数据包含抽样误差，在训练时，复杂的模型将抽样误差也考虑在内，使得在训练集上表现很好，但在测试集和新数据上表现较差——高方差（泛化性差）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="过拟合欠拟合及处理方法">
 <meta property="og:url" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/index.html">
 <meta property="og:site_name" content="Garden">
-<meta property="og:description" content="进化ing">
+<meta property="og:description" content="定义在模型的评估过程中：   左：欠拟合偏差较大       右：过拟合方差较大（泛化性差）  过拟合：由于训练数据包含抽样误差，在训练时，复杂的模型将抽样误差也考虑在内，使得在训练集上表现很好，但在测试集和新数据上表现较差——高方差（泛化性差）">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-07T12:04:51.419Z">
+<meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/overfitting.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/earlystop.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/神经网络-输入加噪声.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/dropout1.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/dropout.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/F:/blog/source/_posts/专题整理/过拟合欠拟合及处理方法/正则化.jpg">
+<meta property="og:updated_time" content="2020-05-14T07:36:31.478Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="过拟合欠拟合及处理方法">
-<meta name="twitter:description" content="进化ing">
+<meta name="twitter:description" content="定义在模型的评估过程中：   左：欠拟合偏差较大       右：过拟合方差较大（泛化性差）  过拟合：由于训练数据包含抽样误差，在训练时，复杂的模型将抽样误差也考虑在内，使得在训练集上表现很好，但在测试集和新数据上表现较差——高方差（泛化性差）">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/overfitting.png">
 
 
 
@@ -355,12 +362,24 @@
                 
               
 
-              <time title="创建时间：2020-04-07 20:04:06 / 修改时间：20:04:51" itemprop="dateCreated datePublished" datetime="2020-04-07T20:04:06+08:00">2020-04-07</time>
+              <time title="创建时间：2020-04-07 20:04:06" itemprop="dateCreated datePublished" datetime="2020-04-07T20:04:06+08:00">2020-04-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-05-14 15:36:31" itemprop="dateModified" datetime="2020-05-14T15:36:31+08:00">2020-05-14</time>
               
             
           </span>
@@ -411,7 +430,254 @@
       
 
       
-        
+        <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>在模型的评估过程中：</p>
+<p><img src="/2020/04/07/专题整理/过拟合欠拟合及处理方法/overfitting.png" alt="overfitting"></p>
+<ul>
+<li>左：欠拟合偏差较大       右：过拟合方差较大（泛化性差）</li>
+</ul>
+<p><strong>过拟合</strong>：由于训练数据包含<strong>抽样误差</strong>，在训练时，复杂的模型将抽样误差也考虑在内，使得在训练集上表现很好，但在测试集和新数据上表现较差——高方差（泛化性差）<a id="more"></a></p>
+<ul>
+<li>训练集的误差远远小于验证集上的误差</li>
+</ul>
+<p><strong>欠拟合</strong>：模型训练还不够，没有学到期望的程度，使得在训练集和测试集上表现都不好——高偏差</p>
+<ul>
+<li>训练集上的误差基本等于验证集上的误差</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">关于偏差、方差与噪声：</span><br><span class="line">1.偏差：期望输出与真实标记的差别——学习算法本身的拟合能力</span><br><span class="line">2.方差：使用样本数相同的不同训练集产生的差别——数据扰动所造成的的影响</span><br><span class="line">3.噪声：数据集中标记与真实标记的差别——学习问题本身的难度</span><br><span class="line">4.泛化误差可以分解为偏差、方差和噪声的和</span><br></pre></td></tr></table></figure>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="降低过拟合（无法避免，只能缓解）"><a href="#降低过拟合（无法避免，只能缓解）" class="headerlink" title="降低过拟合（无法避免，只能缓解）"></a><strong>降低过拟合（无法避免，只能缓解）</strong></h4><ol>
+<li><strong>获取更多训练数据</strong></li>
+</ol>
+<ul>
+<li>使得模型可以进一步地修正，得到更好的结果</li>
+<li>如果获得更多的数据<ul>
+<li>从数据源头</li>
+<li>根据当前数据集估计数据分布的参数，并以此分布生成更多的数据（一般也会产生抽样误差）</li>
+<li>数据增强（下面的方法以<strong>文本数据</strong>为例）<ul>
+<li>随机插入词</li>
+<li>随机删除词</li>
+<li>随机替换词</li>
+</ul>
+</li>
+<li>对于数据过少的模型，也可以采用SMOTE算法(过采样方法的一种）、生成式对抗网络模型、迁移学习等</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li><strong>降低模型复杂度</strong></li>
+</ol>
+<ul>
+<li><p>由于模型过于复杂使得其拟合了许多仅存在于抽样训练集中的抽样误差</p>
+</li>
+<li><p>通过物理、数学建模，确定模型的复杂度</p>
+</li>
+<li><p>以<strong>机器学习</strong>为例 ：(nn同样适用)</p>
+<ul>
+<li>特征选择<ul>
+<li>过滤式；包裹式；嵌入式</li>
+</ul>
+</li>
+<li>降维<ul>
+<li>PCA；LDA；ISOMap；LLE</li>
+</ul>
+</li>
+<li>正则化</li>
+<li>交叉验证</li>
+</ul>
+</li>
+<li><p>以<strong>神经网络</strong>模型为例：</p>
+<ul>
+<li><p>网络结构：减少网络层数、神经元个数等</p>
+</li>
+<li><p>训练时间：Early stopping</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">原理：</span><br><span class="line">1.对于每个神经元而言，其激活函数在不同区间的性能是不同的（脑补一个激活函数）</span><br><span class="line">2.当网络权值较小时，神经元的激活函数工作在线性区，此时神经元的拟合能力较弱（类似线性神经元）。</span><br><span class="line">3.我们在初始化网络的时候一般都是初始为较小的权值。训练时间越长，部分网络权值可能越大。如果我们在合适时间停止训练，就可以将网络的能力限制在一定范围内。</span><br><span class="line">实现：</span><br><span class="line">在训练的过程中，记录到目前为止最好的validation accuracy，当连续10次Epoch（或者更多次）没达到最佳accuracy时，则可以认为accuracy不再提高了。此时便可以停止迭代了（Early Stopping）。</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/04/07/专题整理/过拟合欠拟合及处理方法/earlystop.jpg" alt="earlystop" style="zoom:67%;"></p>
+</li>
+<li><p>限制权值： Weight-decay，也叫正则化（regularization）</p>
+<ul>
+<li>将权值的大小加入到 Cost 里，在训练的时候限制权值变大。</li>
+<li>对要优化的参数（权值）的一个约束</li>
+</ul>
+</li>
+<li><p>增加噪声Noise（噪声正则化）</p>
+<ul>
+<li><p>在输入中加噪声：（Hinton的PPT）——类似数据增强</p>
+<p><img src="/2020/04/07/专题整理/过拟合欠拟合及处理方法/神经网络-输入加噪声.jpg" alt="神经网络-输入加噪声" style="zoom: 67%;"></p>
+<blockquote>
+<p>Hinton：最重要的贡献来自他1986年发明<strong>反向传播</strong>的论文 “Learning Internal Representations by Error Propagation”；1983年发明的<strong>玻尔兹曼机</strong>（Boltzmann Machines），以及2012年对<strong>卷积神经网络的改进</strong>“Imagenet classification with deep convolutional neural networks”。</p>
+</blockquote>
+</li>
+<li><p>在权值上加噪声：初始化网络的时候，用0均值的高斯分布作为初始化，鼓励要学习的函数保持稳定（在RNN效果较好）—— 这可以被解释为关于权重的贝叶斯推断的随机实现。贝叶斯学习过程将权重视为不确定的,并且可以通过概率分布表示这种不确定性。向权重添加噪声是反映这种不确定性的一种实用的随机方法。 </p>
+</li>
+<li><p>对activation（单元（输出））加噪声：如在前向传播过程中，让神经元的输出变为binary或random。这种做法会打乱网络的训练过程，让训练更慢，但据Hinton说，在测试集上效果会有显著提升。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><p><strong>集成学习方法</strong>（集成学习方法都可以，下边Bagging，Boosting只是举例）</p>
+<p>集成学习把所有基学习器进行组合，容易得到一个比较中庸的模型，类似于SVM的最大间隔一样的效果，从而减轻一些极端情况包括过拟合的发生。</p>
+</li>
+</ol>
+<ul>
+<li><p>Bagging</p>
+<ul>
+<li>通过自助采样法采样出不同的数据集，分别训练出基学习器，最后进行简单投票或平均</li>
+</ul>
+</li>
+<li><p>Boosting</p>
+<ul>
+<li>先训练一个基学习器，根据该基学习器的表现对训练样本的权重进行调整，使得之前分类错误的样本有更高的权重，然后再训练下一个基学习器，最后把所有的基学习器加权求和。</li>
+</ul>
+</li>
+<li><p>Dropout（emmmm这个好像不算集成学习的吧——emmm这一查还真能算成集成学习）</p>
+<ul>
+<li><p>直接修改神经网络本身结构，在前向传播的时候，让某个神经元的激活值以一定的概率p停止工作，这样可以使模型泛化性更强，因为它不会太依赖某些局部的特征</p>
+</li>
+<li><p>不同模型之间权值共享（共同使用全部神经元的连接权值）相当于一种权值正则方法，实际效果比 L2 regularization 更好</p>
+</li>
+<li><p>在训练时dropout，在预测时不设置</p>
+</li>
+<li><p>Dropout如何解决过拟合：</p>
+<ul>
+<li>取平均的作用，即集成学习</li>
+<li>减少神经元之间复杂的共适应关系</li>
+<li>使得神经元进化，能够更好地适应没有见过的数据</li>
+</ul>
+</li>
+<li><blockquote>
+<p>Dropout 的两种解释：</p>
+<ol>
+<li><p>dropout避免了特征之间的相互适应，假如让网络识别一只猫，一个神经元学到了耳朵，一个学到了尾巴，另一个学到了毛，将这些特征组合在一起来判断是否是猫；Dropout以后模型不能通过这些特征组合来判断，需要通过不同的零散的特征来判断，某种程度上这抑制了过拟合 </p>
+</li>
+<li><p>另一种解释是dropout的使用相当于在单一模型中进行了集成学习，dropout后可以看作在一个子网络中用所有神经元的子集进行运算，每次dropout不同的神经元就产生一个不同的子网络，最后相当于对一群共享参数的网络进行集成学习</p>
+</li>
+</ol>
+</blockquote>
+</li>
+<li><p><img src="/2020/04/07/专题整理/过拟合欠拟合及处理方法/dropout1.png" alt="dropout1" style="zoom: 80%;">                  <img src="/2020/04/07/专题整理/过拟合欠拟合及处理方法/dropout.png" alt="dropout" style="zoom:80%;"></p>
+</li>
+<li><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"><span class="comment"># 参考keras中的实现</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment"># dropout函数的实现</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropout</span><span class="params">(x, level)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> level &lt; <span class="number">0.</span> <span class="keyword">or</span> level &gt;= <span class="number">1</span>: <span class="comment">#level是概率值，必须在0~1之间</span></span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">'Dropout level must be in interval [0, 1[.'</span>)</span><br><span class="line">    retain_prob = <span class="number">1.</span> - level</span><br><span class="line">    <span class="comment"># 我们通过binomial（二项式）函数，生成与x一样的维数向量。binomial函数就像抛硬币一样，我们可以把每个神经元当做抛硬币一样</span></span><br><span class="line">    <span class="comment"># 硬币 正面的概率为p，n表示每个神经元试验的次数</span></span><br><span class="line">    <span class="comment"># 因为我们每个神经元只需要抛一次就可以了所以n=1，size参数是我们有多少个硬币。</span></span><br><span class="line">    random_tensor = np.random.binomial(n=<span class="number">1</span>, p=retain_prob, size=x.shape) <span class="comment">#即将生成一个0、1分布的向量，0表示这个神经元被屏蔽，不工作了，也就是dropout了</span></span><br><span class="line">    print(random_tensor)</span><br><span class="line">    x *= random_tensor</span><br><span class="line">    print(x)</span><br><span class="line">    x /= retain_prob <span class="comment">#放大</span></span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"><span class="comment">#对dropout的测试，大家可以跑一下上面的函数，了解一个输入x向量，经过dropout的结果  </span></span><br><span class="line">x=np.asarray([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>],dtype=np.float32)</span><br><span class="line">dropout(x,<span class="number">0.4</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. 贝叶斯方法</strong></p>
+<p>贝叶斯学派来看：加了先验，在数据少的时候，先验知识可以防止过拟合；从频率学派来看：正则项限定了参数的取值，从而提高了模型的稳定性，而稳定性强的模型不会过拟合，即控制模型空间。</p>
+<p>见下方正则项部分：以贝叶斯的观点来解释正则化</p>
+<h4 id="降低欠拟合"><a href="#降低欠拟合" class="headerlink" title="降低欠拟合"></a><strong>降低欠拟合</strong></h4><ol>
+<li><strong>添加新特征</strong><ul>
+<li>“组合”、“泛化”、“相关性”三类特征是特征添加的重要手段</li>
+<li>深度学习：FM（因子分解机）、GBDT（梯度提升决策树）、Deep-crossing</li>
+</ul>
+</li>
+<li><strong>增加模型复杂度</strong><ul>
+<li>在线性模型中，添加高次项，或尝试非线性模型；在nn中增加网络层数或者神经元个数等</li>
+</ul>
+</li>
+<li><strong>减少正则化系数</strong></li>
+<li><strong>集成 models</strong> <ul>
+<li>有助于防止欠拟合。它把所有比较弱的模型结合起来，利用集体智慧来获得比较好的模型  。集成就相当于是特征转换，来获得复杂的学习模型。</li>
+</ul>
+</li>
+</ol>
+<h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><ul>
+<li><p>正则化方法是指在进行目标函数或代价函数优化时，在目标函数或代价函数后面加上一个<strong>对参数的约束项</strong>，这个约束项被称为正则项，一般有L0正则，L1正则与L2正则等。</p>
+</li>
+<li><p>L0正则，L1正则与L2正则：分别加入L0，L1（Lasso回归），L2（岭回归）范数来防止过拟合，但是因为L0范数不是凸的，求解目标方程的时候特别麻烦。L1范数是凸的且与L0范数很相似，所以通常使用L1而不使用L0。L2范数很明显是凸函数，也最常被使用。</p>
+</li>
+<li>L0范数：向量中非零向量的个数</li>
+<li>L1范数：向量中每个元素的绝对值之和</li>
+<li>L2范数：向量中每个元素的平方和再开方（无穷范数：向量中绝对值的最大值）</li>
+<li>下图左L2，右L1</li>
+</ul>
+<p><img src="/2020/04/07/专题整理/过拟合欠拟合及处理方法/F:/blog\source\_posts\专题整理\过拟合欠拟合及处理方法\正则化.jpg" alt="正则化" style="zoom:67%;"></p>
+<h4 id="L1正则——Lasso回归（右图）"><a href="#L1正则——Lasso回归（右图）" class="headerlink" title="L1正则——Lasso回归（右图）"></a>L1正则——Lasso回归（右图）</h4><ul>
+<li><p>基于L1范数，在目标函数或代价函数的后面加上参数的L1范数和项</p>
+</li>
+<li><p>比如特征为$w1$和$w2$的带L1正则项的目标函数如下：</p>
+</li>
+<li><p>$$<br>\bar{J} = J +\frac{ \lambda}{2m} (|w_1| +|w_2|)<br>$$</p>
+</li>
+<li><p>在每次更新 $w_1$ （对$w_1$求偏导即为梯度）时有：</p>
+</li>
+<li><p>$$<br>w_1 :=w_1 - \alpha dw_1 \\ =w_1-\frac{\alpha \lambda}{2m}sign(w_1)-\frac{\partial J}{\partial w_1}<br>$$</p>
+</li>
+<li><p>若 $w_1$为正数，则每次更新会减去一个常数；若$w_1$为负数，则每次更新会加上一个常数，所以很容易产生特征的系数为 0 的情况，特征系数为 0 表示该特征不会对结果有任何影响，因此 L1 正则化会让特征变得<strong>稀疏</strong>，起到<strong>降维(特征选择)</strong>的作用。</p>
+</li>
+<li><p>从图形上理解：L1范数与经验损失函数的交点（切点）一般在坐标轴上，从而可以使得某些w=0，进而得到<strong>稀疏解</strong></p>
+</li>
+</ul>
+<h4 id="L2正则——岭回归"><a href="#L2正则——岭回归" class="headerlink" title="L2正则——岭回归"></a>L2正则——岭回归</h4><ul>
+<li>基于L2范数，在目标函数或代价函数的后面加上参数的L2范数项</li>
+<li><p>比如特征为$w1$和$w2$的带L2正则项的目标函数如下：</p>
+</li>
+<li><p>$$<br>\bar{J} = J +\frac{ \lambda}{2m} (w_1^2 +w_2^2)<br>$$</p>
+</li>
+<li><p>在每次更新 $w_1$ （对$w_1$求偏导即为梯度）时有：</p>
+</li>
+<li><p>$$<br>w_1 :=w_1 - \alpha dw_1 \\ =(1-\frac{\alpha \lambda }{m})w_1-\frac{\partial J}{\partial w_1}<br>$$</p>
+</li>
+<li><p>每次更新时，会对特征系数进行一个<strong>比例的缩放</strong>而不是像 L1 一样减去一个固定值，这会让系数趋向变小而不会变为 0，因此 L2 正则化会让模型变得更简单，<strong>防止过拟合</strong>，而不会起到特征选择的作用。</p>
+</li>
+<li><p>从图形上理解：L2范数与经验损失函数的交点（切点）一般比其原来的值更小，但是不为0，因此可以更平滑。</p>
+</li>
+</ul>
+<h4 id="以贝叶斯的观点来解释正则化（以LR为例）"><a href="#以贝叶斯的观点来解释正则化（以LR为例）" class="headerlink" title="以贝叶斯的观点来解释正则化（以LR为例）"></a>以贝叶斯的观点来解释正则化（以LR为例）</h4><p><strong>损失函数MSE</strong></p>
+<ul>
+<li><p>假设有若干数据 $(x_1,y_1),(x_2,y_2),…,(x_m,y_m)$，我们要对其进行<strong>线性回归</strong></p>
+</li>
+<li><p>即</p>
+</li>
+<li><p>$$<br>y=ω^Tx+ϵ<br>$$</p>
+</li>
+<li><p>这里忽略偏置，或者可以认为偏置是在$ω^Tx$里面。ϵ 可以认为是，我们拟合的值和真实值之间的误差。 </p>
+</li>
+<li><p><strong>我们将 ϵ 看成是一个随机变量，其服从高斯分布，即</strong> $p(ϵ)=N(0,δ^2)$ ，即概率密度函数为：</p>
+</li>
+<li><p>$$<br>p(ϵ_i)=\frac{1}{\sqrt{2π}\delta}exp(−\frac{(ϵ_i)^2}{2δ^2})<br>$$</p>
+</li>
+<li><p>则对于每一个数据点 $(x_i,y_i)$，我们用xi得到yi的概率为：</p>
+</li>
+<li><p>$$<br>p(y_i|x_i;ω)=\frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2δ^2})<br>$$</p>
+</li>
+<li><p>通过极大似然估计使其达到最大：<br>$$<br>L(ω)=\Pi_{i=1}^m p(y_i|x_i;ω) \\ =\Pi_{i=1}^m \frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2δ^2})<br>$$</p>
+</li>
+<li><p>取对数可以得到<br>$$<br>logL(ω)=log \Pi_{i=1}^m \frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2δ^2}) \\ =\sum_{i=1}^{m}log (\frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2δ^2})) \\ =mlog \frac{1}{\sqrt{2π}\delta}-\frac{1}{2 \delta^2}\sum_{i=1}^{m}(y_i-ω^Tx_i)^2<br>$$</p>
+</li>
+<li><p>即<br>$$<br>ω^ \ast=argmin_ω \sum_{i=1}^m(y_i−ω^Tx_i)^2<br>$$<br>即为均方误差的表达式。</p>
+</li>
+</ul>
+<p><strong>L2正则化</strong></p>
+<ul>
+<li><p><strong>对ω权重引入高斯先验分布</strong>，即让 ω 的分量在靠近0的区域出现的概率大一些：<br>$$<br>p(ω^j)=\frac{1}{\sqrt{2π}\alpha}exp(−\frac{(ω^j)^2}{2\alpha^2})<br>$$</p>
+</li>
+<li><p>就有<br>$$<br>L(ω)=p(ω)\Pi_{i=1}^mp(y_i|x_i;ω) \\ =\Pi_{j=1}^n\frac{1}{\sqrt{2π}\alpha}exp(−\frac{(ω^j)^2}{2\alpha^2})\Pi_{i=1}^m \frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2δ^2}) \\ =(\frac{1}{\sqrt{2π}\alpha})^n exp(−\frac{\sum_{j=1}^n (ω^j)^2}{2\alpha^2})\Pi_{i=1}^m \frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2δ^2}) \\ =(\frac{1}{\sqrt{2π}\alpha})^n exp(−\frac{ω^Tω}{2\alpha^2})\Pi_{i=1}^m \frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2\delta^2})<br>$$</p>
+</li>
+<li><p>取对数可得<br>$$<br>logL(ω)=mlog\frac{1}{\sqrt{2π}\delta}+nlog\frac{1}{\sqrt{2π}\alpha}-\frac{1}{2\delta^2}\sum_{i=1}^m(y_i-ω^Tx_i)^2-\frac{ω^Tω}{2\alpha^2}<br>$$</p>
+</li>
+<li><p>最大化对数似然函数，等价于：<br>$$<br>ω^\ast=argmin_ω\sum_{i=1}^m(y_i−ω^Tx_i)^2+λ||ω^Tω||_2<br>$$<br>即为参数 ω 引入高斯先验分布的最大似然，相当于给均方误差函数加上L2正则项。</p>
+</li>
+</ul>
+<p><strong>L1正则化</strong></p>
+<ul>
+<li><p><strong>对ω权重引入拉普拉斯先验分布</strong><br>$$<br>p(ω^j)=\frac1{2b}exp(−\frac{|ω^j|}b)<br>$$</p>
+</li>
+<li><p>类似可以得到<br>$$<br>ω^\ast=argmin_ω\sum_{i=1}^m(y_i−ω^Tx_i)^2+λ|ω|_1<br>$$</p>
+</li>
+<li><p>即为参数 ω 引入拉普拉斯先验分布的最大似然，相当于给均方误差函数加上L1正则项。</p>
+</li>
+</ul>
+<p><strong>有了贝叶斯的这种方式，我们可以说，引入先验分布是降低了模型的复杂度，或者说是拉普拉斯分布进行了一定的特征选择，而高斯分布式对不重要的特征进行了抑制。另外，还可以说是，在 ω 的空间搜索时，先验分布缩小了解空间，这样对求解速度也有好处。</strong></p>
+<p>参考：</p>
+<p>吴恩达机器学习</p>
+<p><a href="https://www.zhihu.com/question/59201590/answer/167392763" target="_blank" rel="noopener">机器学习中用来防止过拟合的方法有哪些？ - fly qq的回答 - 知乎</a> </p>
+<p><a href="https://blog.csdn.net/u014433413/article/details/78408983" target="_blank" rel="noopener">【机器学习】从贝叶斯角度理解正则化缓解过拟合</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/29707029" target="_blank" rel="noopener">机器学习防止欠拟合、过拟合方法</a></p>
+<p><a href="https://blog.csdn.net/lin360580306/article/details/51233712" target="_blank" rel="noopener">过拟合及其解决方法</a></p>
+<p><a href="https://www.jianshu.com/p/569efedf6985" target="_blank" rel="noopener">机器学习中的正则化(Regularization)</a></p>
+
       
     </div>
 
@@ -458,6 +724,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/04/10/专题整理/梯度消失与梯度爆炸/" rel="prev" title="梯度消失与梯度爆炸">
+                梯度消失与梯度爆炸 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -501,8 +771,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -521,7 +800,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">49</span>
+                    <span class="site-state-item-count">63</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -558,7 +837,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -600,6 +881,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法"><span class="nav-number">2.</span> <span class="nav-text">解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#降低过拟合（无法避免，只能缓解）"><span class="nav-number">2.1.</span> <span class="nav-text">降低过拟合（无法避免，只能缓解）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#降低欠拟合"><span class="nav-number">2.2.</span> <span class="nav-text">降低欠拟合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则化"><span class="nav-number">3.</span> <span class="nav-text">正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#L1正则——Lasso回归（右图）"><span class="nav-number">3.1.</span> <span class="nav-text">L1正则——Lasso回归（右图）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#L2正则——岭回归"><span class="nav-number">3.2.</span> <span class="nav-text">L2正则——岭回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#以贝叶斯的观点来解释正则化（以LR为例）"><span class="nav-number">3.3.</span> <span class="nav-text">以贝叶斯的观点来解释正则化（以LR为例）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -791,6 +1088,30 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 

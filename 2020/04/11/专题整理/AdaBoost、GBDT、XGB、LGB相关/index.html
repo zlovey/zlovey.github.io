@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="集成学习Boosting算法：——序列方法——减少偏差 用于分类问题中，通过迭代，学习多个分类器，并将这些分类器进行线性组合，提高分类的性能  Bagging:——并行方法——减少方差 可用于多分类和回归问题，通过自助采样的方法，对训练集进行采样，得到多个大小相同的训练子集，分别训练得到多个不同的分类器，再对这些分类器进行投票或平均。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AdaBoost、GBDT、XGB、LGB相关">
+<meta property="og:url" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="集成学习Boosting算法：——序列方法——减少偏差 用于分类问题中，通过迭代，学习多个分类器，并将这些分类器进行线性组合，提高分类的性能  Bagging:——并行方法——减少方差 可用于多分类和回归问题，通过自助采样的方法，对训练集进行采样，得到多个大小相同的训练子集，分别训练得到多个不同的分类器，再对这些分类器进行投票或平均。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/GBDT_残差.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/XGB.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/lgb_GOSS.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/lgb_EFB.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/直方图加速.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/level-wise.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/leaf-wise.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/category.jpg">
+<meta property="og:updated_time" content="2020-07-09T09:45:30.598Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AdaBoost、GBDT、XGB、LGB相关">
+<meta name="twitter:description" content="集成学习Boosting算法：——序列方法——减少偏差 用于分类问题中，通过迭代，学习多个分类器，并将这些分类器进行线性组合，提高分类的性能  Bagging:——并行方法——减少方差 可用于多分类和回归问题，通过自助采样的方法，对训练集进行采样，得到多个大小相同的训练子集，分别训练得到多个不同的分类器，再对这些分类器进行投票或平均。">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/GBDT_残差.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>AdaBoost、GBDT、XGB、LGB相关 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AdaBoost、GBDT、XGB、LGB相关
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-11 11:51:47" itemprop="dateCreated datePublished" datetime="2020-04-11T11:51:47+08:00">2020-04-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-09 17:45:30" itemprop="dateModified" datetime="2020-07-09T17:45:30+08:00">2020-07-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/专题整理/" itemprop="url" rel="index"><span itemprop="name">专题整理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h4><h5 id="Boosting算法：——序列方法——减少偏差"><a href="#Boosting算法：——序列方法——减少偏差" class="headerlink" title="Boosting算法：——序列方法——减少偏差"></a>Boosting算法：——序列方法——减少偏差</h5><ul>
+<li>用于分类问题中，通过<strong>迭代</strong>，学习多个分类器，并将这些分类器进行线性组合，提高分类的性能</li>
+</ul>
+<h5 id="Bagging-——并行方法——减少方差"><a href="#Bagging-——并行方法——减少方差" class="headerlink" title="Bagging:——并行方法——减少方差"></a>Bagging:——并行方法——减少方差</h5><ul>
+<li>可用于多分类和回归问题，通过<strong>自助采样</strong>的方法，对训练集进行采样，得到多个大小相同的训练子集，分别训练得到多个不同的分类器，再对这些分类器进行投票或平均。<a id="more"></a></li>
+</ul>
+<h5 id="RF-——并行方法——减少方差"><a href="#RF-——并行方法——减少方差" class="headerlink" title="RF:——并行方法——减少方差"></a>RF:——并行方法——减少方差</h5><ul>
+<li>可用于多分类和回归问题，以<strong>决策树</strong>为基学习器的Bagging的扩展，以同样的方法采样出大小为m的数据集，再从所有属性中<strong>随机选出k个属性</strong>，创建决策树。最后再对分类器进行投票或平均。</li>
+<li>包含两个随机的层面：样本随机，特征选择随机。</li>
+</ul>
+<hr>
+<h3 id="AdaBoost——一般分类，也可回归"><a href="#AdaBoost——一般分类，也可回归" class="headerlink" title="AdaBoost——一般分类，也可回归"></a>AdaBoost——一般分类，也可回归</h3><ul>
+<li>算法开始时为每一个样本赋上一个相同的权重值。在每一步训练结束后，增加分错的点的权重，减少分对的点的权重。最后将得到的所有基分类器以其正确率的函数为权重进行加权，得到最终的模型。</li>
+<li><strong>损失函数为指数函数</strong>，模型为加法模型的前向分步算法。</li>
+</ul>
+<h3 id="GBDT梯度提升树Gradient-Boosting-Decison-Tree——分类和回归"><a href="#GBDT梯度提升树Gradient-Boosting-Decison-Tree——分类和回归" class="headerlink" title="GBDT梯度提升树Gradient Boosting Decison Tree——分类和回归"></a>GBDT梯度提升树Gradient Boosting Decison Tree——分类和回归</h3><h4 id="回归问题的提升树算法"><a href="#回归问题的提升树算法" class="headerlink" title="回归问题的提升树算法"></a>回归问题的提升树算法</h4><ul>
+<li>前向分步算法：</li>
+</ul>
+<p>$$<br>f_0(x)=0 \\<br>f_m(x)=f_{m-1}(x)+T(x;\Theta_m) \ m=1,2,\dots,M \\<br>f_M(X)=\sum_{m=1}^MT(x;\Theta_m)<br>$$</p>
+<ul>
+<li>其中基学习器的参数更新公式为，即使得损失函数最小的参数$\Theta$：</li>
+</ul>
+<p>$$<br>\Theta_m=argmin_{θ<em>m}∑</em>{i=1}^NL(y_i,f_{m−1}(x_i)+T(x_i;\Theta_m))<br>$$</p>
+<ul>
+<li>当<strong>loss为MSE</strong>时，上式可以变化为</li>
+</ul>
+<p>$$<br>L(y_i,f_{m−1}(x_i)+T(x_i;\Theta_m)) \\ =[y-f_{m-1}(x)-T(x_i;\Theta_m)]^2 \\ =[r-T(x_i;\Theta_m)]^2<br>$$</p>
+<ul>
+<li><p>其中$r$即为残差，因此要使得<strong>loss最小</strong>，就应该使<strong>得当前的树模型$T(x_i;\Theta_m)$可以最好地去拟合残差 $r$ ，</strong>来得到新的基模型$T(x_i;\Theta_{m+1})$，最后将所有的树模型 $T$ 以加法模型的方法求和即可。</p>
+</li>
+<li><p>每一轮预测和实际值有残差，下一轮根据残差再进行预测，最后将所有预测相加，就是结果。</p>
+<p><img src="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/GBDT_残差.png" alt="GBDT_残差" style="zoom:50%;"></p>
+</li>
+</ul>
+<h4 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h4><ul>
+<li><strong>提升树</strong>是利用<strong>加法模型</strong>和<strong>前向分步算法</strong>实现学习的优化过程，在损失函数是<strong>平方损失或者是指数损失</strong>的时候，每一步的优化都比较简单（例如上边的提升树是以平方损失MSE作为损失函数的），而<strong>当损失函数不是一般的平方或者指数函数</strong>的时候，优化时就并不那么容易了。</li>
+<li>因此提出了GBDT，以<strong>损失函数的负梯度来作为提升树算法中残差的近似值</strong>去拟合得到一个回归树。</li>
+<li><p>GBDT的基分类器一般会选择为<strong>CART TREE</strong>（也就是分类回归树）。由于上述高偏差和简单的要求，每个分类回归树的深度不会很深。最终的总分类器是将每轮训练得到的<strong>基分类器加权求和得到的（也就是加法模型</strong>）。</p>
+</li>
+<li><p>GBDT算法</p>
+<blockquote>
+<p>输入：训练集T（大小N），损失函数L(y,f(x))，M（弱分类器个数），模型c</p>
+<p>输出：回归树$\hat f(x)$</p>
+<ol>
+<li>初始化 $f_0(x)=argmin_c\sum_{i=1}^N L(y_i,c)$</li>
+<li>对$m=1,2,\dots,M$<ol>
+<li>对$i=1,2,\dots,N$，计算$r_{mi}=-(\frac{\partial L(y_i,f(x_i))}{\partial f(x_i)})<em>{f(x)=f</em>{m-1}(x)}$</li>
+<li>对$r_{mi}$拟合一个回归树，得到第m棵树的叶节点区域 $R_{mj},j=1,2,\dots J$ #叶节点区域即为分类结果</li>
+<li>对$j=1,2,\dots ,J$，计算$c_{mj}=argmin_c\sum_{x_i \in R_{mj}}L(y_i,f_{m-1}(x_i)+c)$ # 对当前拟合出来的决策树计算loss，进行加权</li>
+<li>更新$f_m(x)=f_{m-1}(x)+\sum_{j=1}^Jc_{mj}I(x \in R_{mj})$</li>
+</ol>
+</li>
+<li>得到回归树$\hat f(x)=f_M(x)=\sum_{m=1}^M\sum_{j=1}^J c_{mj}I(x \in R_{mj})$</li>
+</ol>
+</blockquote>
+<p><strong>优点</strong></p>
+</li>
+<li><p>既可以用于分类（设定阈值）也可以用于回归。还可以筛选特征</p>
+</li>
+<li>非线性变换比较多，表达能力强，而且不需要做复杂的特征工程和特征变换。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>Boost是一个串行过程，不好并行化</li>
+<li>计算复杂度高，不太适合高维稀疏特征。</li>
+</ul>
+<p><strong>特性</strong></p>
+<ul>
+<li><p>每次迭代获得的决策树模型都要乘以一个缩减（Shrinkage）系数，Shrinkage（缩减）的思想认为，每次走一小步逐渐逼近结果的效果，要比每次迈一大步很快逼近结果的方式更容易避免过拟合。即它不完全信任每一个棵残差树，它认为每棵树只学到了真理的一小部分，累加的时候只累加一小部分，通过多学几棵树弥补不足。从而<strong>降低每棵树的作用，提升可学习空间。</strong></p>
+</li>
+<li><p>每次迭代拟合的是<strong>一阶梯度</strong>。</p>
+</li>
+</ul>
+<h3 id="XGBoost-eXtreme-Gradient-Boosting"><a href="#XGBoost-eXtreme-Gradient-Boosting" class="headerlink" title="XGBoost(eXtreme Gradient Boosting)"></a>XGBoost(eXtreme Gradient Boosting)</h3><ul>
+<li><p>XGBoost不是一种独立的“算法”， 而是广义GBDT算法的一种高效实现， X 是 extreme 的意思，即梯度提升树的算法优化和高效系统实现</p>
+</li>
+<li><p>与GBDT相同，也是在每一轮的迭代中生成新的决策树来对之前所有模型积累的残差进行拟合</p>
+<ul>
+<li>比如</li>
+<li>（天赋高、不恋爱、每天学习时间有16个小时）的大学霸考了100分，（天赋低、不恋爱、每天学习时间有16个小时）的小学霸考了70分，（天赋高、不恋爱、每天学习时间有6个小时）的小天才考了86分，那么三位同学通过第一个决策树（天赋）后预测结果分别为90分，60分，和90分，在构建第二颗决策树时就会考虑残差（100-90=10），（70-60=10），（86-90=-4）来构建一颗新的树，我们通过最小化残差学习到第二个决策树（学习时间）的得到90+5，60+5，90-5的预测值，再继续通过（100-95=5）（70-65）（86-85）的残差构建下一个决策树（恋爱），以此类推，当迭代次数达到上限或是残差不再减小是停止，就得到一个拥有多个决策树的强分类器。</li>
+</ul>
+</li>
+<li><p><strong>加法模型</strong>的框架（k个基学习器）：<br>$$<br>\hat y_i=\sum_{k=1}^Kf_k(x_i)<br>$$<br>其中$f_k$为第k个基学习器，为树模型——参数’booster’可以对模型进行更改，默认gbtree(CART)</p>
+</li>
+<li><p><strong>优化目标</strong>为结构风险最小化（因为一共有k个基学习器，在训练时，每个基学习器都会加上正则项，所以求和是K项）<br>$$<br>L=\sum_i l(y_i,\hat y_i)+\sum_k\Omega(f_k)<br>$$</p>
+<ul>
+<li><p>其中 $l$ 为损失函数，不固定具体形式，只要求二阶可导</p>
+</li>
+<li><p>这里要求正则项必须是如下形式，才能在后边推导时候得到叶子结点的权重（树里面叶子节点的个数T）<br>$$<br>\Omega (f)=\gamma T+\frac12 \lambda||\omega||^2<br>$$</p>
+<ul>
+<li>第二项为L2正则</li>
+<li>第一项为XGB的贡献，在之前的GBDT中，是没有正则项的，主要通过剪枝等启发式的方式（没有系统的方法）来控制模型的复杂度，是难以解释的，因此XGB引入了 $\gamma$ 参数，其作用相当于预剪枝，更有解释性。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>由于在每一轮的迭代中更新使得L最小的模型，因此每次只考虑一轮的迭代<br>$$<br>L^{(t)}=\sum_i l(y_i,\hat y_i^{(t-1)}+f_t(x_i))+\Omega(f_t)<br>$$</p>
+</li>
+<li><p>然而损失函数 $l$ 未知，因此考虑通过泰勒展开，将第t轮预测值的增量$f_t(.)$作为自变量增量，将其从损失函数中拿出来<br>$$<br>L^{(t)} \approx \sum_i [l(y_i,\hat y_i^{(t-1)})+l_2’(y_i,\hat y_i^{(t-1)})f_t(x_i)+\frac12 l_{22}’’(y_i,\hat y_i^{(t-1)})f_t(x_i)^2]+\Omega(f_t)<br>$$<br>附泰勒二阶展开公式<br>$$<br>F(x_0+\Delta x)=F(x_0)+F’(x_0)\Delta x+\frac12 F’’(x_0)(\Delta x)^2<br>$$<br>这样就将 $f_t$从损失函数中抽出来了</p>
+<ul>
+<li>一方面便于后面的推导</li>
+<li>另一方面在工程上实现模块化，使得可以自定义损失函数。 </li>
+</ul>
+</li>
+<li><p>由于上述优化目标的第一项中 $\hat y_i^{(t-1)}$已知，因此第一项$l(y_i,\hat y_i^{(t-1)})$可以视为常数，在优化过程中不用考虑，因此原式可以整理为<br>$$<br>\tilde L^{(t)}= \sum_{i=1}^n[g_if_t(x_i)+\frac12 h_if_t(x_i)^2]+\Omega(f_t)<br>$$<br>其中$g_i:=l_2’(y_i,\hat y_i^{(t-1)});h_i:=l_{22}’’(y_i,\hat y_i^{(t-1)})$</p>
+</li>
+<li><p>这里求导数的的过程或者说求导的意义其实很奇怪，因为树模型是阶跃的，阶跃点是不可导的，所以求导就没意义了。</p>
+<p>可以查阅xgboost的源代码，其实使用了一个简便的算法代替了对优化函数的求导：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_reg</span><span class="params">(y_hat ,y)</span>:</span></span><br><span class="line">       p = <span class="number">1.0</span>/(<span class="number">1.0</span>+ np.exp(-y_hat))</span><br><span class="line">       g = p – y.get_lable()</span><br><span class="line">       h= p * (<span class="number">1.0</span>-p)</span><br><span class="line">       <span class="keyword">return</span> g,h</span><br></pre></td></tr></table></figure>
+<p>简单写下来即<br>$$<br>g=\frac{1}{1+e^{-\hat y}}-y \\<br>h=\frac{1}{1+e^{-\hat y}} \ast (1-\frac{1}{1+e^{-\hat y}})<br>$$</p>
+</li>
+<li><p><strong>假定已知树的结构，得到最优叶子结点权重的解析解 $\omega_j^{\ast}$</strong></p>
+<ul>
+<li><p>对于任意一个样本i，一定存在一个叶子结点使得$f_t(x_i)===\omega_j$，将上边的式子整理之后可以得到<br>$$<br>\tilde L^{(t)}= \sum_{i=1}^n[g_if_t(x_i)+\frac12 h_if_t(x_i)^2]+\gamma T+\frac12 \lambda||\omega_j||^2 \\ =\sum_{j=1}^T[(\sum_{i \in I_j}g_i)\omega_j+\frac12(\sum_{i \in I_j}h_i+\lambda)\omega_j^2]+\gamma T<br>$$<br>$I_j$为第j个叶子结点，上式中第二个式子以 j 为遍历求和</p>
+</li>
+<li><p>自此，优化目标已经化成了关于$\omega_j$的一元二次函数，可以通过解析解公式来求解最优的叶节点权重<br>$$<br>\omega_j^{\ast}=-\frac{\sum_{i \in I_j}g_i}{\sum_{i \in I_j}h_i+\lambda}<br>$$<br>附一元二次函数的最小值<br>$$<br>x=argmin_x(ax^2+bx+c)=-\frac{b}{2a}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p><strong>确定树的结构，将 $\omega_j^{\ast}$ 的解析解带回$L^{(t)}$得到特征分割点的loss reduction(gain)公式，在每一个叶子结点选择gain最大的（特征，分割点）tuple作为树的下一步生长方向</strong></p>
+<ul>
+<li><p>由于无法枚举所有可能的树结构然后选取最优，故使用贪心算法：从单个叶节点开始，迭代分裂来给树添加节点。节点切分后的损失函数从根节点开始，遍历所有可能的(feature,split)，找到使loss reduction最大的，作为树的下一步生长方向</p>
+</li>
+<li><p>将$\omega_j^{\ast}$带回$\tilde L^{(t)}$式中，得到优化目标$\tilde L^{(t)}$的值，即树结构的score function（分数），可以用来衡量树结构q的质量<br>$$<br>\tilde L^{(t)}(q)=-\frac12 \sum_{j=1}^T\frac{(\sum_{i\in I_j}g_i)^2}{\sum_{i \in I_j}h_i+\lambda}+\gamma T<br>$$</p>
+</li>
+<li><p>loss reduction的计算，$\gamma$为增益的阈值（预剪枝）<br>$$<br>L_{split}=\frac12 [\frac{(\sum_{i \in I_L}g_i)^2}{\sum_{i \in I_L}h_i+\lambda}+\frac{(\sum_{i \in I_R}g_i)^2}{\sum_{i \in I_R}h_i+\lambda}-\frac{(\sum_{i \in I}g_i)^2}{\sum_{i \in I}h_i+\lambda}]-\gamma<br>$$</p>
+</li>
+<li><p>对每一个潜在的分割，都可以通过这个式子计算其loss reduction，选择最大的作为实际的分割点</p>
+</li>
+</ul>
+</li>
+<li><p>得到新的决策树之后，利用新的决策树来预测样本值，并累加到原来的值上，最后就可以得到样本的预测值。</p>
+<p><img src="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/XGB.png" alt="XGB" style="zoom:50%;"></p>
+</li>
+<li><p><strong>缩减(shrinkage)和列抽样（column subsampling）</strong></p>
+<ul>
+<li>xgb在进行完一次迭代后，会将叶子节点的权重乘上缩减系数，主要是为了削弱各棵树的影响，让后面有更大的学习空间</li>
+<li>列采样是借鉴随机森林中的思想（就是对特征属性抽样。行采样是对样本的数目采样，其实行采样也有用到），根据反馈，列采样有时甚至比行抽样效果更好，同时，通过列采样能加速计算。</li>
+</ul>
+</li>
+<li><p><strong>对缺失值处理</strong></p>
+<ul>
+<li>xgboost模型能够处理缺失值，模型允许缺失值存在。</li>
+<li>xgboost把缺失值当做稀疏矩阵来对待，在节点分裂时不考虑缺失值的数值。缺失值数据会被分到左子树和右子树分别计算损失，选择增益较优的那一个。如果训练中没有数据缺失，预测时出现了数据缺失，那么默认被分类到右子树。</li>
+</ul>
+</li>
+</ul>
+<h3 id="LightGBM"><a href="#LightGBM" class="headerlink" title="LightGBM"></a>LightGBM</h3><h3 id="XGBoost的优缺点-参照lgb"><a href="#XGBoost的优缺点-参照lgb" class="headerlink" title="XGBoost的优缺点(参照lgb)"></a>XGBoost的优缺点(参照lgb)</h3><p><strong>精确贪心算法</strong></p>
+<p>每轮迭代时，都需要遍历整个训练数据多次。如果把整个训练数据装进内存则会限制训练数据的大小；如果不装进内存，反复地读写训练数据又会消耗非常大的时间。</p>
+<p>优点：</p>
+<ul>
+<li>可以找到精确的划分条件</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>计算量巨大</li>
+<li>内存占用巨大</li>
+<li>易产生过拟合</li>
+</ul>
+<p><strong>Level-wise迭代方式</strong></p>
+<p>预排序方法（pre-sorted）：首先，空间消耗大。这样的算法需要保存数据的特征值，还保存了特征排序的结果（例如排序后的索引，为了后续快速的计算分割点），这里需要消耗训练数据两倍的内存。其次时间上也有较大的开销，在遍历每一个分割点的时候，都需要进行分裂增益的计算，消耗的代价大。</p>
+<p>优点：</p>
+<ul>
+<li>可以使用多线程</li>
+<li>可以加速精确贪心算法</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>效率低下，可能产生不必要的叶结点</li>
+</ul>
+<p><strong>对cache优化不友好</strong></p>
+<p>在预排序后，特征对梯度的访问是一种随机访问，并且不同的特征访问的顺序不一样，无法对cache进行优化。同时，在每一层长树的时候，需要随机访问一个行索引到叶子索引的数组，并且不同特征访问的顺序也不一样，也会造成较大的cache miss。</p>
+<p>因此</p>
+<h4 id="Gradient-based-One-Side-Sampling（GOSS基于梯度的单边采样）"><a href="#Gradient-based-One-Side-Sampling（GOSS基于梯度的单边采样）" class="headerlink" title="Gradient-based One-Side Sampling（GOSS基于梯度的单边采样）"></a>Gradient-based One-Side Sampling（GOSS基于梯度的单边采样）</h4><ul>
+<li><p>样本采样</p>
+</li>
+<li><p>在AdaBoost中每一轮迭代会对数据的权重进行更新，使得模型更注重分类错误的样本，而在GBDT中没有对其进行实现</p>
+</li>
+<li><p>GOSS利用每个样本的梯度数据，如果该样本的梯度小，证明已经经过了很好的训练。通过保持大梯度的数据集，随机丢掉小梯度的数据集，保持信息增益的准确性。</p>
+<p><img src="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/lgb_GOSS.png" alt="lgb_GOSS"></p>
+</li>
+<li><blockquote>
+<p>输入：训练集T，迭代步数d，大梯度数据的采样率a，小梯度数据的采样率b，损失函数和弱学习器</p>
+<p>输出：强学习器</p>
+<ol>
+<li>根据样本点一阶梯度g的绝对值对它们进行降序排序</li>
+<li>对排序后的结果选取<code>a*len(T)</code>的样本生成一个大梯度样本点的子集</li>
+<li>对剩下的样本集合<code>(1-a)*len(T)</code>中，随机选择<code>b*len(T)</code>个样本点，生成一个小梯度样本点的集合</li>
+<li>将大梯度样本和采样的小梯度样本合并</li>
+<li>为了抵消对数据分布的影响，将小梯度的样本数据乘上系数$\frac{1-a}{b}$，放大样本数据</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h4 id="Exclusive-Feature-Bundling（EFB）互斥特征捆绑——处理稀疏数据"><a href="#Exclusive-Feature-Bundling（EFB）互斥特征捆绑——处理稀疏数据" class="headerlink" title="Exclusive Feature Bundling（EFB）互斥特征捆绑——处理稀疏数据"></a>Exclusive Feature Bundling（EFB）互斥特征捆绑——处理稀疏数据</h4><ul>
+<li><p>特征抽样（由于histogram算法对稀疏数据的处理时间复杂度没有pre-sorted好。因为histogram并不管特征值是否为0。因此采用EFB来预处理稀疏数据。）</p>
+</li>
+<li><p>通过特征捆绑的方式减少特征维度，提升计算效率。通常被捆绑的特征都是互斥的（一个特征值为零一个特征值不为零），这样两个特征捆绑起来才不会丢失信息。</p>
+</li>
+<li><p>但一般是允许存在少数的样本点不是互斥的（两个特征都是非零值），这样可以得到更小的特征绑定数量，用一个指标对特征不互斥程度进行衡量，称之为冲突比率，当这个值较小时，可以选择把不完全互斥的两个特征捆绑，而不影响最后的精度。</p>
+<p><img src="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/lgb_EFB.png" alt="lgb_EFB"></p>
+</li>
+</ul>
+<blockquote>
+<p>输入：特征F，最大冲突数K，图G；</p>
+<p>输出：特征捆绑集合bundles；</p>
+<p>（1）构造一个边带有权重的图，其权值对应于特征之间的总冲突；</p>
+<p>（2）通过特征在图中的度来降序排序特征；</p>
+<p>（3）检查有序列表中的每个特征，并将其分配给具有小冲突的现有bundling（由$\gamma$控制），或创建新bundling。</p>
+</blockquote>
+<p>或者另一种方法是按照非零值进行排序。</p>
+<p>贪婪算法可以取得相当好的近似率(因此可以在不显著影响分裂点选择的准确性的情况下，显著地减少特征数量)。</p>
+<h4 id="基于Histogram（直方图）的决策树算法"><a href="#基于Histogram（直方图）的决策树算法" class="headerlink" title="基于Histogram（直方图）的决策树算法"></a><strong>基于Histogram（直方图）的决策树算法</strong></h4><ul>
+<li>直方图算法的基本思想是先把连续的浮点特征值离散化成k个整数，同时构造一个宽度为k的直方图。在遍历数据的时候，根据离散化后的值作为索引在直方图中累积统计量，当遍历一次数据后，直方图累积了需要的统计量，然后根据直方图的离散值，遍历寻找最优的分割点。</li>
+<li>Histogram算法还可以进一步加速。一个叶子节点的Histogram可以直接由父节点的Histogram和兄弟节点的Histogram做差得到。一般情况下，构造Histogram需要遍历该叶子上的所有数据，通过该方法，只需要遍历Histogram的k个桶。速度提升了一倍。<br><img src="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/直方图加速.png" alt="直方图加速"></li>
+<li>优点：  <ul>
+<li>在内存消耗的降低，直方图算法不仅不需要额外存储预排序的结果，而且可以只保存特征离散化后的值，而这个值一般用 8 位整型存储就足够了，内存消耗可以降低为原来的1/8。  </li>
+<li>在计算上的代价也大幅降低，预排序算法每遍历一个特征值就需要计算一次分裂的增益，而直方图算法只需要计算k次（k可以认为是常数），时间复杂度从<code>O(#data*#feature)</code>优化到<code>O(k*#features)</code>。  　</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>由于特征被离散化后，找到的并不是很精确的分割点，所以会对结果产生影响。但在不同的数据集上的结果表明，离散化的分割点对最终的精度影响并不是很大，甚至有时候会更好一点。</li>
+<li>原因是决策树本来就是弱模型，分割点是不是精确并不是太重要；较粗的分割点也有正则化的效果，可以有效地防止过拟合；即使单棵树的训练误差比精确分割的算法稍大，但在梯度提升（Gradient Boosting）的框架下没有太大的影响。 </li>
+</ul>
+</li>
+</ul>
+<h4 id="Leaf-wise的决策树生长策略"><a href="#Leaf-wise的决策树生长策略" class="headerlink" title="Leaf-wise的决策树生长策略"></a>Leaf-wise的决策树生长策略</h4><p>大部分决策树的学习算法通过 level-wise 策略生长树，每一次分裂的时候都会考虑所有的叶子结点，进行遍历，而实际上很多叶子的分裂增益较低没必要进行分裂，带来了没必要的开销。如下图：</p>
+<p><img src="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/level-wise.png" alt="level-wise"></p>
+<p>LightGBM 通过 leaf-wise 策略来生长树。每次从当前所有叶子中，找到分裂增益最大的一个叶子，然后分裂，如此循环。因此同Level-wise相比，在分裂次数相同的情况下，Leaf-wise可以降低更多的误差，得到更好的精度。但是，当样本量较小的时候，leaf-wise 可能会造成过拟合。 所以，LightGBM 可以利用额外的参数 max_depth 来限制树的深度并避免过拟合。<br><img src="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/leaf-wise.png" alt="leaf-wise"></p>
+<h4 id="直接支持类别特征"><a href="#直接支持类别特征" class="headerlink" title="直接支持类别特征"></a>直接支持类别特征</h4><ul>
+<li>对于类别型的数据，通常将类别特征转化为one-hot/哑变量编码。 然而，对于学习树来说这不是个好的解决方案。 原因是，对于一个基数较大的类别特征，学习树会生长的非常不平衡，并且需要非常深的深度才能来达到较好的准确率。</li>
+<li>LightGBM可以在对离散特征分裂时，每个取值都当作一个桶，分裂时的增益为“是否属于某个类别category”的gain。</li>
+<li>采用了Many vs many的切分方式。用LightGBM可以直接在1个k维的类别特征中寻找最优切分，在枚举分割点之前，先把直方图按每个类别的均值进行排序；然后按照均值的结果依次枚举最优分割点。从下图可以看到，Sum(y)/Count(y)为类别的均值。当然，这个方法很容易过拟合，所以在LGBM中加入了很多对这个方法的约束和正则化。</li>
+</ul>
+<p><img src="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/category.jpg" alt="category" style="zoom: 80%;"></p>
+<h4 id="高效并行处理"><a href="#高效并行处理" class="headerlink" title="高效并行处理"></a>高效并行处理</h4><p><strong>特征并行</strong>算法中，（1）每个Worker都在本地特征集上寻找最佳划分点｛特征， 阈值｝；（2）本地进行各个划分的通信整合并得到最佳划分；（3）执行最佳划分。</p>
+<p> <strong>数据并行</strong>中使用分散规约 (Reduce scatter) 把直方图合并的任务分摊到不同的机器，降低通信和计算，并利用直方图做差，进一步减少了一半的通信量。</p>
+<p> <strong>基于投票的数据并行(Voting Parallelization)</strong>则进一步优化数据并行中的通信代价，使通信代价变成常数级别。在数据量很大的时候，使用投票并行可以得到非常好的加速效果。</p>
+<p><a href="https://blog.csdn.net/weixin_39807102/article/details/81912566" target="_blank" rel="noopener">LightGBM算法总结</a></p>
+<p><a href="https://blog.csdn.net/qq_24519677/article/details/82811215" target="_blank" rel="noopener">Lightgbm基本原理介绍</a></p>
+<p><a href="https://www.biaodianfu.com/lightgbm.html" target="_blank" rel="noopener">机器学习算法之LightGBM</a></p>
+<h3 id="各模型间的对比分析及面经整理"><a href="#各模型间的对比分析及面经整理" class="headerlink" title="各模型间的对比分析及面经整理"></a>各模型间的对比分析及面经整理</h3><h4 id="RF、GBDT、XGboost如何做特征选择（嵌入式方法）"><a href="#RF、GBDT、XGboost如何做特征选择（嵌入式方法）" class="headerlink" title="RF、GBDT、XGboost如何做特征选择（嵌入式方法）"></a>RF、GBDT、XGboost如何做特征选择（嵌入式方法）</h4><ul>
+<li><p><strong>随机森林（Random Forest）</strong>    </p>
+<ul>
+<li>RF的数据是boostrap的有放回采样，形成了袋外数据。因此可以采用袋外数据（OOB）错误率进行特征重要性的评估。可以不用交叉验证，直接用oob score对模型性能进行评估</li>
+<li>袋外数据错误率定义为：<strong>袋外数据自变量值发生轻微扰动后的分类正确率与扰动前分类正确率的平均减少量。</strong> <ul>
+<li>对于每一棵决策树，用OOB 计算袋外数据误差，记为 errOOB1；</li>
+<li>然后随机对OOB所有样本的特征i加入噪声干扰，再次计算袋外数据误差，记为errOOB2；        </li>
+<li>假设有N棵树，特征i的重要性为$sum(errOOB2-errOOB1)/N$;    如果加入随机噪声后，袋外数据准确率<strong>大幅下降</strong>，说明这个特征对预测结果有很大的影响，进而说明它的<strong>重要程度比较高</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>梯度提升树（GBDT）</strong>   </p>
+<ul>
+<li><p>特征j的全局重要度通过<strong>特征j在单颗树中的重要度的平均值</strong>来衡量：<br>$$<br>\hat J_j^2=\frac1M \sum_{m=1}^M \hat J_j^2(T_m)<br>$$</p>
+</li>
+<li><p>其中，M是树的数量。特征j在单颗树中的重要度公式如下：<br>$$<br>J_j^2(T)=\sum_{t=1}^{L−1} \hat i^2_t 1(v_t=j)<br>$$<br>其中，L为树的叶子节点数量，L−1即为树的非叶子节点数量（构建的树都是具有左右孩子的二叉树），$v_t$是和节点t相关联的特征，$\hat i^2_t$是节点t分裂之后impurity的减少值。</p>
+</li>
+<li><p>计算所有的非叶子节点在分裂时加权不纯度的减少，减少得越多说明特征越重要。</p>
+</li>
+<li><p>_criterion.py源码中有criterion分裂标准：</p>
+<ul>
+<li>Entropy：熵，适用分类树</li>
+<li>Gini：基尼系数，适用分类树</li>
+<li>MSE：均方误差，适用回归树</li>
+<li>MAE：平均绝对误差，适用回归树</li>
+</ul>
+</li>
+<li><p>gbdt中的树全部是回归树，所以impurity计算和节点的分裂标准是MSE或MAE</p>
+</li>
+</ul>
+</li>
+<li><p><strong>XGB</strong></p>
+<ul>
+<li>weight<ul>
+<li>被选作分裂点的次数</li>
+</ul>
+</li>
+<li>gain<ul>
+<li>某个特征的平均增益，比如特征$x_1$被选了6次作为分裂的特征，每次的增益假如为$Gain_1,Gain_2,…Gain_6$，那么其平均增益为$(Gain_1+Gain_2+…Gain_3)/6$</li>
+</ul>
+</li>
+<li>cover<ul>
+<li>平均每次分裂所“负责”的样本数，比如初始样本有10000个，第一次分裂的时候使用了特征A，也就是特征A在这10000个样本上分裂，则此时的cover值为10000，第二次分裂在500个样本，那么就是（10000+500）/2</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>lightGBM</strong></p>
+<ul>
+<li>和xgb一样。不过lgb中没有cover这一评价方式。</li>
+</ul>
+</li>
+</ul>
+<p><strong>GBDT与RF区别</strong></p>
+<p>1、组成随机森林的树可以是分类树，也可以是回归树；而GBDT只由回归树组成，GBDT的会累加所有树的结果，而这种累加是无法通过分类完成的，因此GBDT的树都是CART回归树，而不是分类树（尽管GBDT调整后也可以用于分类但不代表GBDT的树为分类树）</p>
+<p>2、组成随机森林的树可以并行生成；而GBDT只能是串行生成 </p>
+<p>3、对于最终的输出结果而言，随机森林采用多数投票或简单平均等；而GBDT则是将所有结果累加起来，或者加权累加起来（存在学习率）</p>
+<p>4、随机森林对异常值不敏感，GBDT对异常值非常敏感</p>
+<p>5、随机森林是通过减少模型方差提高性能，GBDT是通过减少模型偏差提高性能，但是xgb引入了正则项和列采样等等正则化手段之后，可以在少量增加偏差的情况下大幅度缩减模型的方差。</p>
+<h4 id="Adaboost与GBDT"><a href="#Adaboost与GBDT" class="headerlink" title="Adaboost与GBDT"></a>Adaboost与GBDT</h4><ul>
+<li>AdaBoost 是通过提升错分数据点的权重来定位模型的不足，而 Gradient Boosting是通过算梯度（gradient）来定位模型的不足。</li>
+<li>Gradient Boost每一次的计算是为了减少上一次的残差(residual)，而为了消除残差，我们可以在残差减少的梯度(Gradient)方向上建立一个新的模型。所以说，在Gradient Boost中，每个新的模型的建立是为了使得之前模型的残差往梯度方向减少。Shrinkage为每棵树设置了一个weight，累加时要乘以这个weight，但和Gradient并没有关系。</li>
+</ul>
+<h4 id="XGBoost与GBDT对比"><a href="#XGBoost与GBDT对比" class="headerlink" title="XGBoost与GBDT对比"></a>XGBoost与GBDT对比</h4><ol>
+<li>GBDT是机器学习算法，XGBoost是该算法的高效工程实现。</li>
+<li>在使用CART作为基分类器时，XGBoost显式地将树模型的复杂度作为正则项加在优化目标，正则项主要是对树的叶子数和叶子分数做惩罚。从贝叶斯方差角度考虑，正则项降低了模型的方差，防止模型过拟合，这点确保了树的简单性。</li>
+<li>GBDT在模型训练时只使用了代价函数的一阶导数信息，XGBoost对代价函数进行二阶泰勒展开，可以同时使用一阶和二阶导数。二阶导数有利于梯度下降的更快更准。 使用泰勒展开取得函数做自变量的二阶导数形式, <strong>可以在不选定损失函数具体形式的情况下, 仅仅依靠输入数据的值就可以进行叶子分裂优化计算,</strong> 本质上也就<strong>把损失函数的选取和模型算法优化/参数选择分开了</strong>. 这种去耦合增加了XGBoost的适用性, 使得它按需选取损失函数, 可以用于分类, 也可以用于回归。</li>
+<li>传统的GBDT采用CART（gbtree）作为基分类器，XGBoost支持多种类型的基分类器，比如线性分类器（gblinear）。</li>
+<li>传统的GBDT没有设计对缺失值进行处理，XGBoost能够自动学习出缺失值的处理策略——与稀疏矩阵处理相同，训练时分别分到左右子树，选择增益大的方向，在预测时默认右子树。</li>
+<li>CART 回归树中寻找最佳分割点的衡量标准是最小化均方差，xgboost 寻找分割点的标准是最大化，lamda，gama 与正则化项相关。</li>
+<li>传统的GBDT在每轮迭代时使用全部的数据，XGBoost则采用了与随机森林相似的策略，支持列抽样和行抽样，这样即能降低过拟合风险，又能降低计算。</li>
+<li>支持并行,但并不是tree粒度上的，而是<strong>特征</strong>粒度，决策树最耗时的步骤是对特征的值排序，xgBoosting在迭代之前，<strong>先进行预排序Pre-sorted，存为block结构</strong>，每次迭代，重复使用该结构，降低了模型的计算；block结构也为模型<strong>提供了并行可能</strong>，在进行结点的分裂时，计算每个特征的增益，选增益最大的特征进行下一步分裂，那么各个特征的增益可以开多线程进行。</li>
+<li>gradient boosting 的实现比较慢，因为每次都要先构造出一个树并添加到整个模型序列中。而 XGBoost 的特点就是<strong>计算速度快，模型表现好</strong>，这两点也正是这个项目的目标。<ul>
+<li>Parallelization：训练时可以用所有的 CPU 内核来并行化建树。</li>
+<li>Distributed Computing ：用分布式计算来训练非常大的模型。</li>
+<li>Out-of-Core Computing：对于非常大的数据集还可以进行 Out-of-Core Computing。</li>
+<li>Cache Optimization of data structures and algorithms：更好地利用硬件。</li>
+</ul>
+</li>
+</ol>
+<h4 id="XGBoost与LightGBM对比"><a href="#XGBoost与LightGBM对比" class="headerlink" title="XGBoost与LightGBM对比"></a>XGBoost与LightGBM对比</h4><ol>
+<li>XGBoost无法直接输入类别型变量，因此需要事先对类别型变量进行编码（例如独热编码）；LightGBM可以直接处理类别型变量。（实际上内部是对类别特征做了类似编码的操作了）</li>
+<li>XGB采用level-wise的分裂策略，LGB采用leaf-wise的策略，XGB对每一层所有节点做无差别分裂，但是可能有些节点增益非常小，对结果影响不大，带来不必要的开销。Leaf-wise是在所有叶子节点中选取分裂收益最大的节点进行的，但是很容易出现过拟合问题，所以需要对最大深度做限制</li>
+<li>XGBoost采用预排序，在迭代之前，对结点的特征做预排序，遍历选择最优分割点，数据量大时，贪心法耗时；LightGBM方法采用histogram算法，对连续特征进行分桶，在损失了一定精度的情况下大大提升了运行速度，并且在gbm的框架下，基学习器的“不精确”分箱反而增强了整体的泛化性能</li>
+<li>LightGBM借鉴Adaboost的思想，引入了goss 树，对样本基于梯度采样，然后再计算增益</li>
+<li>efb，对稀疏特征做了“捆绑”的优化功能</li>
+</ol>
+<p><strong>XGB很容易理解它的回归和二分类，如何理解多分类呢？</strong></p>
+<ul>
+<li><p>用多维向量做label</p>
+</li>
+<li><p>我们用一个三维向量来标志样本的label，[1,0,0][1,0,0]表示样本属于山鸢尾，[0,1,0][0,1,0]表示样本属于杂色鸢尾，[0,0,1][0,0,1]表示属于维吉尼亚鸢尾。</p>
+</li>
+</ul>
+<p>面经的话。。真的太多了，而且好多都不懂，还是慢慢啃吧。。。。。。</p>
+<p><a href="https://cloud.tencent.com/developer/article/1524927" target="_blank" rel="noopener">关于XGBoost、GBDT、Lightgbm的17个问题</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/82521899" target="_blank" rel="noopener">gbdt、xgb、lgb、cat面经整理——from牛客</a></p>
+<p><a href="https://www.jianshu.com/p/a62f4dce3ce8" target="_blank" rel="noopener">XGBoost原理</a></p>
+<p><a href="https://www.jianshu.com/p/405f233ed04b" target="_blank" rel="noopener">GBDT 算法</a></p>
+<p><a href="https://www.cnblogs.com/bnuvincent/p/9693190.html" target="_blank" rel="noopener">机器学习算法GBDT</a></p>
+<p><a href="https://www.cnblogs.com/mata123/p/7440774.html" target="_blank" rel="noopener">lightgbm,xgboost,gbdt的区别与联系</a></p>
+<p><a href="https://www.jianshu.com/p/d55f7aaac4a7" target="_blank" rel="noopener">浅谈 GBDT</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/91817667?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=54433337573376" target="_blank" rel="noopener">左手论文 右手代码 深入理解网红算法XGBoost</a>——讲的比较清楚</p>
+<p><a href="https://blog.csdn.net/wufengqi7585/article/details/86078049" target="_blank" rel="noopener">xgboost算法详细介绍（通过简单例子讲述）</a>——讲的比较清楚</p>
+<p><a href="https://www.cnblogs.com/Sugar-Chl/p/10168838.html" target="_blank" rel="noopener">XGB算法梳理</a></p>
+<p><a href="https://blog.csdn.net/u014035615/article/details/79612827" target="_blank" rel="noopener">RF、GBDT、XGboost特征选择方法</a></p>
+<p><a href="https://blog.csdn.net/yangxudong/article/details/53899260" target="_blank" rel="noopener">GBDT算法的特征重要度计算</a></p>
+<p>视频：</p>
+<p><a href="https://www.bilibili.com/video/BV1mZ4y1j7UJ?t=7817" target="_blank" rel="noopener">贪心学院xgboost细节讲解录播，目前为止听过最全最细致的讲解</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Hp4y1C7oJ?t=1719&amp;p=9" target="_blank" rel="noopener">李航统计学习之集成学习之Adaboost+GBDT数学推导</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/11/专题整理/降维与特征选择/" rel="next" title="降维与特征选择">
+                <i class="fa fa-chevron-left"></i> 降维与特征选择
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/14/算法整理/动态规划/" rel="prev" title="动态规划">
+                动态规划 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">63</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#集成学习"><span class="nav-number">1.</span> <span class="nav-text">集成学习</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Boosting算法：——序列方法——减少偏差"><span class="nav-number">1.1.</span> <span class="nav-text">Boosting算法：——序列方法——减少偏差</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Bagging-——并行方法——减少方差"><span class="nav-number">1.2.</span> <span class="nav-text">Bagging:——并行方法——减少方差</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RF-——并行方法——减少方差"><span class="nav-number">1.3.</span> <span class="nav-text">RF:——并行方法——减少方差</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost——一般分类，也可回归"><span class="nav-number"></span> <span class="nav-text">AdaBoost——一般分类，也可回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT梯度提升树Gradient-Boosting-Decison-Tree——分类和回归"><span class="nav-number"></span> <span class="nav-text">GBDT梯度提升树Gradient Boosting Decison Tree——分类和回归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#回归问题的提升树算法"><span class="nav-number">1.</span> <span class="nav-text">回归问题的提升树算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GBDT"><span class="nav-number">2.</span> <span class="nav-text">GBDT</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XGBoost-eXtreme-Gradient-Boosting"><span class="nav-number"></span> <span class="nav-text">XGBoost(eXtreme Gradient Boosting)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LightGBM"><span class="nav-number"></span> <span class="nav-text">LightGBM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XGBoost的优缺点-参照lgb"><span class="nav-number"></span> <span class="nav-text">XGBoost的优缺点(参照lgb)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradient-based-One-Side-Sampling（GOSS基于梯度的单边采样）"><span class="nav-number">1.</span> <span class="nav-text">Gradient-based One-Side Sampling（GOSS基于梯度的单边采样）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Exclusive-Feature-Bundling（EFB）互斥特征捆绑——处理稀疏数据"><span class="nav-number">2.</span> <span class="nav-text">Exclusive Feature Bundling（EFB）互斥特征捆绑——处理稀疏数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于Histogram（直方图）的决策树算法"><span class="nav-number">3.</span> <span class="nav-text">基于Histogram（直方图）的决策树算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Leaf-wise的决策树生长策略"><span class="nav-number">4.</span> <span class="nav-text">Leaf-wise的决策树生长策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#直接支持类别特征"><span class="nav-number">5.</span> <span class="nav-text">直接支持类别特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高效并行处理"><span class="nav-number">6.</span> <span class="nav-text">高效并行处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各模型间的对比分析及面经整理"><span class="nav-number"></span> <span class="nav-text">各模型间的对比分析及面经整理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RF、GBDT、XGboost如何做特征选择（嵌入式方法）"><span class="nav-number">1.</span> <span class="nav-text">RF、GBDT、XGboost如何做特征选择（嵌入式方法）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Adaboost与GBDT"><span class="nav-number">2.</span> <span class="nav-text">Adaboost与GBDT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XGBoost与GBDT对比"><span class="nav-number">3.</span> <span class="nav-text">XGBoost与GBDT对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XGBoost与LightGBM对比"><span class="nav-number">4.</span> <span class="nav-text">XGBoost与LightGBM对比</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

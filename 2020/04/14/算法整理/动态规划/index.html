@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="动态规划：以空间换时间 步骤：  确定状态 确定状态转移方程（打表格） 确定初始化及边界条件 确定输出 状态压缩">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划">
+<meta property="og:url" content="http://yoursite.com/2020/04/14/算法整理/动态规划/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="动态规划：以空间换时间 步骤：  确定状态 确定状态转移方程（打表格） 确定初始化及边界条件 确定输出 状态压缩">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2020/04/14/算法整理/动态规划/F:/blog/source/_posts/算法整理/动态规划/最长公共子串.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/14/算法整理/动态规划/LIS1.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/14/算法整理/动态规划/LIS3.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/14/算法整理/动态规划/矩阵覆盖.png">
+<meta property="og:updated_time" content="2020-06-09T14:38:24.870Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动态规划">
+<meta name="twitter:description" content="动态规划：以空间换时间 步骤：  确定状态 确定状态转移方程（打表格） 确定初始化及边界条件 确定输出 状态压缩">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/14/算法整理/动态规划/F:/blog/source/_posts/算法整理/动态规划/最长公共子串.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/14/算法整理/动态规划/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>动态规划 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/算法整理/动态规划/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">动态规划
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-14 15:28:11" itemprop="dateCreated datePublished" datetime="2020-04-14T15:28:11+08:00">2020-04-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-09 22:38:24" itemprop="dateModified" datetime="2020-06-09T22:38:24+08:00">2020-06-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法整理/" itemprop="url" rel="index"><span itemprop="name">算法整理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>动态规划：以空间换时间</p>
+<p>步骤：</p>
+<ol>
+<li>确定状态</li>
+<li>确定状态转移方程（打表格）</li>
+<li>确定初始化及边界条件</li>
+<li>确定输出</li>
+<li>状态压缩<a id="more"></a></li>
+</ol>
+<h3 id="最长公共子序列"><a href="#最长公共子序列" class="headerlink" title="最长公共子序列"></a>最长公共子序列</h3><p>类似的子序列问题有：最长递增子序列、编辑距离、最长公共子串</p>
+<p>子串：连续；子序列：可以连续，可以不连续，都可以重复</p>
+<h4 id="最长公共子序列LCS（Longest-Common-Subsequence）——leetcode1143"><a href="#最长公共子序列LCS（Longest-Common-Subsequence）——leetcode1143" class="headerlink" title="最长公共子序列LCS（Longest Common Subsequence）——leetcode1143"></a>最长公共子序列LCS（Longest Common Subsequence）——leetcode1143</h4><p>举个栗子：</p>
+<blockquote>
+<p>a=yzxzyzy</p>
+<p>b=xyzyxzzy</p>
+<p>求a和b上的最长公共子序列(6-yzxzzy)</p>
+</blockquote>
+<h5 id="二维DP"><a href="#二维DP" class="headerlink" title="二维DP"></a>二维DP</h5><ol>
+<li><p>确定状态</p>
+<ul>
+<li><code>dp[i][j]</code>表示<code>a[0...i-1]</code>与<code>b[0...j-1]</code>的最长公共子序列长度（因为涉及到一开始的初始化全为0，因此dp多添加一行一列）</li>
+</ul>
+</li>
+<li><p>确定状态转移方程（打表格）</p>
+<ul>
+<li>由于最长公共子序列不要求连续，因此每一次算出的当前最长子序列的值都可以进行累计，所以只需要判断当前的两个值是否相同，如果相同，则在之前的基础上+1，若当前不同，则考虑当前<code>a[0...i]</code>与<code>b[0...j-1]</code>及<code>a[0...i-1]</code>与<code>b[0...j]</code>的最长公共子序列值。</li>
+</ul>
+<p>$$<br>dp(i,j)=\begin{cases} max{dp(i-1,j),dp(i,j-1)} \quad \quad \quad if \quad a[i-1]\neq b[j-1] \\ dp(i-1,j-1)+1 \quad \quad \quad \quad \quad \quad \quad if \quad a[i-1]=b[j-1]\end{cases}<br>$$</p>
+</li>
+<li><p>确定初始化及边界条件</p>
+<p><code>dp[i][0]=0;</code></p>
+<p><code>dp[0][j]=0</code></p>
+</li>
+<li><p>确定输出</p>
+<p><code>dp[len(a)][len(b)]</code></p>
+</li>
+</ol>
+<p>那么就可以开始写代码了，由于状态转移方程用的是<code>i-1</code>和<code>j-1</code>，因此从左上方向右下方进行表格的填充</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">'yzxzyzy'</span></span><br><span class="line">b=<span class="string">'xyzyxzzy'</span></span><br><span class="line"><span class="comment"># 由于直接初始化为0，就没有写边界了</span></span><br><span class="line">dp=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(b)+<span class="number">1</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)+<span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(a)+<span class="number">1</span>):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,len(b)+<span class="number">1</span>):</span><br><span class="line">		<span class="keyword">if</span> a[i<span class="number">-1</span>]==b[j<span class="number">-1</span>]:</span><br><span class="line">			dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>]+<span class="number">1</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			dp[i][j]=max(dp[i][j<span class="number">-1</span>],dp[i<span class="number">-1</span>][j])</span><br><span class="line">print(dp[<span class="number">-1</span>][<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
+<p>表格打出来是这个亚子：</p>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<h5 id="滚动DP——状态压缩"><a href="#滚动DP——状态压缩" class="headerlink" title="滚动DP——状态压缩"></a>滚动DP——状态压缩</h5><ul>
+<li><p>观察上述二维DP可以看出每一次状态值得更新仅与当前行及上一行的值相关，因此可以简化为两行DP，滚动数组，记录当前行和Pre行的状态值，再不断迭代更新即可。</p>
+</li>
+<li><p>注意更新的方向</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">'yzxzyzy'</span></span><br><span class="line">b=<span class="string">'xyzyxzzy'</span></span><br><span class="line">now=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(b)+<span class="number">1</span>)]</span><br><span class="line">pre=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(b)+<span class="number">1</span>)]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,len(b)+<span class="number">1</span>):</span><br><span class="line">		<span class="keyword">if</span> a[i]==b[j<span class="number">-1</span>]:</span><br><span class="line">			now[j]=pre[j<span class="number">-1</span>]+<span class="number">1</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			now[j]=max(now[j<span class="number">-1</span>],pre[j])</span><br><span class="line">	pre=now[:]</span><br><span class="line">print(now[<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
+<p>如果需要保存路径，需要倒序往回遍历</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">path=[]</span><br><span class="line">i,j=len(a),len(b)</span><br><span class="line"><span class="keyword">while</span> i&gt;<span class="number">0</span> <span class="keyword">and</span> j&gt;<span class="number">0</span>:</span><br><span class="line">	<span class="keyword">if</span> a[i<span class="number">-1</span>]==b[j<span class="number">-1</span>]: <span class="comment">#如果a,b相同，则都--</span></span><br><span class="line">		path.append(a[i<span class="number">-1</span>])</span><br><span class="line">		i-=<span class="number">1</span></span><br><span class="line">		j-=<span class="number">1</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		<span class="keyword">if</span> dp[i<span class="number">-1</span>][j]&gt;dp[i][j<span class="number">-1</span>]: <span class="comment"># 选择dp数组值大的方向下降</span></span><br><span class="line">			i-=<span class="number">1</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			j-=<span class="number">1</span></span><br><span class="line">path=path[::<span class="number">-1</span>]</span><br><span class="line">print(path)</span><br></pre></td></tr></table></figure>
+<h4 id="无重复字符的最长子串（leetcode3）——仅计算长度"><a href="#无重复字符的最长子串（leetcode3）——仅计算长度" class="headerlink" title="无重复字符的最长子串（leetcode3）——仅计算长度"></a>无重复字符的最长子串（leetcode3）——仅计算长度</h4><blockquote>
+<p>如：‘abcabcb’的最长子串为’abc’，长度为3</p>
+</blockquote>
+<p>不是DP的方法，只是问题相关，放在这里了</p>
+<ul>
+<li>比较一般的方法就是滑动窗口，如果直接使用数据滑的话，切片操作会比较花时间，所以用集合的方法比较好，但是需要注意集合的add，remove等操作方法。</li>
+<li>优化的滑动窗口是通过记录每个元素最近出现的位置，如果遇到当前子串中有重复数据，可以直接将子串的开始指针移至其被记录的上出现位置的+1位置。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 滑动窗口</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> s:<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        left = <span class="number">0</span></span><br><span class="line">        lookup = set()</span><br><span class="line">        max_len,cur_len = <span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">            cur_len += <span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> s[i] <span class="keyword">in</span> lookup:<span class="comment"># 如果有重复的，就不断移除左边，直到没有重复的</span></span><br><span class="line">                lookup.remove(s[left])</span><br><span class="line">                left += <span class="number">1</span></span><br><span class="line">                cur_len -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> cur_len &gt; max_len:max_len = cur_len</span><br><span class="line">            lookup.add(s[i])</span><br><span class="line">        <span class="keyword">return</span> max_len</span><br><span class="line">    </span><br><span class="line">        <span class="comment"># 优化 的滑动窗口</span></span><br><span class="line">        st=&#123;&#125;<span class="comment"># 记录元素出现位置</span></span><br><span class="line">        i,ans=<span class="number">0</span>,<span class="number">0</span> <span class="comment"># i为记录里的子串的初始位置,ans为最长长度</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(len(s)):</span><br><span class="line">            <span class="keyword">if</span> s[j] <span class="keyword">in</span> st: <span class="comment"># 如果重复了</span></span><br><span class="line">                <span class="comment"># print(st[s[j]]+1,i)</span></span><br><span class="line">                i=max(st[s[j]]+<span class="number">1</span>,i)<span class="comment"># 更新子串开始的位置 # 注意要取两个的最大值</span></span><br><span class="line">                <span class="comment"># 所以当s[j]在st中时，其实有两种情况，第一种是重复在子串中，此时st[s[j]]+1是大于i的，就更新i为st[s[j]]+1值；另一种情况是其实重复的字符并不在当前的子串中，这时i是大于st[s[j]]+1的，保持i的大小不变即可</span></span><br><span class="line">                print(<span class="string">'i'</span>,i)</span><br><span class="line">                print(<span class="string">'s[j]'</span>,s[j])</span><br><span class="line">            ans=max(ans,j-i+<span class="number">1</span>) <span class="comment"># 更新最长的长度</span></span><br><span class="line">            st[s[j]] = j</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+<h4 id="最大连续子串"><a href="#最大连续子串" class="headerlink" title="最大连续子串"></a>最大连续子串</h4><p>给定一个字符串，其中可能有正数和负数，要求连续的子序列（即子串）使得它们的和达到最大，不允许空序列。（买卖股票问题）</p>
+<blockquote>
+<p>-2，6，-1，5，4，-7，2，3 </p>
+<p> 14 ——（6+（-1）+5+4）</p>
+</blockquote>
+<h5 id="累计差值的方法"><a href="#累计差值的方法" class="headerlink" title="累计差值的方法"></a>累计差值的方法</h5><ul>
+<li>与一次买卖股票是等价问题，一次买卖股票可以通过计算两天间的股票差值，转化成最大连续子序列和的问题</li>
+<li>最优子序列必然是以正数开头的，因为如果以负数开头，那么去掉这个负数，会得到一个更优解。类似的，任何负的子序列也不可能是最优子序列的前缀。</li>
+<li>则设置一个变量进行求和，一旦这个变量的值变为负数，则归零该变量，从序列的下一个数值开始计算。</li>
+<li>从一开始计算sums，累计值，如果之前的累计值为正，而加上当前值之后累计值变为负，证明在该数的前面部分：如果不加当前值，总和一定更多，在该数的后面部分：如果不加该值，总和也一定会更多，因此在总和转负的时候就舍弃当前数，开始重新叠加，将sums令为0。（好像有点乱……）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">prices=[<span class="number">-2</span>,<span class="number">6</span>,<span class="number">-1</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">-7</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">sums=<span class="number">0</span></span><br><span class="line">res=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(prices)):</span><br><span class="line">    sums=sums+prices[i]</span><br><span class="line">    <span class="keyword">if</span> sums&lt;<span class="number">0</span>:</span><br><span class="line">        sums=<span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        res=max(res,sums)</span><br><span class="line">print(res)</span><br></pre></td></tr></table></figure>
+<h5 id="一维DP———————————————————————————————————一轮没做出来"><a href="#一维DP———————————————————————————————————一轮没做出来" class="headerlink" title="一维DP———————————————————————————————————一轮没做出来"></a>一维DP———————————————————————————————————一轮没做出来</h5><ul>
+<li><p>子问题：</p>
+<ul>
+<li><code>dp[i]</code>表示当前数组以<code>prices[i]</code> <strong>作为末尾</strong>的连续序列的最大和——像这样的连续的DP问题，很多都可以考虑以当前值为末尾作为子问题</li>
+</ul>
+</li>
+<li><p>状态转移：</p>
+<ul>
+<li><p>有两种情况：</p>
+<ul>
+<li>这个最大和的连续序列只有一个元素，即以 A[i] 开始，以 A[i] 结尾。</li>
+<li>这个最大和的连续序列有多个元素，即从前面某处 A[p] 开始 (p&lt;i)，一直到 A[i] 结尾。</li>
+</ul>
+<p>$$<br>dp[i]=max(prices[i],dp[i-1]+prices[i])<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>输出：dp数组中的最大值</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">prices=[<span class="number">-2</span>,<span class="number">6</span>,<span class="number">-1</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">-7</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">dp=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(prices))]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(prices)):</span><br><span class="line">    dp[i]=max(prices[i],dp[i<span class="number">-1</span>]+prices[i])</span><br><span class="line">print(max(dp))</span><br></pre></td></tr></table></figure>
+<h4 id="最长公共子串——仅计算长度——牛客"><a href="#最长公共子串——仅计算长度——牛客" class="headerlink" title="最长公共子串——仅计算长度——牛客"></a>最长公共子串——仅计算长度——牛客</h4><blockquote>
+<p>与子序列同样的例子，但由于子串要求连续因此结果不同</p>
+<p>a=yzxzyzy</p>
+<p>b=xyzyxzzy</p>
+<p>求a和b上的最长公共子串——3-yzy</p>
+</blockquote>
+<h5 id="二维DP-1"><a href="#二维DP-1" class="headerlink" title="二维DP"></a>二维DP</h5><ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i][j]</code>表示<strong>以<code>a[i]</code>和<code>b[j]</code>结尾</strong>的最长的公共子串长度</li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li>如果当前a,b字母相同，则+1，否则不用处理<br>$$<br>dp[i][j]=\begin{cases} dp[i-1][j-1]+1 \quad if \quad a[i]=b[j] \\ 0 \quad else \end{cases}<br>$$</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li>dp数组中的最大值</li>
+</ul>
+</li>
+<li><p>路径</p>
+<ul>
+<li>找到dp数组中的最大值后反向遍历对角线到1即可</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">'yzxzyzy'</span></span><br><span class="line">b=<span class="string">'xyzyxzzy'</span></span><br><span class="line">dp=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(b)+<span class="number">1</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)+<span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(a)+<span class="number">1</span>):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,len(b)+<span class="number">1</span>):</span><br><span class="line">		<span class="keyword">if</span> a[i<span class="number">-1</span>]==b[j<span class="number">-1</span>]:</span><br><span class="line">			dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>]+<span class="number">1</span></span><br><span class="line">maxlen=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(dp)):</span><br><span class="line">	tmp=max(dp[i])</span><br><span class="line">	maxlen=max(tmp,maxlen)</span><br><span class="line">print(maxlen)</span><br><span class="line">paths=[]</span><br><span class="line">path=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(dp)):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(len(dp[<span class="number">0</span>])):</span><br><span class="line">		<span class="keyword">if</span> maxlen ==dp[i][j]:</span><br><span class="line">			path=[]</span><br><span class="line">			path.append(a[i<span class="number">-1</span>])</span><br><span class="line">			m,n=i<span class="number">-1</span>,j<span class="number">-1</span></span><br><span class="line">			<span class="keyword">while</span>(dp[m][n]!=<span class="number">0</span>):</span><br><span class="line">				path.append(a[m<span class="number">-1</span>])</span><br><span class="line">				m-=<span class="number">1</span></span><br><span class="line">				n-=<span class="number">1</span></span><br><span class="line">			path=path[::<span class="number">-1</span>]</span><br><span class="line">			paths.append(path)</span><br><span class="line">print(paths)</span><br></pre></td></tr></table></figure>
+<h5 id="一维DP"><a href="#一维DP" class="headerlink" title="一维DP"></a>一维DP</h5><p>由于在状态转移方程中只涉及到左上对角线的值，，可以优化为一维DP，但要<strong>注意数组更新的方向。</strong></p>
+<ul>
+<li>子问题<ul>
+<li><code>dp[i]</code>表示<strong>以<code>b[i]</code>结尾</strong>的最长的公共子串长度</li>
+</ul>
+</li>
+<li>注意数组更新方向从右到左；每一轮的更新需要置0,</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">'yzxzyzy'</span></span><br><span class="line">b=<span class="string">'xyzyxzzy'</span></span><br><span class="line">dp=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(b)+<span class="number">1</span>)]</span><br><span class="line">maxlen=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(len(b),<span class="number">0</span>,<span class="number">-1</span>):</span><br><span class="line">		<span class="keyword">if</span> a[i]==b[j<span class="number">-1</span>]:</span><br><span class="line">			dp[j]=dp[j<span class="number">-1</span>]+<span class="number">1</span></span><br><span class="line">		<span class="keyword">else</span>: <span class="comment">#与二维不同的是，每一轮需要置0</span></span><br><span class="line">			dp[j]=<span class="number">0</span></span><br><span class="line">	print(dp)</span><br><span class="line">	maxlen=max(max(dp),maxlen)</span><br><span class="line">print(maxlen)</span><br></pre></td></tr></table></figure>
+<h5 id="常数DP"><a href="#常数DP" class="headerlink" title="常数DP"></a>常数DP</h5><blockquote>
+<p>题目及题解参考：<a href="https://www.nowcoder.com/questionTerminal/210741385d37490c97446aa50874e62d?answerType=1&amp;f=discussion" target="_blank" rel="noopener">https://www.nowcoder.com/questionTerminal/210741385d37490c97446aa50874e62d?answerType=1&amp;f=discussion</a></p>
+</blockquote>
+<p>在题目中要求空间复杂度为常数，由于在状态更新时，每个<code>dp[i][j]</code>的值其实只与其左上对角线的值有关，因此需要从dp数组的每个对角线计算入手。</p>
+<p>具体方法：</p>
+<ul>
+<li>以下图为例</li>
+<li>以对角线为单位对整个dp数组进行遍历</li>
+<li>从右上角开始，因此<code>starti</code>置为<code>len(x)-1</code>，<code>startj</code>置为<code>0</code>，对每条对角线都往下遍历，并记录最大的maxlen和相应的<code>end</code>位置；</li>
+<li>遍历完一条对角线之后，若i不为0，则将<code>i</code>进行 <code>-1</code>，使对角线向左移动</li>
+<li>若x已经走到头为0，则对<code>j</code>进行<code>+1</code>，使对角线向下移动</li>
+</ul>
+<p><img src="/2020/04/14/算法整理/动态规划/F:/blog\source\_posts\算法整理\动态规划\最长公共子串.png" alt="最长公共子串" style="zoom:33%;"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 额外空间复杂度O(1)</span></span><br><span class="line"><span class="comment"># 但其实这个时间仍然比较大，不能通过oj</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        x=input()</span><br><span class="line">        y=input()</span><br><span class="line">        starti = len(x) - <span class="number">1</span> <span class="comment"># //第一个字符串最后一个字符串开始</span></span><br><span class="line">        startj = <span class="number">0</span>   <span class="comment">#//第二个字符串第1个字符开始，</span></span><br><span class="line">        end = <span class="number">-1</span> <span class="comment">#//最长公共子串在s1上的结束位置</span></span><br><span class="line">        maxLen = <span class="number">0</span> <span class="comment">#//最长公共子串的长度</span></span><br><span class="line">        curLen = <span class="number">0</span> <span class="comment"># //每一轮扫描时的实时公共子串最大长度_代替dp数组</span></span><br><span class="line">        <span class="keyword">while</span>(startj &lt; len(y)):</span><br><span class="line">            curLen = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i,j <span class="keyword">in</span> zip(range(starti,len(x)),range(startj,len(y))): <span class="comment">#//从左往右按图4-10扫描斜线</span></span><br><span class="line">                <span class="keyword">if</span> x[i] == y[j]: <span class="comment">#//相同，则沿着斜线往右下走</span></span><br><span class="line">                    curLen+=<span class="number">1</span></span><br><span class="line">                    <span class="keyword">if</span> curLen &gt; maxLen: <span class="comment">#//发现更长的子串，记录下来</span></span><br><span class="line">                        maxLen = curLen</span><br><span class="line">                        end = i</span><br><span class="line">                <span class="keyword">else</span>: <span class="comment">#//不同，则重置</span></span><br><span class="line">                    curLen = <span class="number">0</span></span><br><span class="line">            <span class="keyword">if</span> starti &gt; <span class="number">0</span>: <span class="comment">#//行从n1-1变到0之后，不变</span></span><br><span class="line">                starti-=<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>: <span class="comment">#//行到0后，列的开始位置逐轮递增</span></span><br><span class="line">                startj+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> maxLen==<span class="number">0</span>:</span><br><span class="line">            print(<span class="string">'-1'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(x[end - maxLen + <span class="number">1</span>:end+<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>能够给通过oj的方法：（好像是挨个去进行匹配）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s1 = input()</span><br><span class="line">        s2 = input()</span><br><span class="line">        n = <span class="number">0</span></span><br><span class="line">        s = <span class="string">''</span></span><br><span class="line">        <span class="keyword">if</span> len(s1) &gt; len(s2):</span><br><span class="line">            s1, s2 = s2, s1</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s1)):</span><br><span class="line">            <span class="keyword">if</span> s1[i-n:i+<span class="number">1</span>] <span class="keyword">in</span> s2: <span class="comment">#先找到一个相同的值，然后进行进行扩散</span></span><br><span class="line">                s = s1[i-n:i+<span class="number">1</span>]</span><br><span class="line">                n += <span class="number">1</span></span><br><span class="line">        print(s)</span><br><span class="line">        <span class="keyword">if</span> s == <span class="string">''</span>:</span><br><span class="line">            print(<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<h4 id="最长递增子序列LIS——leetcode300"><a href="#最长递增子序列LIS——leetcode300" class="headerlink" title="最长递增子序列LIS——leetcode300"></a>最长递增子序列LIS——leetcode300</h4><blockquote>
+<p>给定一个长度为N的数组，找出一个最长的单调自增子序列（不一定连续，但是顺序不能乱）。例如：给定一个长度为6的数组A{5， 6， 7， 1， 2， 8}，则其最长的单调递增子序列为{5，6，7，8}，长度为4.</p>
+</blockquote>
+<h5 id="二维DP——转换成LCS来做——O-N-2"><a href="#二维DP——转换成LCS来做——O-N-2" class="headerlink" title="二维DP——转换成LCS来做——O(N^2)"></a>二维DP——转换成LCS来做——O(N^2)</h5><ul>
+<li>将原数组A排序之后生成数组B，找A和B的最长公共子序列即可</li>
+</ul>
+<h5 id="一维DP——O-N-2"><a href="#一维DP——O-N-2" class="headerlink" title="一维DP——O(N^2)"></a>一维DP——O(N^2)</h5><ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i]</code>表示<code>A[0...i]</code>的最长的递增子序列长度</li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li>比如对<code>8</code>，就需要找到前面所有比<code>8</code>小的数的<code>dp</code>值，取最大的那一个+1<br>$$<br>dp[i]=\begin{cases} max(dp[m])+1  \quad for\  all \quad A[m]&lt;A[i] \\ 0 \quad else \end{cases}<br>$$</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li>dp数组中的最大值</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> len(nums)==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        dp=[<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums))]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(nums)):</span><br><span class="line">            maxnum=<span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i):</span><br><span class="line">                <span class="keyword">if</span> nums[j]&lt;nums[i]:</span><br><span class="line">                    maxnum=max(maxnum,dp[j])</span><br><span class="line">            dp[i]=maxnum+<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span>(max(dp))</span><br></pre></td></tr></table></figure>
+<h5 id="动态规划的优化（贪心算法、二分查找）"><a href="#动态规划的优化（贪心算法、二分查找）" class="headerlink" title="动态规划的优化（贪心算法、二分查找）"></a>动态规划的优化（贪心算法、二分查找）</h5><p>可以去leetcode原贴上看看PPT，很好懂的</p>
+<p>liweiwei1419-<a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/dong-tai-gui-hua-er-fen-cha-zhao-tan-xin-suan-fa-p/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/dong-tai-gui-hua-er-fen-cha-zhao-tan-xin-suan-fa-p/</a></p>
+<p><img src="/2020/04/14/算法整理/动态规划/LIS1.png" alt="LIS1" style="zoom:38%;"></p>
+<p><img src="/2020/04/14/算法整理/动态规划/LIS3.png" alt="LIS3" style="zoom:38%;"></p>
+<ul>
+<li>利用贪心算法，在最长递增子序列长度固定的时候，倾向于去选择末尾最小的子序列</li>
+<li><p>将<code>tail[i]</code>数组记录使得当前最长递增子序列长度为<code>i</code>的最小的<code>A[i]</code>值</p>
+</li>
+<li><p>如上图1，当第一次遍历到10的时候，10是使得LIS长度为1的最小的元素值，因此更新<code>tail[0]=10</code>；</p>
+</li>
+<li><p>而后遍历到9的时候，9是当前使得LIS长度为1的最小元素值，因此更新<code>tail[0]=9</code>；</p>
+</li>
+<li><p>…….</p>
+</li>
+<li><p>遍历到4的时候，由于之前的<code>tail</code>的值记录为：<code>2,3,7,18</code>，因此需要遍历<code>tail</code>数组，找到第一个结尾比4大的元素位置，将该位置的元素修改为4</p>
+</li>
+<li><p>最后的输出即为<code>len(tail)</code></p>
+</li>
+</ul>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li><code>tail[i]</code>表示使得最长递增子序列长度为<code>i</code>的最小的<code>A[i]</code>值</li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li>具体可以查看注释<br>$$<br>tail[i]=\begin{cases} A[i]  \quad if  \quad A[i]&gt;tail[-1] \\ tail[m]=A[i] \quad else ,tail[m-1]&lt;A[i] \ and \ tail[m]&gt;A[i]\end{cases}<br>$$</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li><code>len(dp)</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        size = len(nums)</span><br><span class="line">        <span class="comment"># 特判</span></span><br><span class="line">        <span class="keyword">if</span> size &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> size</span><br><span class="line">        <span class="comment"># 为了防止后序逻辑发生数组索引越界，先把第 1 个数放进去</span></span><br><span class="line">        tail = [nums[<span class="number">0</span>]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, size):</span><br><span class="line">            <span class="comment"># 【逻辑 1】比 tail 数组实际有效的末尾的那个元素还大</span></span><br><span class="line">            <span class="comment"># 先尝试是否可以接在末尾</span></span><br><span class="line">            <span class="keyword">if</span> nums[i] &gt; tail[<span class="number">-1</span>]: </span><br><span class="line">                tail.append(nums[i])</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="comment"># 使用二分查找法，在有序数组 tail 中</span></span><br><span class="line">            <span class="comment"># 找到第 1 个大于等于 nums[i] 的元素，尝试让那个元素更小</span></span><br><span class="line">            left = <span class="number">0</span></span><br><span class="line">            right = len(tail) - <span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> left &lt; right:</span><br><span class="line">                <span class="comment"># 选左中位数不是偶然，而是有原因的，原因请见 LeetCode 第 35 题题解</span></span><br><span class="line">                <span class="comment"># mid = left + (right - left) // 2</span></span><br><span class="line">                mid = (left + right) &gt;&gt; <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> tail[mid] &lt; nums[i]:</span><br><span class="line">                    <span class="comment"># 中位数肯定不是要找的数，把它写在分支的前面</span></span><br><span class="line">                    left = mid + <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    right = mid</span><br><span class="line">            <span class="comment"># 走到这里是因为【逻辑 1】的反面，因此一定能找到第 1 个大于等于 nums[i] 的元素，因此无需再单独判断</span></span><br><span class="line">            tail[left] = nums[i]</span><br><span class="line">        <span class="keyword">return</span> len(tail)</span><br></pre></td></tr></table></figure>
+<h4 id="编辑距离——leetcode72"><a href="#编辑距离——leetcode72" class="headerlink" title="编辑距离——leetcode72"></a>编辑距离——leetcode72</h4><p>计算将 <code>word1</code> 转换成 <code>word2</code> 所使用的最少操作数（插入一个、删除一个、替换一个） 。</p>
+<blockquote>
+<p>输入：word1 = “horse”, word2 = “ros”<br>输出：3<br>解释：<br>horse -&gt; rorse (将 ‘h’ 替换为 ‘r’)<br>rorse -&gt; rose (删除 ‘r’)<br>rose -&gt; ros (删除 ‘e’)</p>
+</blockquote>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i][j]</code>表示<code>word1[0...i]</code>与<code>word[0...j]</code>的编辑距离</li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li><p>当相同的时候，距离不增加</p>
+</li>
+<li><p>当两个字母不同的时候，对当前的<code>index</code>为<code>i,j</code>的值有三种方法：增、删、改；分别对应<code>dp[i-1][j],dp[i][j-1],dp[i-1][j-1]</code><br>$$<br>dp[i][j]=\begin{cases} dp[i-1][j-1]  \quad if  \quad A[i]=B[j] \\ min(dp[i-1][j-1],dp[i][j-1],dp[i-1][j])+1 \quad else \end{cases}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li><code>dp[-1][-1]</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minDistance</span><span class="params">(self, word1, word2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type word1: str</span></span><br><span class="line"><span class="string">        :type word2: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        n1 = len(word1)</span><br><span class="line">        n2 = len(word2)</span><br><span class="line">        dp = [[<span class="number">0</span>] * (n2 + <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> range(n1 + <span class="number">1</span>)]</span><br><span class="line">        <span class="comment"># 第一行</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, n2 + <span class="number">1</span>):</span><br><span class="line">            dp[<span class="number">0</span>][j] = dp[<span class="number">0</span>][j<span class="number">-1</span>] + <span class="number">1</span></span><br><span class="line">        <span class="comment"># 第一列</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n1 + <span class="number">1</span>):</span><br><span class="line">            dp[i][<span class="number">0</span>] = dp[i<span class="number">-1</span>][<span class="number">0</span>] + <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n1 + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, n2 + <span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> word1[i<span class="number">-1</span>] == word2[j<span class="number">-1</span>]:</span><br><span class="line">                    dp[i][j] = dp[i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    dp[i][j] = min(dp[i][j<span class="number">-1</span>], dp[i<span class="number">-1</span>][j], dp[i<span class="number">-1</span>][j<span class="number">-1</span>] ) + <span class="number">1</span></span><br><span class="line">        <span class="comment">#print(dp)      </span></span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>][<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h3><p>系列问题：最长回文子串；最长回文子序列</p>
+<h4 id="最长回文子串——leetcode5"><a href="#最长回文子串——leetcode5" class="headerlink" title="最长回文子串——leetcode5"></a>最长回文子串——leetcode5</h4><blockquote>
+<p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。</p>
+<p>示例 1：</p>
+<p>输入: “babad”<br>输出: “bab”<br>注意: “aba” 也是一个有效答案。</p>
+<p>示例 2：</p>
+<p>输入: “cbbd”<br>输出: “bb”</p>
+</blockquote>
+<h5 id="最长公共子串"><a href="#最长公共子串" class="headerlink" title="最长公共子串"></a>最长公共子串</h5><p>s与逆序的s 的最长公共子串</p>
+<h5 id="二维DP——时间-O-N-2-空间-O-N-2"><a href="#二维DP——时间-O-N-2-空间-O-N-2" class="headerlink" title="二维DP——时间 $O(N^2)$ 空间  $O(N^2)$"></a>二维DP——时间 $O(N^2)$ 空间  $O(N^2)$</h5><p>回文的子问题最好是<strong>是否为回文</strong>，因为就长度而言，回文涉及两头，若将子问题定为最长回文长度，就不太方便</p>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i][j]</code> 表示子串 <code>s[i... j]</code> <strong>是否为回文子串</strong>。</li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<p>$$<br>dp[i][j]= (s[i]==s[j])\ and \ dp[i+1][j-1]<br>$$</p>
+</li>
+<li><p>输出</p>
+<ul>
+<li>只要一得到 <code>dp[i][j] = true</code>，就记录子串的长度和起始位置，没有必要截取，因为截取字符串也要消耗性能，记录此时的回文子串的“起始位置”和“回文长度”即可。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestPalindrome</span><span class="params">(self, s: str)</span> -&gt; str:</span></span><br><span class="line">        size = len(s)</span><br><span class="line">        <span class="keyword">if</span> size &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> s</span><br><span class="line">        <span class="comment"># 初始化-表格默认值FALSE——不是回文串</span></span><br><span class="line">        dp = [[<span class="keyword">False</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(size)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(size)]</span><br><span class="line">        max_len = <span class="number">1</span></span><br><span class="line">        start = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">            dp[i][i] = <span class="keyword">True</span> <span class="comment"># 初始化-对角线是回文串</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, size):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, j):</span><br><span class="line">                <span class="keyword">if</span> s[i] == s[j]:</span><br><span class="line">                    <span class="keyword">if</span> j - i &lt; <span class="number">3</span>: <span class="comment"># 当字符串长度小于等于3且s[i]==s[j]时,可以直接判断为True</span></span><br><span class="line">                        dp[i][j] = <span class="keyword">True</span></span><br><span class="line">                    <span class="keyword">else</span>: <span class="comment"># 若字符串长度大于3，则需要参考剪头尾之后是否为回文串</span></span><br><span class="line">                        dp[i][j] = dp[i + <span class="number">1</span>][j - <span class="number">1</span>]</span><br><span class="line">                <span class="keyword">else</span>:<span class="comment"># 如果不等，肯定不是回文串</span></span><br><span class="line">                    dp[i][j] = <span class="keyword">False</span></span><br><span class="line">                <span class="keyword">if</span> dp[i][j]:<span class="comment"># 判断为回文串且长度大于max 则保存起始位置和长度</span></span><br><span class="line">                    cur_len = j - i + <span class="number">1</span></span><br><span class="line">                    <span class="keyword">if</span> cur_len &gt; max_len:</span><br><span class="line">                        max_len = cur_len</span><br><span class="line">                        start = i</span><br><span class="line">        <span class="keyword">return</span> s[start:start + max_len]</span><br></pre></td></tr></table></figure>
+<h5 id="中心扩散法——时间-O-N-2-空间-O-1"><a href="#中心扩散法——时间-O-N-2-空间-O-1" class="headerlink" title="中心扩散法——时间 $O(N^2)$ 空间  $O(1)$"></a>中心扩散法——时间 $O(N^2)$ 空间  $O(1)$</h5><p>以每个字母（奇数长度）及每相邻两个字母（偶数长度）分别为回文串的中心，向两边扩散，得到相应的最长回文串及其长度，然后遍历所有的长度选最长的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestPalindrome</span><span class="params">(self, s: str)</span> -&gt; str:</span></span><br><span class="line">        size = len(s)</span><br><span class="line">        <span class="keyword">if</span> size &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> s</span><br><span class="line">        <span class="comment"># 至少是 1</span></span><br><span class="line">        max_len = <span class="number">1</span></span><br><span class="line">        res = s[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">            palindrome_odd, odd_len = self.__center_spread(s, size, i, i)<span class="comment">#奇数</span></span><br><span class="line">            palindrome_even, even_len = self.__center_spread(s, size, i, i + <span class="number">1</span>)<span class="comment">#偶数</span></span><br><span class="line">            <span class="comment"># 当前找到的最长回文子串</span></span><br><span class="line">            cur_max_sub = palindrome_odd <span class="keyword">if</span> odd_len &gt;= even_len <span class="keyword">else</span> palindrome_even</span><br><span class="line">            <span class="keyword">if</span> len(cur_max_sub) &gt; max_len:</span><br><span class="line">                max_len = len(cur_max_sub)</span><br><span class="line">                res = cur_max_sub</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__center_spread</span><span class="params">(self, s, size, left, right)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        left = right 的时候，此时回文中心是一个字符，回文串的长度是奇数</span></span><br><span class="line"><span class="string">        right = left + 1 的时候，此时回文中心是一个空隙，回文串的长度是偶数</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        i = left</span><br><span class="line">        j = right</span><br><span class="line">        <span class="comment"># 在满足回文的条件（相等）的情况下，往两边扩散</span></span><br><span class="line">        <span class="keyword">while</span> i &gt;= <span class="number">0</span> <span class="keyword">and</span> j &lt; size <span class="keyword">and</span> s[i] == s[j]:</span><br><span class="line">            i -= <span class="number">1</span></span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> s[i + <span class="number">1</span>:j], j - i - <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h5 id="Manacher-算法时间-O-N-空间-O-N"><a href="#Manacher-算法时间-O-N-空间-O-N" class="headerlink" title="Manacher 算法时间 $O(N)$ 空间  $O(N)$"></a>Manacher 算法时间 $O(N)$ 空间  $O(N)$</h5><h4 id="最长回文子序列——leetcode516————————————一轮没做出来"><a href="#最长回文子序列——leetcode516————————————一轮没做出来" class="headerlink" title="最长回文子序列——leetcode516————————————一轮没做出来"></a>最长回文子序列——leetcode516————————————一轮没做出来</h4><blockquote>
+<p>“bbbab” </p>
+<p>输出:4——“bbbb”</p>
+</blockquote>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li>在子串 <code>s[i..j]</code> 中，最长回文子序列的长度为 <code>dp[i][j]</code></li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li>$$<br>dp[i][j]=\begin{cases} dp[i+1][j-1]+2  \quad if  \quad s[i]=s[j] \\ max(dp[i+1][j],dp[i][j-1]) \quad else \end{cases}<br>$$</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li><code>dp[0][-1]</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestPalindromeSubseq</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> len(s)&lt;<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        dp=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s))] <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s))]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s),<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i,len(s)):</span><br><span class="line">                <span class="keyword">if</span> i==j:</span><br><span class="line">                    dp[i][j]=<span class="number">1</span></span><br><span class="line">                <span class="keyword">elif</span> s[i]==s[j]:</span><br><span class="line">                    dp[i][j]=dp[i+<span class="number">1</span>][j<span class="number">-1</span>]+<span class="number">2</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    dp[i][j]=max(dp[i+<span class="number">1</span>][j],dp[i][j<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>][<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="滚动DP"><a href="#滚动DP" class="headerlink" title="滚动DP"></a>滚动DP</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestPalindromeSubseq</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 滚动dp</span></span><br><span class="line">        old=[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(len(s))]</span><br><span class="line">        new=[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(len(s))]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i,len(s)):</span><br><span class="line">                <span class="keyword">if</span> i==j:</span><br><span class="line">                    new[j]=<span class="number">1</span></span><br><span class="line">                <span class="keyword">elif</span> s[i]==s[j]:</span><br><span class="line">                    new[j]=old[j<span class="number">-1</span>]+<span class="number">2</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    new[j]=max(new[j<span class="number">-1</span>],old[j])</span><br><span class="line">            old=new[:]</span><br><span class="line">        <span class="keyword">return</span> new[len(s)<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="斐波那契数列-递推问题"><a href="#斐波那契数列-递推问题" class="headerlink" title="斐波那契数列(递推问题)"></a>斐波那契数列(递推问题)</h3><p>斐波那契数列问题，爬楼梯问题，分解因子问题，蛙跳最小步数问题，蛙跳带有代价的问题，偷房子问题</p>
+<h4 id="斐波那契数列问题——leetcode面试10-1"><a href="#斐波那契数列问题——leetcode面试10-1" class="headerlink" title="斐波那契数列问题——leetcode面试10-1"></a>斐波那契数列问题——leetcode面试10-1</h4><blockquote>
+<p>写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项。斐波那契数列的定义如下：</p>
+<p>F(0) = 0,   F(1) = 1<br>F(N) = F(N - 1) + F(N - 2), 其中 N &gt; 1.</p>
+</blockquote>
+<h4 id="爬楼梯问题——leetcode70"><a href="#爬楼梯问题——leetcode70" class="headerlink" title="爬楼梯问题——leetcode70"></a>爬楼梯问题——leetcode70</h4><blockquote>
+<p>假设你正在爬楼梯。需要 <em>n</em> 阶你才能到达楼顶。</p>
+<p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+</blockquote>
+<h4 id="常规跳台阶问题——leetcode面试10-2"><a href="#常规跳台阶问题——leetcode面试10-2" class="headerlink" title="常规跳台阶问题——leetcode面试10-2"></a>常规跳台阶问题——leetcode面试10-2</h4><blockquote>
+<p>一只青蛙一次<strong>可以跳上1级台阶，也可以跳上2级。</strong>求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。</p>
+</blockquote>
+<blockquote>
+<p>上面这三个问题一毛一样</p>
+</blockquote>
+<h5 id="一维DP-1"><a href="#一维DP-1" class="headerlink" title="一维DP"></a>一维DP</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">climbStairs</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        dp=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">1</span></span><br><span class="line">        dp[<span class="number">1</span>]=<span class="number">2</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,n):</span><br><span class="line">            dp[i]=dp[i<span class="number">-1</span>]+dp[i<span class="number">-2</span>]</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="DP压缩为变量"><a href="#DP压缩为变量" class="headerlink" title="DP压缩为变量"></a>DP压缩为变量</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">climbStairs</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span>       </span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">        tmp1=<span class="number">1</span></span><br><span class="line">        tmp2=<span class="number">2</span></span><br><span class="line">        res=<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,n):</span><br><span class="line">            res=tmp1+tmp2</span><br><span class="line">            tmp1=tmp2</span><br><span class="line">            tmp2=res</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<h4 id="变态跳台阶I——牛客剑指offer"><a href="#变态跳台阶I——牛客剑指offer" class="headerlink" title="变态跳台阶I——牛客剑指offer"></a>变态跳台阶I——牛客剑指offer</h4><blockquote>
+<p>一只青蛙一次<strong>可以跳上1级台阶，也可以跳上2级……它也可以跳上n级</strong>。求该青蛙跳上一个n级的台阶总共有多少种跳法</p>
+</blockquote>
+<h5 id="递推公式"><a href="#递推公式" class="headerlink" title="递推公式"></a>递推公式</h5><p>根据题目信息可知</p>
+<p>$f(n)=f(n-1)+f(n-2)+…+f(2)+f(1)+f(0) $</p>
+<p>$f(n-1)=f(n-2)+…+f(2)+f(1)+f(0) $</p>
+<p>因此可以得到递推公式：</p>
+<p>$f(n)=f(n-1)+f(n-1)$即$f(n)=2f(n-1)$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jumpFloorII</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="comment"># write code here</span></span><br><span class="line">        way=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,number):</span><br><span class="line">            way*=<span class="number">2</span></span><br><span class="line">        <span class="keyword">return</span> way</span><br></pre></td></tr></table></figure>
+<h5 id="DP——其实都可以通过递推公式往回推一步，来化简"><a href="#DP——其实都可以通过递推公式往回推一步，来化简" class="headerlink" title="DP——其实都可以通过递推公式往回推一步，来化简"></a>DP——其实都可以通过递推公式往回推一步，来化简</h5><p>通过数组记录</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jumpFloorII</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="comment"># write code here</span></span><br><span class="line">        dp=[<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(number)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,number):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i):</span><br><span class="line">                dp[i]+=dp[j]</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h4 id="矩阵覆盖问题——牛客剑指offer"><a href="#矩阵覆盖问题——牛客剑指offer" class="headerlink" title="矩阵覆盖问题——牛客剑指offer"></a>矩阵覆盖问题——<a href="https://www.nowcoder.com/practice/72a5a919508a4251859fb2cfb987a0e6?tpId=13&amp;tqId=11163&amp;tPage=1&amp;rp=1&amp;ru=/ta/coding-interviews&amp;qru=/ta/coding-interviews/question-ranking" target="_blank" rel="noopener">牛客剑指offer</a></h4><p>我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2<em>1的小矩形无重叠地覆盖一个2</em>n的大矩形，总共有多少种方法？</p>
+<p><img src="/2020/04/14/算法整理/动态规划/矩阵覆盖.png" alt="矩阵覆盖" style="zoom:50%;"></p>
+<p>其实还是一样的题目，可以只看矩形的宽，也就是n值得那一条边，要么是2，要么是1</p>
+<p>与前面的题解一样，代码就不写了</p>
+<h4 id="大牛生小牛问题"><a href="#大牛生小牛问题" class="headerlink" title="大牛生小牛问题"></a>大牛生小牛问题</h4><blockquote>
+<p>假设农场中<strong>成熟的母牛每年都会生 1 头小母牛，并且永远不会死</strong>。第一年有 1 只小母牛，从第二年开始，母牛开始生小母牛。每只小母牛 3 年之后成熟又可以生小母牛。给定整数 N，求 N 年后牛的数量。</p>
+</blockquote>
+<p>可以写出递推公式：<br>$$<br>f(n)=f(0)+f(1)+…+f(n-3)<br>$$</p>
+<p>$$<br>f(n-1)=f(0)+f(1)+…+f(n-4)<br>$$</p>
+<p>因此有——递推公式往回推一步化简！<br>$$<br>f(n)=f(n-1)+f(n-3)<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jumpFloorII</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="comment"># write code here</span></span><br><span class="line">        dp=[<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(number)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,number):</span><br><span class="line">                dp[i]=dp[i<span class="number">-1</span>]+dp[i<span class="number">-3</span>]</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h4 id="偷房子问题"><a href="#偷房子问题" class="headerlink" title="偷房子问题"></a>偷房子问题</h4><h5 id="打家劫舍I——leetcode198"><a href="#打家劫舍I——leetcode198" class="headerlink" title="打家劫舍I——leetcode198"></a>打家劫舍I——leetcode198</h5><blockquote>
+<p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是<strong>相邻的房屋装有相互连通的防盗系统</strong>，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。</p>
+<p>输入: [1,2,3,1]<br>输出: 4<br>解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。<br>     偷窃到的最高金额 = 1 + 3 = 4 。</p>
+</blockquote>
+<p>写出递推公式为</p>
+<p>$f(n)=max(f(n-1),f(n-2)+nums[n])$</p>
+<p>前者为不抢劫当前第n家的最大收益；后者为抢劫当前第n家的最大收益，取最大即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        dp=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)+<span class="number">2</span>)]</span><br><span class="line">        dp[<span class="number">0</span>],dp[<span class="number">1</span>]=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,len(nums)+<span class="number">2</span>):</span><br><span class="line">            dp[i]=max(dp[i<span class="number">-1</span>],dp[i<span class="number">-2</span>]+nums[i<span class="number">-2</span>])</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<p>优化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment">#其实在前面加两个0就好了</span></span><br><span class="line">        pre,cur=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> nums:</span><br><span class="line">            cur, pre = max(pre + n, cur), cur</span><br><span class="line">        <span class="keyword">return</span> cur</span><br></pre></td></tr></table></figure>
+<h5 id="打家劫舍II——leetcode213"><a href="#打家劫舍II——leetcode213" class="headerlink" title="打家劫舍II——leetcode213"></a>打家劫舍II——leetcode213</h5><blockquote>
+<p>你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都<strong>围成一圈</strong>，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p>
+<p>给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。</p>
+<p>输入: [2,3,2]<br>输出: 3<br>解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。</p>
+</blockquote>
+<p>参考</p>
+<p>作者：jyd-<a href="https://leetcode-cn.com/problems/house-robber-ii/solution/213-da-jia-jie-she-iidong-tai-gui-hua-jie-gou-hua-/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/house-robber-ii/solution/213-da-jia-jie-she-iidong-tai-gui-hua-jie-gou-hua-/</a></p>
+<p>环状排列意味着第一个房子和最后一个房子中只能选择一个偷窃，因此可以把此环状排列房间问题约化为两个单排排列房间子问题：</p>
+<p>在不偷窃第一个房子的情况下（即 <code>nums[1:]</code>），最大金额是 <code>p1</code>；<br>在不偷窃最后一个房子的情况下（即 <code>nums[:n−1]</code>），最大金额是 <code>p2</code></p>
+<p>综合偷窃最大金额： 为以上两种情况的较大值，即 <code>max(p1,p2)</code></p>
+<p><strong>DP数组</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">robb</span><span class="params">(nums)</span>:</span></span><br><span class="line">            dp=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)+<span class="number">2</span>)]</span><br><span class="line">            dp[<span class="number">0</span>],dp[<span class="number">1</span>]=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,len(nums)+<span class="number">2</span>):</span><br><span class="line">                dp[i]=max(dp[i<span class="number">-1</span>],dp[i<span class="number">-2</span>]+nums[i<span class="number">-2</span>])</span><br><span class="line">            <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">if</span> len(nums)==<span class="number">1</span>: <span class="comment">#需要保留因为切片会被切掉</span></span><br><span class="line">            <span class="keyword">return</span> nums[<span class="number">0</span>]</span><br><span class="line">        <span class="comment"># 不抢第一家</span></span><br><span class="line">        tmp1=robb(nums[<span class="number">1</span>:])</span><br><span class="line">        <span class="comment"># 不抢最后一家</span></span><br><span class="line">        tmp2=robb(nums[:<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> max(tmp1,tmp2)</span><br></pre></td></tr></table></figure>
+<p><strong>优化变量</strong></p>
+<p>emmmm还是直接看看大佬的写法吧。。。。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">my_rob</span><span class="params">(nums)</span>:</span></span><br><span class="line">            cur, pre = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">                cur, pre = max(pre + num, cur), cur</span><br><span class="line">            <span class="keyword">return</span> cur</span><br><span class="line">        <span class="keyword">return</span> max(my_rob(nums[:<span class="number">-1</span>]),my_rob(nums[<span class="number">1</span>:])) <span class="keyword">if</span> len(nums) != <span class="number">1</span> <span class="keyword">else</span> nums[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="打家劫舍III——leetcode337———————————————————————————不会"><a href="#打家劫舍III——leetcode337———————————————————————————不会" class="headerlink" title="打家劫舍III——leetcode337———————————————————————————不会"></a>打家劫舍III——leetcode337———————————————————————————不会</h5><blockquote>
+<p>在上次打劫完一条街道之后和一圈房屋后，小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为“根”。 除了“根”之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。</p>
+<p>计算在不触动警报的情况下，小偷一晚能够盗取的最高金额。</p>
+<p>输入: [3,2,3,null,3,null,1]</p>
+<pre><code>  3
+ / \
+2   3
+ \   \ 
+  3   1
+</code></pre><p>输出: 7<br>解释: 小偷一晚能够盗取的最高金额 = 3 + 3 + 1 = 7.</p>
+</blockquote>
+<p>树形问题在动态规划问题解法</p>
+<p>参考：</p>
+<p>作者：reals-<a href="https://leetcode-cn.com/problems/house-robber-iii/solution/san-chong-fang-fa-jie-jue-shu-xing-dong-tai-gui-hu/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/house-robber-iii/solution/san-chong-fang-fa-jie-jue-shu-xing-dong-tai-gui-hu/</a></p>
+<p>作者：labuladong-<a href="https://leetcode-cn.com/problems/house-robber-iii/solution/tong-yong-si-lu-tuan-mie-da-jia-jie-she-wen-ti-b-2/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/house-robber-iii/solution/tong-yong-si-lu-tuan-mie-da-jia-jie-she-wen-ti-b-2/</a></p>
+<p><strong>way1</strong></p>
+<p>4 个孙子偷的钱 + 爷爷的钱 VS 两个儿子偷的钱 哪个组合钱多，就当做当前节点能偷的最大钱数。这就是动态规划里面的最优子结构</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode(object):</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当然Python是毫不留情的超时了</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> root == <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        money = root.val;</span><br><span class="line">        <span class="keyword">if</span> root.left <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            money += (self.rob(root.left.left) + self.rob(root.left.right))</span><br><span class="line">        <span class="keyword">if</span> root.right <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            money += (self.rob(root.right.left) + self.rob(root.right.right))</span><br><span class="line">        <span class="keyword">return</span> max(money, self.rob(root.left) + self.rob(root.right))</span><br></pre></td></tr></table></figure>
+<p><strong>way2 优化重复子问题</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 二叉树不适合拿数组当缓存，这次使用哈希表来存储结果，TreeNode 当做 key，能偷的钱当做 value</span></span><br><span class="line">        <span class="comment"># 解法一加上备忘录优化后代码如下：</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">robInternal</span><span class="params">(root, memo)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            <span class="keyword">if</span> root <span class="keyword">in</span> memo: <span class="keyword">return</span> memo[root]</span><br><span class="line">            money = root.val</span><br><span class="line">            <span class="keyword">if</span> root.left <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">                money += (robInternal(root.left.left, memo) + robInternal(root.left.right, memo))</span><br><span class="line">            <span class="keyword">if</span> root.right <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">                money += (robInternal(root.right.left, memo) + robInternal(root.right.right, memo))</span><br><span class="line">            result = max(money, robInternal(root.left, memo) + robInternal(root.right, memo));</span><br><span class="line">            memo[root]=result</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">        memo = &#123;&#125;</span><br><span class="line">        <span class="keyword">return</span> robInternal(root, memo)</span><br></pre></td></tr></table></figure>
+<p><strong>way3 优化子问题结构</strong> </p>
+<p>将一般的dp数组思路结合到树，给每一个树节点分配一个大小为2的数组，第一个数记录不抢该结点的最大收益，第二个数记录抢该节点的最大收益</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rob</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span>        </span><br><span class="line">        <span class="comment"># 对每个节点，都用一个数组来表示</span></span><br><span class="line">        <span class="comment"># arr[0] 表示不抢该结点的话，得到的最大钱数</span></span><br><span class="line">        <span class="comment"># arr[1] 表示抢该结点的话，得到的最大钱数</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dp</span><span class="params">(root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">return</span> [<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">            left = dp(root.left)</span><br><span class="line">            right = dp(root.right)</span><br><span class="line">            <span class="comment"># 抢，下家就不能抢了</span></span><br><span class="line">            rob = root.val + left[<span class="number">0</span>] + right[<span class="number">0</span>]</span><br><span class="line">            <span class="comment"># 不抢，下家可抢可不抢，取决于收益大小</span></span><br><span class="line">            not_rob = max(left[<span class="number">0</span>], left[<span class="number">1</span>]) + max(right[<span class="number">0</span>], right[<span class="number">1</span>])</span><br><span class="line">            <span class="keyword">return</span> [not_rob, rob]</span><br><span class="line">        res = dp(root)</span><br><span class="line">        <span class="keyword">return</span> max(res[<span class="number">0</span>], res[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h3><h4 id="0-1背包"><a href="#0-1背包" class="headerlink" title="0/1背包"></a>0/1背包</h4><p>0/1背包——背包里的每个物品要么不放（0），要么放（1），所有物品只有一个</p>
+<h5 id="目标和——leetcode494"><a href="#目标和——leetcode494" class="headerlink" title="目标和——leetcode494"></a>目标和——leetcode494</h5><blockquote>
+<p>给定一个非负整数数组，a1, a2, …, an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。</p>
+<p>返回可以使最终数组和为目标数 S 的所有添加符号的方法数。</p>
+<p>输入: nums: [1, 1, 1, 1, 1], S: 3<br>输出: 5<br>解释: </p>
+<p>-1+1+1+1+1 = 3<br>+1-1+1+1+1 = 3<br>+1+1-1+1+1 = 3<br>+1+1+1-1+1 = 3<br>+1+1+1+1-1 = 3</p>
+<p>一共有5种方法让最终目标和为3。</p>
+</blockquote>
+<p>参考：qsctech-sange-<a href="https://leetcode-cn.com/problems/target-sum/solution/python-dfs-xiang-jie-by-jimmy00745/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/target-sum/solution/python-dfs-xiang-jie-by-jimmy00745/</a></p>
+<p>题目中存在加法和减法，并不是规范的0/1背包，因此需要转换问题，令P是正数的和，N是负数的绝对值和，有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sum(P) - sum(N) = target</span><br><span class="line">两边同时加上sum(P)+sum(N)）</span><br><span class="line">sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)</span><br><span class="line">(因为 sum(P) + sum(N) = sum(nums))</span><br><span class="line">2 * sum(P) = target + sum(nums)</span><br></pre></td></tr></table></figure>
+<p>因此可以得到</p>
+<p>$sum(P)=\frac{target + sum(nums)}2$</p>
+<p>将题目转换成在nums中找到一个子集，使其和为<code>target+sum(nums)的一半</code>，即为规范的0/1背包问题了，即：存在一个容量为V的背包，从nums中任意抽取一定数量的数，使得背包恰好被放满，有多少种放法。其中的V即为$sum(P)$</p>
+<p><strong>DFS</strong></p>
+<p>大佬说一上来就写公式面试官印象不好，所以要先写DFS</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findTargetSumWays</span><span class="params">(self, nums, S)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type S: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># DFS 方法数</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(nums,target, left)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> target == <span class="number">0</span> <span class="keyword">and</span> left == len(nums): <span class="keyword">return</span> <span class="number">1</span><span class="comment">#left == len(nums)因为每个数系数为1或-1，即都要用到</span></span><br><span class="line">            <span class="keyword">if</span> left &gt;= len(nums): <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            ans = <span class="number">0</span></span><br><span class="line">            ans += dfs(nums, target - nums[left], left + <span class="number">1</span>)</span><br><span class="line">            ans += dfs(nums, target + nums[left], left + <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> ans</span><br><span class="line">        <span class="keyword">return</span> dfs(nums, S, <span class="number">0</span>)</span><br><span class="line"><span class="comment"># 作者：bao-bao-ke-guai-liao</span></span><br><span class="line"><span class="comment"># 链接：https://leetcode-cn.com/problems/target-sum/solution/c-dfshe-01bei-bao-by-bao-bao-ke-guai-liao/</span></span><br></pre></td></tr></table></figure>
+<p><strong>二维DP</strong></p>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i][j]</code>表示<code>nums[0....i]</code>组合成数字<code>j</code>的总方法数 </li>
+</ul>
+</li>
+<li><p>边界条件</p>
+<ul>
+<li>这个边界条件比较重要，因为是方法数，而不是原有问题中的价值大小，因此当0组成0即<code>dp[0][0]</code>的方法数是<code>1</code>，而<code>dp[i][0]</code>的方法数与转移方程同样计算，由于<code>dp[0][j],j&gt;0</code>是没有<code>nums</code>的背包大小为<code>j</code>，因此为0</li>
+<li><code>dp[0][j]=0</code>；<code>dp[0][0]=1</code></li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li><p>对遍历到的每个数字<code>nums[i]</code>，如果可以放进背包，就是<code>dp[i-1][j]+dp[i-1][j-nums[i]]</code>，要么不放入背包就是<code>dp[i-1][j]</code></p>
+</li>
+<li><p>$$<br>dp[i][j]= \begin{cases}dp[i-1][j] \quad j&lt;num[i] \\ dp[i-1][j]+dp[i-1,j-num[i]] \quad else\end{cases}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li><code>dp[-1][-1]</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findTargetSumWays</span><span class="params">(self, nums, S)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type S: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 01背包</span></span><br><span class="line">        <span class="keyword">if</span> sum(nums) &lt; S <span class="keyword">or</span> (sum(nums) + S) % <span class="number">2</span> == <span class="number">1</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        P = (sum(nums) + S) // <span class="number">2</span></span><br><span class="line">        dp=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(P+<span class="number">1</span>)]<span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)+<span class="number">1</span>)]</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(nums)+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(P+<span class="number">1</span>):</span><br><span class="line">                dp[i][j]=dp[i<span class="number">-1</span>][j]</span><br><span class="line">                <span class="keyword">if</span> nums[i<span class="number">-1</span>]&lt;=j:</span><br><span class="line">                    dp[i][j]+=dp[i<span class="number">-1</span>][j-nums[i<span class="number">-1</span>]]</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>][<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>一维DP</strong></p>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i]</code>表示组合成数字<code>i</code>的总方法数 </li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li><p>对遍历到的每个数字num，要么放入背包就是<code>dp[i-num]</code>，要么不放入背包就是<code>dp[i]</code></p>
+</li>
+<li><p>$$<br>dp[i]= \begin{cases}dp[i] \quad i&lt;num \\ dp[i]+dp[i-num] \quad else\end{cases}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li><code>dp[sum(p)]</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findTargetSumWays</span><span class="params">(self, nums, S)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type S: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> sum(nums) &lt; S <span class="keyword">or</span> (sum(nums) + S) % <span class="number">2</span> == <span class="number">1</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        P = (sum(nums) + S) // <span class="number">2</span></span><br><span class="line">        dp = [<span class="number">1</span>] + [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(P)]</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(P,num<span class="number">-1</span>,<span class="number">-1</span>):dp[j] += dp[j - num]</span><br><span class="line">            print(dp)</span><br><span class="line">        <span class="keyword">return</span> dp[P]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>需要注意第二个循环是从背包容量递减的一个函数，因为在对每一行进行更新的时候，会用到上一行前面的数据，因此为了不覆盖之前的数据，就从后开始更新。</li>
+</ul>
+<h5 id="一和零——leetcode474——二维背包"><a href="#一和零——leetcode474——二维背包" class="headerlink" title="一和零——leetcode474——二维背包"></a>一和零——leetcode474——二维背包</h5><blockquote>
+<p>在计算机界中，我们总是追求用有限的资源获取最大的收益。</p>
+<p>现在，假设你分别支配着 m 个 0 和 n 个 1。另外，还有一个仅包含 0 和 1 字符串的数组。</p>
+<p>你的任务是使用给定的 m 个 0 和 n 个 1 ，找到能拼出存在于数组中的字符串的最大数量。每个 0 和 1 至多被使用一次。</p>
+<p>注意:</p>
+<pre><code>给定 0 和 1 的数量都不会超过 100。
+给定字符串数组的长度不会超过 600。
+</code></pre><p>输入: Array = {“10”, “0001”, “111001”, “1”, “0”}, m = 5, n = 3<br>输出: 4</p>
+<p>解释: 总共 4 个字符串可以通过 5 个 0 和 3 个 1 拼出，即 “10”,”0001”,”1”,”0” 。</p>
+</blockquote>
+<p>二维背包，即上题中m和n都是背包的维度，二维为背包的容量，而字符串是物体，能不能放入背包取决于其中的0/1字符个数，要求的是最多能放几个物品，注意遍历背包大小的时候要逆序</p>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i][j]</code>表示容量为<code>i个0</code>和<code>j个1</code>的背包最多能放多少个字符串 </li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li><p>如果能放进去，则其方法数在放进去与不放进去之间取最大值，对于放进去的情况，总方法数为 当前背包容量在减去当前字符串所消耗的0/1数量之后的总方法数+1，如果不能放进去，则字符串数量不变</p>
+</li>
+<li><p>$$<br>dp[i][j]= \begin{cases}dp[i][j] \quad i&lt;num.count(‘0’)\ and \ j&lt;num.count(‘1’) \\ max(dp[i][j],dp[i-num.count(‘0’)][j-num.count(‘1’)]+1 \quad else\end{cases}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li><code>dp[-1][-1]</code></li>
+</ul>
+</li>
+</ul>
+<p>我居然是自己写出来的，而且一次就写出来压缩过的，而且一次过（改了count赋变量的，第一次提交超时了，不过不算代码错），我要骄傲了，Hhhhhhh</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findMaxForm</span><span class="params">(self, strs, m, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type strs: List[str]</span></span><br><span class="line"><span class="string">        :type m: int</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 01背包——多维背包</span></span><br><span class="line">        <span class="comment"># m,n是背包的大小，数组是物品，如果小于背包的大小就可以放入，否则不能</span></span><br><span class="line">        <span class="comment"># 求的是最多能背几个东西</span></span><br><span class="line"></span><br><span class="line">        dp=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n+<span class="number">1</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> range(m+<span class="number">1</span>)]</span><br><span class="line">        <span class="comment"># dp[0][0]=0 # 背包大小为0，最多能取到的字符串数量也为0</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> strs:</span><br><span class="line">            cnt0=num.count(<span class="string">'0'</span>) <span class="comment"># 注意容易超时，count遍历也比较花时间</span></span><br><span class="line">            cnt1=num.count(<span class="string">'1'</span>)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(m,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(n,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">                    <span class="keyword">if</span> i==j==<span class="number">0</span>:</span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line">                    <span class="keyword">if</span> cnt0&lt;=i <span class="keyword">and</span> cnt1&lt;=j:</span><br><span class="line">                        dp[i][j]=max(dp[i][j],dp[i-cnt0][j-cnt1]+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>][<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="分割等和子集——leetcode416"><a href="#分割等和子集——leetcode416" class="headerlink" title="分割等和子集——leetcode416"></a>分割等和子集——leetcode416</h5><blockquote>
+<p>给定一个<strong>只包含正整数</strong>的<strong>非空</strong>数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
+<p><strong>注意:</strong></p>
+<ol>
+<li>每个数组中的元素不会超过 100</li>
+<li>数组的大小不会超过 200</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; 输入: [1, 5, 11, 5]</span><br><span class="line">&gt; </span><br><span class="line">&gt; 输出: true</span><br><span class="line">&gt; </span><br><span class="line">&gt; 解释: 数组可以分割成 [1, 5, 5] 和 [11].</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i]</code>表示容量为<code>i</code>的背包是否可以被当前的数组装满，可以被装满为1，否则为0 </li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li><p>如果该物品放不下背包，就不改变其状态；</p>
+</li>
+<li><p>如果该物品可以放下背包，容量为<code>i</code>的背包是否能装满就取决于</p>
+<ul>
+<li>1.不装该物品背包是否能装满——<code>dp[i]</code></li>
+<li>2.装了该物品背包是否能装满——<code>dp[i-num]</code></li>
+</ul>
+</li>
+<li><p>$$<br>dp[i]= \begin{cases}dp[i] \quad i&lt;num \\ dp[i] \ or \ dp[i-num] \quad else\end{cases}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li><code>dp[-1][-1]</code></li>
+</ul>
+</li>
+</ul>
+<p>又是我寄几写的，我觉得我的0/1背包好像可以了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canPartition</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment">#0/1背包</span></span><br><span class="line">        <span class="comment"># 分割成两个子集，使得和相同，那么就是</span></span><br><span class="line">        <span class="keyword">if</span> sum(nums)%<span class="number">2</span>!=<span class="number">0</span>: <span class="keyword">return</span> <span class="keyword">False</span> <span class="comment"># 除不尽</span></span><br><span class="line">        m=sum(nums)/<span class="number">2</span> <span class="comment">#两个子集的值分别等于m</span></span><br><span class="line">        <span class="comment"># 其实只需要看是否能找到一个子集和为m即可，如果能找到一个，那另一个一定也是m</span></span><br><span class="line">        <span class="comment"># 因此就是背包容量为m，nums为物品，找是否存在一种方式能够是物品填满背包</span></span><br><span class="line">        dp=[<span class="number">1</span>]+[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(m)] <span class="comment">#dp[0]=1因为a.当容量为0的时候，就是装满了b.数组只包含正整数，因此,不会为0,不影响结果</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(m,<span class="number">0</span>,<span class="number">-1</span>):</span><br><span class="line">                <span class="keyword">if</span> num&lt;=i:</span><br><span class="line">                    dp[i]=dp[i] <span class="keyword">or</span> dp[i-num] <span class="comment"># 不加上当前的数：容量为i的时候是否可以装满 + 加上当前的数：容量为i-num的时候是否可以装满</span></span><br><span class="line">            <span class="keyword">if</span> dp[<span class="number">-1</span>]==<span class="number">1</span>: <span class="comment"># 一旦m可以被装满，就返回true</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<h4 id="完全背包"><a href="#完全背包" class="headerlink" title="完全背包"></a>完全背包</h4><p>完全背包——对物品数量没有限制，可以放多个</p>
+<h5 id="零钱兑换——leetcode322"><a href="#零钱兑换——leetcode322" class="headerlink" title="零钱兑换——leetcode322"></a>零钱兑换——leetcode322</h5><blockquote>
+<p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; 输入: coins = [1, 2, 5], amount = 11</span><br><span class="line">&gt; 输出: 3 </span><br><span class="line">&gt; 解释: 11 = 5 + 5 + 1</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>二维DP</strong></p>
+<p>还是先熟悉一下二维DP，也可以与0/1背包进行对比</p>
+<p>该题型中<code>amount</code>为背包容量，<code>coins</code>为物品</p>
+<ul>
+<li><p>子问题</p>
+<ul>
+<li><code>dp[i][j]</code>表示对<code>coins[0....i]</code>的总金额为<code>j</code>的所需最少的硬币个数 </li>
+</ul>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li><p>如果该物品放不下背包，其所需要的最少硬币的个数与<code>dp[i-1][j]</code>相同；</p>
+</li>
+<li><p>如果该物品可以放下背包，容量为<code>j</code>的背包所需要的最少硬币的数量取决于这二者的最小值</p>
+<ul>
+<li>1.不装该物品，背包装满所需的最小硬币数量——<code>dp[i-1][j]</code></li>
+<li>2.装了该物品，背包装满所需的最小硬币数量——<code>dp[i][j-coins[i]]</code></li>
+</ul>
+</li>
+<li><p>需要注意的是，由于硬币可以重复不断地选取，因此，当第二种情况，装了该物品<code>i</code>的时候，当前容量为<code>j</code>的背包减去该物品<code>i</code>的体积，剩下的容量为<code>j-coins[i]</code>，<strong>在这剩下的容量里边，其实有可能还装了多个物品<code>i</code></strong>，<strong>因此要以<code>dp[i]</code>行计算物品<code>i</code>的最小硬币数为准</strong>，因此有<br>$$<br>dp[i][j]=min(dp[i-1][j],dp[i][j-coins[i]])<br>$$</p>
+</li>
+<li><p>而对比0/1背包而言，对所有的物品，仅可选取一次，那么在第二种情况，装了该物品<code>i</code>的时候，当前容量为<code>j</code>的背包减去该物品<code>i</code>的体积，剩下的容量为<code>j-coins[i]</code>，<strong>而在这剩下的容量当中不可能再出现物品<code>i</code></strong>，<strong>因此要以<code>dp[i-1]</code>即没有物品<code>i</code>的情况为准</strong>，因此有<br>$$<br>dp[i][j]=min(dp[i-1][j],dp[i-1][j-coins[i]])<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>$$<br>  dp[i][j]= \begin{cases}dp[i-1][j] \quad j&lt;coin \\ min(dp[i-1][j],dp[i][j-coins[i]]) \quad else\end{cases}<br>  $$</p>
+</li>
+<li><p>边界初始化</p>
+<ul>
+<li>由于在转移方程中涉及到求Min，因此在初始化数组的时候将值赋为最大值（我用了<code>amout+1</code>）</li>
+<li>由于所有的物品都可以不选取，因此在<code>dp[i][0]</code>，即背包容量为0的时候，所需要的最小硬币的数量均为0，即<code>dp[i][0]=0</code></li>
+</ul>
+</li>
+<li><p>输出</p>
+<ul>
+<li>判断如果<code>dp[-1][-1]</code>的值仍然为最大值<code>amount+1</code>，就返回-1，否则返回<code>dp[-1][-1]</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">coinChange</span><span class="params">(self, coins, amount)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type coins: List[int]</span></span><br><span class="line"><span class="string">        :type amount: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment">#完全背包</span></span><br><span class="line">        <span class="comment"># 先试一个啊，背包容量为amount，物品为coins，无限量选取，找所需的最少的硬币个数</span></span><br><span class="line">        <span class="comment"># 还是先从二维DP开始吧，别走太快。。。。</span></span><br><span class="line">        dp=[[amount+<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(amount+<span class="number">1</span>)]<span class="keyword">for</span> i <span class="keyword">in</span> range(len(coins)+<span class="number">1</span>)]<span class="comment"># 初始化为最大值，因为后边要求最小值</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(dp)):</span><br><span class="line">            dp[i][<span class="number">0</span>]=<span class="number">0</span> <span class="comment">#总数为0的最少硬币数，就是硬币一个都不取，所以dp[i][0]=0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(coins)+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,amount+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> j&lt;coins[i<span class="number">-1</span>]:</span><br><span class="line">                    dp[i][j]=dp[i<span class="number">-1</span>][j]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    dp[i][j]=min(dp[i<span class="number">-1</span>][j],dp[i][j-coins[i<span class="number">-1</span>]]+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>][<span class="number">-1</span>] <span class="keyword">if</span> dp[<span class="number">-1</span>][<span class="number">-1</span>]!=(amount+<span class="number">1</span>) <span class="keyword">else</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+<p><strong>一维DP</strong></p>
+<p>总体思路跟上述二维一样，需要注意的同样是与0/1背包不同的是，对于一维的DP，0/1背包需要逆序遍历，完全背包需要正序遍历，原因同上。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">coinChange</span><span class="params">(self, coins, amount)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type coins: List[int]</span></span><br><span class="line"><span class="string">        :type amount: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment">#完全背包</span></span><br><span class="line">        <span class="comment"># 一维DP</span></span><br><span class="line">        dp=[amount+<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(amount+<span class="number">1</span>)]<span class="comment"># 初始化为最大值，因为后边要求最小值</span></span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">0</span> <span class="comment">#总数为0的最少硬币数，就是硬币一个都不取，所以dp[0]=0</span></span><br><span class="line">        <span class="keyword">for</span> coin <span class="keyword">in</span> coins:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,amount+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> i&gt;=coin:</span><br><span class="line">                    dp[i]=min(dp[i],dp[i-coin]+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>] <span class="keyword">if</span> dp[<span class="number">-1</span>]!=(amount+<span class="number">1</span>) <span class="keyword">else</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+<h5 id="零钱兑换-II——leetcode518"><a href="#零钱兑换-II——leetcode518" class="headerlink" title="零钱兑换 II——leetcode518"></a>零钱兑换 II——leetcode518</h5><blockquote>
+<p>给定不同面额的硬币和一个总金额。写出函数来计算可以凑成总金额的硬币组合数。假设每一种面额的硬币有无限个。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; 输入: amount = 5, coins = [1, 2, 5]</span><br><span class="line">&gt; 输出: 4</span><br><span class="line">&gt; 解释: 有四种方式可以凑成总金额:</span><br><span class="line">&gt; 5=5</span><br><span class="line">&gt; 5=2+2+1</span><br><span class="line">&gt; 5=2+1+1+1</span><br><span class="line">&gt; 5=1+1+1+1+1</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">change</span><span class="params">(self, amount, coins)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type amount: int</span></span><br><span class="line"><span class="string">        :type coins: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 这一次算的是组合数</span></span><br><span class="line">        <span class="comment"># 就直接写了</span></span><br><span class="line"></span><br><span class="line">        dp=[<span class="number">1</span>]+[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(amount)] <span class="comment"># amount=0的组合数为1，即所有硬币都不取</span></span><br><span class="line">        <span class="keyword">for</span> coin <span class="keyword">in</span> coins:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,amount+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> coin&lt;=i:</span><br><span class="line">                    dp[i]+=dp[i-coin]</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="单词拆分——leetcode139"><a href="#单词拆分——leetcode139" class="headerlink" title="单词拆分——leetcode139"></a>单词拆分——leetcode139</h5><blockquote>
+<p>给定一个<strong>非空</strong>字符串 <em>s</em> 和一个包含<strong>非空</strong>单词列表的字典 <em>wordDict</em>，判定 <em>s</em> 是否可以被空格拆分为一个或多个在字典中出现的单词。</p>
+<p><strong>说明：</strong></p>
+<ul>
+<li>拆分时可以重复使用字典中的单词。</li>
+<li>你可以假设字典中没有重复的单词。</li>
+</ul>
+</blockquote>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; 输入: s = &quot;leetcode&quot;, wordDict = [&quot;leet&quot;, &quot;code&quot;]</span><br><span class="line">&gt; 输出: true</span><br><span class="line">&gt; 解释: 返回 true 因为 &quot;leetcode&quot; 可以被拆分成 &quot;leet code&quot;。</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; 输入: s = &quot;applepenapple&quot;, wordDict = [&quot;apple&quot;, &quot;pen&quot;]</span><br><span class="line">&gt; 输出: true</span><br><span class="line">&gt; 解释: 返回 true 因为 &quot;applepenapple&quot; 可以被拆分成 &quot;apple pen apple&quot;。</span><br><span class="line">&gt;      注意你可以重复使用字典中的单词。</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>带记忆的DFS</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wordBreak</span><span class="params">(self, s, wordDict)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :type wordDict: List[str]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment">#DFS 会超时</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">word_Break</span><span class="params">(s,wordDict,start)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> start == len(s):</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">for</span> end <span class="keyword">in</span> range(start+<span class="number">1</span>, len(s)+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> (s[start:end] <span class="keyword">in</span> wordDict) <span class="keyword">and</span> word_Break(s, wordDict, end):</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">return</span> word_Break(s,wordDict, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#带记忆的DFS </span></span><br><span class="line">        <span class="comment">#对这种s="aaaaaaaab"，wordDict=["a","aa","aaa"]这种就会出现重复子问题，第一次取一个a和第二次取一个a与第一次直接取两个a是一样的情况</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">word_Break</span><span class="params">(s,wordDict,start,memo)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> start == len(s):</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">if</span> start <span class="keyword">in</span> memo: <span class="comment"># memo记录从start开始的s是否能被拆解</span></span><br><span class="line">                <span class="keyword">return</span> memo[start]</span><br><span class="line">            <span class="keyword">for</span> end <span class="keyword">in</span> range(start+<span class="number">1</span>, len(s)+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> (s[start:end] <span class="keyword">not</span> <span class="keyword">in</span> wordDict):</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">elif</span> word_Break(s, wordDict, end,memo):</span><br><span class="line">                    memo[start]=<span class="keyword">True</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            memo[start]=<span class="keyword">False</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        memo=&#123;&#125;</span><br><span class="line">        <span class="keyword">return</span> word_Break(s,wordDict, <span class="number">0</span>,memo)</span><br></pre></td></tr></table></figure>
+<p><strong>带装饰器的DFS——python3</strong></p>
+<blockquote>
+<p>用来做缓存，能把相对耗时的函数结果进行保存，避免传入相同的参数重复计算。同时，缓存并不会无限增长，不用的缓存会被释放。——相当于记忆化的DFS</p>
+<p>import functools<br>@functools.lru_cache(None)</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wordBreak</span><span class="params">(self, s: str, wordDict: List[str])</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">import</span> functools</span><br><span class="line"><span class="meta">        @functools.lru_cache(None)</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">word_Break</span><span class="params">(s,start)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> start == len(s):</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">for</span> end <span class="keyword">in</span> range(start+<span class="number">1</span>, len(s)+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> (s[start:end] <span class="keyword">in</span> wordDict) <span class="keyword">and</span> word_Break(s, end):</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">return</span> word_Break(s, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>BFS</strong></p>
+<p>这个抄的题解区的，没有看懂，后边再对DFS和BFS进行整理和理解吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wordBreak</span><span class="params">(self, s, wordDict)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :type wordDict: List[str]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># BFS  没有看懂，后边再整理DFS和BFS吧</span></span><br><span class="line">        <span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line">        queue = deque([<span class="number">0</span>])</span><br><span class="line">        memo = [<span class="keyword">False</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(len(s))]</span><br><span class="line">        <span class="keyword">while</span> queue:</span><br><span class="line">            start = queue.popleft()</span><br><span class="line">            <span class="keyword">if</span> memo[start]==<span class="keyword">False</span>:</span><br><span class="line">                <span class="keyword">for</span> end <span class="keyword">in</span> range(start+<span class="number">1</span>, len(s)+<span class="number">1</span>):</span><br><span class="line">                    <span class="keyword">if</span> s[start:end] <span class="keyword">in</span> wordDict:</span><br><span class="line">                        queue.append(end)</span><br><span class="line">                        <span class="keyword">if</span> end == len(s):</span><br><span class="line">                            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">                memo[start] = <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<p><strong>DP</strong></p>
+<ul>
+<li><p>子问题</p>
+</li>
+<li><p><code>dp[i]</code>表示对<code>s[0....i]</code>的字符串能否被<code>wordlist</code>中的单词表示，True  or  False，即<code>i</code>为背包大小，<code>wordlist</code>为物品</p>
+</li>
+<li><p>转移方程</p>
+<ul>
+<li><p>如果当前word长度小于<code>i</code>且<code>s[0...i]</code>以<code>word</code>结尾，那么就可以选择当前word，<code>dp[i]</code>就取决于不选择当前word的结果<code>dp[i]</code>，和选择当前<code>word</code>的结果<code>dp[i-len(word)]</code></p>
+</li>
+<li><p>其实这个问题是默认带顺序的，因为如果外循环为单词，比如<code>wordlist</code>是<code>a,b,c</code>，一个单词一个单词地遍历，那么拼出来的单词就只能是<code>aaaaaabbbbbbbccccccc</code>，无论重复取多少个，都是这样的顺序，而不可能出现<code>cba</code>这样的顺序，因此这个拼单词其实默认是带有顺序的问题，因此应该把背包循环放在外循环，物品循环放在内循环</p>
+</li>
+<li><p>如果不带顺序，比如取数，比如物品为<code>[1,2,3]</code>，先取1和后取1没有区别的时候，就应该将数字放在外循环，第一次循环意味着考虑对1取了多少次，第二次循环考虑对2取了多少次，第三次循环考虑对3取了多少次，这样就与取的顺序无关</p>
+</li>
+<li><p>而带有顺序的问题，比如当前的问题，比如<code>wordlist</code>是<code>a,b,c</code>，要考虑<code>a,b,c</code>可能出现在任何的位置，拼接成为不同的字符串，因此将背包作为外循环，当背包长度为1的时候，可能是<code>a,b,c</code>，当背包长度为2的时候，在长度为1的基础上，<code>a</code>就有可能是<code>aa,ab,ac</code>，而<code>b</code>就有可能是<code>ba,bb,bc</code>，其中的<code>ba</code>与<code>a</code>中的<code>ab</code>是不一样的字符串，同理，<code>c</code>就可能是<code>ca,cb,cc</code>，其中的<code>cb</code>也与前面<code>b</code>中的<code>bc</code>是不一样的，因此在对考虑顺序的问题上，将背包作为外循环，在考虑每一个背包长度的时候，都对所有的物品进行一个遍历</p>
+</li>
+<li><p>$$<br>dp[i]= \begin{cases}dp[i] \quad else \\ dp[i] \ or\ dp[i-len(word)] \quad i&gt;=len(word) \ and \ s[i-len(word):i]==word\end{cases}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p>边界初始化</p>
+<ul>
+<li>由于所有的物品都可以不选取，因此在<code>dp[0]</code>，即背包容量为0的时候，可以有表示的方法，即<code>dp[0]=True</code>，其余初始化为<code>False</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wordBreak</span><span class="params">(self, s, wordDict)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :type wordDict: List[str]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(s) + <span class="number">1</span>):   <span class="comment"># 第一层循环是字符串</span></span><br><span class="line">            <span class="keyword">for</span> word <span class="keyword">in</span> wordDict:   <span class="comment"># 循环每个dict，看是否能装进去</span></span><br><span class="line">                <span class="keyword">if</span> (i &gt;= len(word) <span class="keyword">and</span> s[i - len(word):i] == word):  <span class="comment"># 这里注意，需要满足当前str[i-len(word):i]  的字符串正好等于dict中的字符串。</span></span><br><span class="line">                    dp[i] = dp[i] <span class="keyword">or</span> dp[i-len(word)]   <span class="comment"># 取一个能装进去的就是True</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="组合总和-Ⅳ——leetcode377"><a href="#组合总和-Ⅳ——leetcode377" class="headerlink" title="组合总和 Ⅳ——leetcode377"></a>组合总和 Ⅳ——leetcode377</h5><blockquote>
+<p>给定一个由正整数组成且不存在重复数字的数组，找出和为给定目标正整数的组合的个数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt; nums = [1, 2, 3]</span><br><span class="line">&gt; target = 4</span><br><span class="line">&gt; 所有可能的组合为：</span><br><span class="line">&gt; (1, 1, 1, 1)</span><br><span class="line">&gt; (1, 1, 2)</span><br><span class="line">&gt; (1, 2, 1)</span><br><span class="line">&gt; (1, 3)</span><br><span class="line">&gt; (2, 1, 1)</span><br><span class="line">&gt; (2, 2)</span><br><span class="line">&gt; (3, 1)</span><br><span class="line">&gt; 请注意，顺序不同的序列被视作不同的组合。</span><br><span class="line">&gt; 因此输出为 7。</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>与完全背包问题的不同在于其需要考虑顺序，对物品重复取的不同顺序视为不同的方法数量</p>
+<p>以上述数据为例，把表格打出来呢就是</p>
+<blockquote>
+<p>dp[0]=1</p>
+<p>dp[1]=dp[0]——&gt;dp[1-num[0]]</p>
+<p>dp[2]=dp[0]+dp[1]——&gt;dp[1-num[1]]+dp[1-num[0]]</p>
+<p>dp[3]=dp[0]+dp[1]+dp[2]——&gt;dp[1-num[2]]+dp[1-num[1]]+dp[1-num[0]]</p>
+<p>dp[4]=dp[1]+dp[2]+dp[3]——&gt;dp[1-num[2]]+dp[1-num[1]]+dp[1-num[0]]</p>
+</blockquote>
+<ul>
+<li><p>由于考虑排序，因此对<code>target</code>为<code>i</code>的时候，不管<code>dp[0....i-1]</code>的方法排列是什么样子的，由于其值不同，都算作不同的排列，因此对每一个<code>num</code>值下的方法数进行求和比如上例中<code>dp[4]</code>，由于<code>num</code>可取值有<code>1,2,3</code>，因此<code>dp[4]=对所有可能的总和为1的排列数dp[1]+对所有可能的总和为2的排列数dp[2]+对所有可能的总和为3的排列数dp[3]</code></p>
+</li>
+<li><p>因此应该对数组<code>dp</code>的每一个值单独计算完成之后在计算其下一个值，因此将<code>dp</code>背包容量作为外循环</p>
+</li>
+<li><p>而在不考虑物品排序的情况下，如果按照上述的<code>对所有可能的总和为1的排列数dp[1]+对所有可能的总和为2的排列数dp[2]+对所有可能的总和为3的排列数dp[3]</code>的方法，就会出现 所有可能的总和为2的排列中：1+1 （+2）和所有可能的总和为3的排列中  1+2  （+1）是同样的组合数，而需要从每个<code>num</code>的角度来进行考虑，考虑对每个<code>num</code>取了没取，这样就不用考虑具体的顺序，比如<code>dp[4]=是否取1+是否取2+是否取3的总方法数</code></p>
+</li>
+<li><p>在代码的实现上直接将背包容量作为外循环，物品作为内循环，与不要求顺序的完全背包只是将两个循环相互调换即可</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">combinationSum4</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment">#完全背包</span></span><br><span class="line">        <span class="comment"># 背包容量为target,物品为nums</span></span><br><span class="line">        <span class="comment">#要不还是先写二维吧，理一下思路</span></span><br><span class="line"></span><br><span class="line">        dp=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(target)]</span><br><span class="line">        <span class="comment"># 注意，顺序不同被视作不同的组合</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,target+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">                <span class="keyword">if</span> num&lt;=i:</span><br><span class="line">                    dp[i]+=dp[i-num]</span><br><span class="line">            <span class="comment"># print(dp)</span></span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/" rel="next" title="AdaBoost、GBDT、XGB、LGB相关">
+                <i class="fa fa-chevron-left"></i> AdaBoost、GBDT、XGB、LGB相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/16/专题整理/bert/" rel="prev" title="bert">
+                bert <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">63</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#最长公共子序列"><span class="nav-number">1.</span> <span class="nav-text">最长公共子序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最长公共子序列LCS（Longest-Common-Subsequence）——leetcode1143"><span class="nav-number">1.1.</span> <span class="nav-text">最长公共子序列LCS（Longest Common Subsequence）——leetcode1143</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#二维DP"><span class="nav-number">1.1.1.</span> <span class="nav-text">二维DP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#滚动DP——状态压缩"><span class="nav-number">1.1.2.</span> <span class="nav-text">滚动DP——状态压缩</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无重复字符的最长子串（leetcode3）——仅计算长度"><span class="nav-number">1.2.</span> <span class="nav-text">无重复字符的最长子串（leetcode3）——仅计算长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大连续子串"><span class="nav-number">1.3.</span> <span class="nav-text">最大连续子串</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#累计差值的方法"><span class="nav-number">1.3.1.</span> <span class="nav-text">累计差值的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一维DP———————————————————————————————————一轮没做出来"><span class="nav-number">1.3.2.</span> <span class="nav-text">一维DP———————————————————————————————————一轮没做出来</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最长公共子串——仅计算长度——牛客"><span class="nav-number">1.4.</span> <span class="nav-text">最长公共子串——仅计算长度——牛客</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#二维DP-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">二维DP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一维DP"><span class="nav-number">1.4.2.</span> <span class="nav-text">一维DP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#常数DP"><span class="nav-number">1.4.3.</span> <span class="nav-text">常数DP</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最长递增子序列LIS——leetcode300"><span class="nav-number">1.5.</span> <span class="nav-text">最长递增子序列LIS——leetcode300</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#二维DP——转换成LCS来做——O-N-2"><span class="nav-number">1.5.1.</span> <span class="nav-text">二维DP——转换成LCS来做——O(N^2)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一维DP——O-N-2"><span class="nav-number">1.5.2.</span> <span class="nav-text">一维DP——O(N^2)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#动态规划的优化（贪心算法、二分查找）"><span class="nav-number">1.5.3.</span> <span class="nav-text">动态规划的优化（贪心算法、二分查找）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编辑距离——leetcode72"><span class="nav-number">1.6.</span> <span class="nav-text">编辑距离——leetcode72</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最长回文子串"><span class="nav-number">2.</span> <span class="nav-text">最长回文子串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最长回文子串——leetcode5"><span class="nav-number">2.1.</span> <span class="nav-text">最长回文子串——leetcode5</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#最长公共子串"><span class="nav-number">2.1.1.</span> <span class="nav-text">最长公共子串</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二维DP——时间-O-N-2-空间-O-N-2"><span class="nav-number">2.1.2.</span> <span class="nav-text">二维DP——时间 $O(N^2)$ 空间  $O(N^2)$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#中心扩散法——时间-O-N-2-空间-O-1"><span class="nav-number">2.1.3.</span> <span class="nav-text">中心扩散法——时间 $O(N^2)$ 空间  $O(1)$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Manacher-算法时间-O-N-空间-O-N"><span class="nav-number">2.1.4.</span> <span class="nav-text">Manacher 算法时间 $O(N)$ 空间  $O(N)$</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最长回文子序列——leetcode516————————————一轮没做出来"><span class="nav-number">2.2.</span> <span class="nav-text">最长回文子序列——leetcode516————————————一轮没做出来</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#滚动DP"><span class="nav-number">2.2.1.</span> <span class="nav-text">滚动DP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#斐波那契数列-递推问题"><span class="nav-number">3.</span> <span class="nav-text">斐波那契数列(递推问题)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#斐波那契数列问题——leetcode面试10-1"><span class="nav-number">3.1.</span> <span class="nav-text">斐波那契数列问题——leetcode面试10-1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#爬楼梯问题——leetcode70"><span class="nav-number">3.2.</span> <span class="nav-text">爬楼梯问题——leetcode70</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常规跳台阶问题——leetcode面试10-2"><span class="nav-number">3.3.</span> <span class="nav-text">常规跳台阶问题——leetcode面试10-2</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一维DP-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">一维DP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DP压缩为变量"><span class="nav-number">3.3.2.</span> <span class="nav-text">DP压缩为变量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变态跳台阶I——牛客剑指offer"><span class="nav-number">3.4.</span> <span class="nav-text">变态跳台阶I——牛客剑指offer</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#递推公式"><span class="nav-number">3.4.1.</span> <span class="nav-text">递推公式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DP——其实都可以通过递推公式往回推一步，来化简"><span class="nav-number">3.4.2.</span> <span class="nav-text">DP——其实都可以通过递推公式往回推一步，来化简</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#矩阵覆盖问题——牛客剑指offer"><span class="nav-number">3.5.</span> <span class="nav-text">矩阵覆盖问题——牛客剑指offer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大牛生小牛问题"><span class="nav-number">3.6.</span> <span class="nav-text">大牛生小牛问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偷房子问题"><span class="nav-number">3.7.</span> <span class="nav-text">偷房子问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#打家劫舍I——leetcode198"><span class="nav-number">3.7.1.</span> <span class="nav-text">打家劫舍I——leetcode198</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#打家劫舍II——leetcode213"><span class="nav-number">3.7.2.</span> <span class="nav-text">打家劫舍II——leetcode213</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#打家劫舍III——leetcode337———————————————————————————不会"><span class="nav-number">3.7.3.</span> <span class="nav-text">打家劫舍III——leetcode337———————————————————————————不会</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#背包问题"><span class="nav-number">4.</span> <span class="nav-text">背包问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-1背包"><span class="nav-number">4.1.</span> <span class="nav-text">0/1背包</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#目标和——leetcode494"><span class="nav-number">4.1.1.</span> <span class="nav-text">目标和——leetcode494</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一和零——leetcode474——二维背包"><span class="nav-number">4.1.2.</span> <span class="nav-text">一和零——leetcode474——二维背包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分割等和子集——leetcode416"><span class="nav-number">4.1.3.</span> <span class="nav-text">分割等和子集——leetcode416</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完全背包"><span class="nav-number">4.2.</span> <span class="nav-text">完全背包</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#零钱兑换——leetcode322"><span class="nav-number">4.2.1.</span> <span class="nav-text">零钱兑换——leetcode322</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#零钱兑换-II——leetcode518"><span class="nav-number">4.2.2.</span> <span class="nav-text">零钱兑换 II——leetcode518</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#单词拆分——leetcode139"><span class="nav-number">4.2.3.</span> <span class="nav-text">单词拆分——leetcode139</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组合总和-Ⅳ——leetcode377"><span class="nav-number">4.2.4.</span> <span class="nav-text">组合总和 Ⅳ——leetcode377</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>

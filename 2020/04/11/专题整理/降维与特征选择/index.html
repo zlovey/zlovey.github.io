@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="降维与特征选择的区别降维本质上是从一个维度空间映射到另一个维度空间，特征的多少没有减少，当然在映射的过程中特征的值会相应的变化。举个例子，现在的特征是1000维，我们想要把它降到500维。降维的过程就是找一个从1000维映射到500维的映射关系。原始数据中的1000个特征，每一个都对应着降维后的500维空间中的一个值。假设原始特征中有个特征的值是9，那么降维后对应的值可能是3。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="降维与特征选择">
+<meta property="og:url" content="http://yoursite.com/2020/04/11/专题整理/降维与特征选择/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="降维与特征选择的区别降维本质上是从一个维度空间映射到另一个维度空间，特征的多少没有减少，当然在映射的过程中特征的值会相应的变化。举个例子，现在的特征是1000维，我们想要把它降到500维。降维的过程就是找一个从1000维映射到500维的映射关系。原始数据中的1000个特征，每一个都对应着降维后的500维空间中的一个值。假设原始特征中有个特征的值是9，那么降维后对应的值可能是3。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-11T02:00:05.530Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="降维与特征选择">
+<meta name="twitter:description" content="降维与特征选择的区别降维本质上是从一个维度空间映射到另一个维度空间，特征的多少没有减少，当然在映射的过程中特征的值会相应的变化。举个例子，现在的特征是1000维，我们想要把它降到500维。降维的过程就是找一个从1000维映射到500维的映射关系。原始数据中的1000个特征，每一个都对应着降维后的500维空间中的一个值。假设原始特征中有个特征的值是9，那么降维后对应的值可能是3。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/11/专题整理/降维与特征选择/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>降维与特征选择 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/专题整理/降维与特征选择/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">降维与特征选择
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-11 08:27:20 / 修改时间：10:00:05" itemprop="dateCreated datePublished" datetime="2020-04-11T08:27:20+08:00">2020-04-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/专题整理/" itemprop="url" rel="index"><span itemprop="name">专题整理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="降维与特征选择的区别"><a href="#降维与特征选择的区别" class="headerlink" title="降维与特征选择的区别"></a>降维与特征选择的区别</h3><p><strong>降维本质上是从一个维度空间映射到另一个维度空间，特征的多少没有减少，当然在映射的过程中特征的值会相应的变化</strong>。举个例子，现在的特征是1000维，我们想要把它降到500维。降维的过程就是找一个从1000维映射到500维的映射关系。原始数据中的1000个特征，每一个都对应着降维后的500维空间中的一个值。假设原始特征中有个特征的值是9，那么降维后对应的值可能是3。<a id="more"></a><br><strong>特征选择是从所有特征中选择部分特征作为训练集特征，特征在选择前和选择后不改变值，但由于只选择了部分特征，特征维数会变小</strong>。举个例子，现在的特征是1000维，现在我们要从这1000个特征中选择500个，那个这500个特征的值就跟对应的原始特征中那500个特征值是完全一样的。对于另个500个没有被选择到的特征就直接抛弃了。假设原始特征中有个特征的值是9，那么特征选择选到这个特征后它的值还是9，并没有改变。</p>
+<h3 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h3><h4 id="线性降维"><a href="#线性降维" class="headerlink" title="线性降维"></a>线性降维</h4><h4 id="1-无监督线性降维——主成分分析PCA"><a href="#1-无监督线性降维——主成分分析PCA" class="headerlink" title="1. 无监督线性降维——主成分分析PCA"></a>1. 无监督线性降维——主成分分析PCA</h4><p>通过某种<strong>线性投影</strong>，将高维的数据映射到低维的空间中，有两种推理方式：如何用一个超平面对所有的样本进行恰当的表达</p>
+<ul>
+<li><strong>最近重构性：样本点到这个超平面的距离都足够近</strong></li>
+<li><strong>最大可分性：样本点在这个超平面上的投影能尽可能分开</strong></li>
+</ul>
+<p><strong>最近重构性</strong></p>
+<p>假定数据进行了中心化，即$\sum_ix_i=0$，假定投影后得到的新坐标系为{$w_1,w_2\dots w_d$}，$w_i$为标准正交基向量，即$||w_i||_2=1,w_i^Tw_j=0$，将维度从 $d$ 降低到 $d’$ 之后，样本点$x_i$在低维坐标系中的投影为$z_i=(z_{i1};z_{i2}\dots z_{id’})$，其中$z_{ij}=w_j^Tx_i$是$x_i$在低维坐标系下第j维的坐标，若基于$z_i$来重构$x_i$，会得到$\hat x_i=\sum_{j=1}^{d’}z_{ij}w_j$。</p>
+<p>考虑整个训练集，<strong>原样本点$x_i$与基于投影重构的样本点$\hat x_i$之间的距离</strong>为<br>$$<br>\sum_{i=1}^m||\sum_{j=1}^{d’}z_{ij}w_j-x_i||<em>2^2=\sum</em>{i=1}^mz_i^Tz_i-2\sum_{i=1}^mz_i^TW^Tx_i+const \\ \propto-tr(W^T(\sum_{i=1}^mx_ix_i^T)W)<br>$$<br>其中$W=(w_1,w_2 \dots w_d)$，考虑将上述<strong>距离最小化</strong>，有<br>$$<br>min_W-tr(W^TXX^TW) \\ s.t.W^TW=I<br>$$<br>即为PCA的优化目标</p>
+<p><strong>最大可分性</strong></p>
+<p>即要求样本点的投影能够尽可能的分开，则应该<strong>使投影后的样本点的方差最大化</strong></p>
+<p>由于投影后样本的协方差矩阵与为$\sum_iW^Tx_ix_i^TW$，于是优化目标与最近重构性相同，即<br>$$<br>min_W-tr(W^TXX^TW) \\ s.t.W^TW=I<br>$$<br>对于有约束的优化，使用拉格朗日乘子法可以得到上述式子的解<br>$$<br>XX^Tw_i=\lambda_iw_i<br>$$<br>即对协方差矩阵$XX^T$进行特征值分解，将求得的特征值进行排序，取最大的$d’$个特征值对应的特征向量即可构成$W^\ast=(w_1,w_2 \dots w_{d’})$即为PCA的解。</p>
+<p><strong>舍弃$d-d’$个特征值对应的特征向量，一方面能使样本的采样密度增大；另一方面，当数据受噪声影响时，最小的特征值所对应的特征向量往往与噪声相关，舍弃之在一定程度上能起到去噪的效果</strong></p>
+<h4 id="2-监督线性降维——线性判别分析LDA"><a href="#2-监督线性降维——线性判别分析LDA" class="headerlink" title="2. 监督线性降维——线性判别分析LDA"></a>2. 监督线性降维——线性判别分析LDA</h4><p><strong>给定训练样例集，将样例投影到一条直线上，使得同类的样例尽可能接近、异类的样例尽可能远离。</strong></p>
+<blockquote>
+<p>未完成</p>
+</blockquote>
+<blockquote>
+<p>未完成</p>
+</blockquote>
+<p>LDA和PCA的区别和联系</p>
+<p>从目标出发，PCA选择的是投影后数据方差最大的方向，LDA选择的是投影后类内方差小、类间方差大的方向，用到了类别信息。从应用的角度出发，对无监督的一般使用PCA，有监督的则应用LDA</p>
+<h4 id="非线性降维"><a href="#非线性降维" class="headerlink" title="非线性降维"></a>非线性降维</h4><h4 id="流形学习——局部线性嵌入LLE"><a href="#流形学习——局部线性嵌入LLE" class="headerlink" title="流形学习——局部线性嵌入LLE"></a>流形学习——局部线性嵌入LLE</h4><p>在映射中保持样本点间的关系</p>
+<h4 id="流行学习——等度量映射Isomap"><a href="#流行学习——等度量映射Isomap" class="headerlink" title="流行学习——等度量映射Isomap"></a>流行学习——等度量映射Isomap</h4><p>在映射中保持样本点间的距离</p>
+<p><a href="https://blog.csdn.net/computerme/article/details/39157073" target="_blank" rel="noopener">机器学习中特征降维和特征选择的区别</a></p>
+<p><a href="https://blog.csdn.net/yuechuxuan/article/details/82491302" target="_blank" rel="noopener">机器学习四大降维方法</a></p>
+<h3 id="特征选择"><a href="#特征选择" class="headerlink" title="特征选择"></a>特征选择</h3><h4 id="过滤式filter"><a href="#过滤式filter" class="headerlink" title="过滤式filter"></a>过滤式filter</h4><p>根据距离对特征进行打分，如：</p>
+<ul>
+<li>方差选择法：根据阈值，选择方差大于阈值的特征</li>
+<li>相关系数法：计算各个特征对目标值的相关系数，选择相关性高的特征</li>
+<li>卡方检验：自变量对因变量的相关性  $\chi ^2=\sum\frac{(A-E)^2}{E}$</li>
+<li>互信息法：互信息也是评价自变量对因变量的相关性</li>
+</ul>
+<p>——<strong>没有考虑特征间的关系</strong></p>
+<h4 id="包裹式Wrapper"><a href="#包裹式Wrapper" class="headerlink" title="包裹式Wrapper"></a>包裹式Wrapper</h4><p><strong>原理</strong>：把学习器的效果作为特征子集的评价准则，进行选择</p>
+<p><strong>算法</strong>：</p>
+<ul>
+<li><p>递归特征消除算法<strong>RFE</strong></p>
+<ul>
+<li>反复的构建模型（如SVM或者回归模型）然后选出最好的（或者最差的）的特征（可以根据系数来选），把选出来的特征选择出来，然后在剩余的特征上重复这个过程，直到所有特征都遍历了。这个过程中特征被消除的次序就是特征的排序。</li>
+<li>是一种寻找最优特征子集的<strong>贪心算法</strong>。 </li>
+</ul>
+</li>
+<li><p><strong>LVW（Las Vegas Wrapper）</strong></p>
+<ul>
+<li><p>每次随机选择特征子集A’训练生成学习器</p>
+</li>
+<li><p>随机化的方法：</p>
+<ul>
+<li><strong>蒙特卡罗算法</strong>：采样越多，越<strong>接近</strong>最优解；(强调每一个iteration都在进步，提高的过程)——假如筐里有100个苹果，让我每次闭眼拿1个，挑出最大的。于是我随机拿1个，再随机拿1个跟它比，留下大的，再随机拿1个……我每拿一次，留下的苹果都至少不比上次的小。拿的次数越多，挑出的苹果就越大，但我除非拿100次，否则无法肯定挑出了最大的。</li>
+<li><p><strong>拉斯维加斯算法</strong>：采样越多，越<strong>有可能找到</strong>最优解；(强调直接想要最优解)——假如有一把锁，给我100把钥匙，只有1把是对的。于是我每次随机拿1把钥匙去试，打不开就再换1把。我试的次数越多，打开（最优解）的机会就越大，但在打开之前，那些错的钥匙都是没有用的</p>
+</li>
+<li><p>异同：</p>
+<ul>
+<li>若有时间限制，拉斯维加斯要么给出满足要求的解，要么不给出解；蒙特卡罗一定会给出解，但解未必满足要求</li>
+<li>如果没有时间限制，两种方法均能给出满足要求的解</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>——<strong>效果好但是开销大</strong></p>
+<h4 id="嵌入式embedding"><a href="#嵌入式embedding" class="headerlink" title="嵌入式embedding"></a>嵌入式embedding</h4><p>把特征选择嵌入到训练中</p>
+<ul>
+<li>基于惩罚项的特征选择法：L1正则</li>
+<li>基于树模型的特征选择法：树模型中GBDT也可用来作为基模型进行特征选择</li>
+</ul>
+<p><a href="https://blog.csdn.net/lijiawei54188/article/details/80584884" target="_blank" rel="noopener">递归特征消除</a></p>
+<p><a href="https://blog.csdn.net/zhenaoxi1077/article/details/82791281" target="_blank" rel="noopener">常用的特征选择方法</a></p>
+<p><a href="https://blog.csdn.net/zhangbaoanhadoop/article/details/83118808" target="_blank" rel="noopener">蒙特卡罗算法和拉斯维加斯算法比较</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/10/专题整理/梯度消失与梯度爆炸/" rel="next" title="梯度消失与梯度爆炸">
+                <i class="fa fa-chevron-left"></i> 梯度消失与梯度爆炸
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/11/专题整理/AdaBoost、GBDT、XGB、LGB相关/" rel="prev" title="AdaBoost、GBDT、XGB、LGB相关">
+                AdaBoost、GBDT、XGB、LGB相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">63</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#降维与特征选择的区别"><span class="nav-number">1.</span> <span class="nav-text">降维与特征选择的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#降维"><span class="nav-number">2.</span> <span class="nav-text">降维</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性降维"><span class="nav-number">2.1.</span> <span class="nav-text">线性降维</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-无监督线性降维——主成分分析PCA"><span class="nav-number">2.2.</span> <span class="nav-text">1. 无监督线性降维——主成分分析PCA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-监督线性降维——线性判别分析LDA"><span class="nav-number">2.3.</span> <span class="nav-text">2. 监督线性降维——线性判别分析LDA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非线性降维"><span class="nav-number">2.4.</span> <span class="nav-text">非线性降维</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#流形学习——局部线性嵌入LLE"><span class="nav-number">2.5.</span> <span class="nav-text">流形学习——局部线性嵌入LLE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#流行学习——等度量映射Isomap"><span class="nav-number">2.6.</span> <span class="nav-text">流行学习——等度量映射Isomap</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征选择"><span class="nav-number">3.</span> <span class="nav-text">特征选择</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#过滤式filter"><span class="nav-number">3.1.</span> <span class="nav-text">过滤式filter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#包裹式Wrapper"><span class="nav-number">3.2.</span> <span class="nav-text">包裹式Wrapper</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌入式embedding"><span class="nav-number">3.3.</span> <span class="nav-text">嵌入式embedding</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>
