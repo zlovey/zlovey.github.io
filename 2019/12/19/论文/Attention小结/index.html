@@ -121,7 +121,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/BCNN.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/abcnn-1.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/19/论文/Attention小结/ABCNN-2.png">
-<meta property="og:updated_time" content="2020-04-06T07:58:16.281Z">
+<meta property="og:updated_time" content="2020-07-14T12:04:04.273Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Attention小结">
 <meta name="twitter:description" content="看了一些论文和博客，总的把Attention的流程理顺了一些，现在开始输出ing，带有个人理解，也不一定正确……">
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 15:58:16" itemprop="dateModified" datetime="2020-04-06T15:58:16+08:00">2020-04-06</time>
+                <time title="修改时间：2020-07-14 20:04:04" itemprop="dateModified" datetime="2020-07-14T20:04:04+08:00">2020-07-14</time>
               
             
           </span>
@@ -443,11 +443,11 @@
 <ul>
 <li>$c_i=\sum_{j=1}^{T_x}\alpha_{ij}h_j$</li>
 <li>$\alpha_{ij}=softmax(e_{ij})$</li>
-<li>$e_{ij}=a(s_{i-1},h_j)$其中a是一个经过训练的前馈网络</li>
+<li>$e_{ij}=a(s_{i-1},h_j)$其中a是一个经过训练的前馈网络Alignment Model</li>
 </ul>
 <h5 id="Hard-Attention"><a href="#Hard-Attention" class="headerlink" title="Hard Attention"></a>Hard Attention</h5><ul>
 <li>直接从句子中指定某个特定的单词作为对齐的词，其attention的概率赋为1，其余的词硬性地认为对齐概率为0</li>
-<li>$\alpha_i=\begin{cases}0 \quad if \ i=p_t\\ 1\quad else \end{cases}$</li>
+<li>$\alpha_i=\begin{cases}1 \quad if \ i=p_t\\ 0\quad else \end{cases}$</li>
 <li>其他变量都是一样的计算方式</li>
 </ul>
 <h5 id="Global-Attention"><a href="#Global-Attention" class="headerlink" title="Global Attention"></a>Global Attention</h5><ul>
@@ -699,7 +699,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">63</span>
+                    <span class="site-state-item-count">66</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -738,7 +738,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>

@@ -108,17 +108,17 @@
 
 
 
-  <meta name="description" content="进化ing">
+  <meta name="description" content="attention multihead attention 注意力机制的运行过程是什么样的？ 注意力机制中对于每一个词的分数会进行标准化，请问这一步的目的是什么  然后他也没说对错，继续问：说下attention吧，我：又是一顿balabala，讲到注意力那儿的时候他问：你能举个case吗，用了attention和没用attention时候的对应的隐状态在哪些地方有区别你有去观察过吗？我：又是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Attention">
 <meta property="og:url" content="http://yoursite.com/2020/07/09/专题整理/Attention/index.html">
 <meta property="og:site_name" content="Garden">
-<meta property="og:description" content="进化ing">
+<meta property="og:description" content="attention multihead attention 注意力机制的运行过程是什么样的？ 注意力机制中对于每一个词的分数会进行标准化，请问这一步的目的是什么  然后他也没说对错，继续问：说下attention吧，我：又是一顿balabala，讲到注意力那儿的时候他问：你能举个case吗，用了attention和没用attention时候的对应的隐状态在哪些地方有区别你有去观察过吗？我：又是">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-09T09:44:53.434Z">
+<meta property="og:updated_time" content="2020-07-09T12:23:06.664Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Attention">
-<meta name="twitter:description" content="进化ing">
+<meta name="twitter:description" content="attention multihead attention 注意力机制的运行过程是什么样的？ 注意力机制中对于每一个词的分数会进行标准化，请问这一步的目的是什么  然后他也没说对错，继续问：说下attention吧，我：又是一顿balabala，讲到注意力那儿的时候他问：你能举个case吗，用了attention和没用attention时候的对应的隐状态在哪些地方有区别你有去观察过吗？我：又是">
 
 
 
@@ -355,12 +355,34 @@
                 
               
 
-              <time title="创建时间：2020-07-09 17:44:53" itemprop="dateCreated datePublished" datetime="2020-07-09T17:44:53+08:00">2020-07-09</time>
+              <time title="创建时间：2020-07-09 17:44:53 / 修改时间：20:23:06" itemprop="dateCreated datePublished" datetime="2020-07-09T17:44:53+08:00">2020-07-09</time>
             
 
+            
+              
+
+              
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/专题整理/" itemprop="url" rel="index"><span itemprop="name">专题整理</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -389,7 +411,15 @@
       
 
       
-        
+        <a id="more"></a>
+<ol>
+<li>attention multihead attention</li>
+<li>注意力机制的运行过程是什么样的？</li>
+<li>注意力机制中对于每一个词的分数会进行标准化，请问这一步的目的是什么</li>
+</ol>
+<p>然后他也没说对错，继续问：说下attention吧，我：又是一顿balabala，讲到注意力那儿的时候他问：你能举个case吗，用了attention和没用attention时候的对应的隐状态在哪些地方有区别你有去观察过吗？我：又是一顿瞎bala，他又没说对还是错。 </p>
+<p>Bert中的 transformer<br> attention multihead attention</p>
+
       
     </div>
 
@@ -435,6 +465,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/16/算法整理/二分的几种情况整理/" rel="prev" title="二分的几种情况整理">
+                二分的几种情况整理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -499,7 +533,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">63</span>
+                    <span class="site-state-item-count">66</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -538,7 +572,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -771,6 +807,30 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
