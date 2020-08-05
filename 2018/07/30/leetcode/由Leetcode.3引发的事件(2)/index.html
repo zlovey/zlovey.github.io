@@ -127,7 +127,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/07/30/leetcode/由Leetcode.3引发的事件(2)/由Leetcode.3引发的事件(2">
 <meta property="og:image" content="http://yoursite.com/2018/07/30/leetcode/由Leetcode.3引发的事件(2)/由Leetcode.3引发的事件(2">
 <meta property="og:image" content="http://yoursite.com/2018/07/30/leetcode/由Leetcode.3引发的事件(2)/由Leetcode.3引发的事件(2">
-<meta property="og:updated_time" content="2020-04-06T06:28:00.938Z">
+<meta property="og:updated_time" content="2020-07-28T06:32:02.827Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="由Leetcode.3引发的事件(2)">
 <meta name="twitter:description" content="最长子串 最大连续子序列和 最长递增子序列 最长公共子序列 最长公共子串 字符串查找（KMP)  最长公共子序列（Longest Common Subsequence,LCS）问题描述：例子：有两个母串  cnblogs belong">
@@ -385,7 +385,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:28:00" itemprop="dateModified" datetime="2020-04-06T14:28:00+08:00">2020-04-06</time>
+                <time title="修改时间：2020-07-28 14:32:02" itemprop="dateModified" datetime="2020-07-28T14:32:02+08:00">2020-07-28</time>
               
             
           </span>
@@ -457,7 +457,7 @@
 <p><img src="/2018/07/30/leetcode/由Leetcode.3引发的事件(2)/由Leetcode.3引发的事件(2" alt="图片3">\图片3.png)</p>
 <p>同理对代码进行相应的修改，在这里就不做展示了。</p>
 <p>参考资料：<a href="https://blog.csdn.net/qq_31881469/article/details/77892324" target="_blank" rel="noopener">常考的经典算法–最长公共子序列（LCS）与最长公共子串(DP)</a></p>
-<h5 id="字符串查找"><a href="#字符串查找" class="headerlink" title="字符串查找"></a>字符串查找</h5><p>问题描述：KMP算法要解决的问题就是在字符串（也叫主串）中的模式（pattern）定位问题。说简单点就是我们平时常说的关键字搜索。模式串就是关键字（接下来称它为P），如果它在一个主串（接下来称为T）中出现，就返回它的具体位置，否则返回-1）。 </p>
+<h5 id="字符串查找"><a href="#字符串查找" class="headerlink" title="字符串查找"></a>字符串查找</h5><p>问题描述：KMP算法要解决的问题就是在字符串（也叫主串）中的模式（pattern）定位问题。给定一个主串（以 S 代替）和模式串（以 P 代替），要求找出 P 在 S 中出现的位置，即关键字搜索。模式串就是关键字，如果它在一个主串中出现，就返回它的具体位置，否则返回-1。 </p>
 <h6 id="1-暴力匹配"><a href="#1-暴力匹配" class="headerlink" title="1.暴力匹配"></a>1.暴力匹配</h6><p>通过i,j记录当前模式串和主串的匹配位置，当匹配成功时，记录位置向后移动；当匹配失败的时候，使模式串的标志位回到起始位置，主串的标志位回到当前起始匹配的下一个位置。</p>
 <p>我们会把T[0] 跟 P[0] 匹配，如果相同则匹配下一个字符，直到出现不相同的情况，此时我们会丢弃前面的匹配信息，然后把T[1] 跟 P [0]匹配，循环进行，直到主串结束，或者出现匹配成功的情况。这种丢弃前面的匹配信息的方法，极大地降低了匹配效率。 </p>
 <p><img src="/2018/07/30/leetcode/由Leetcode.3引发的事件(2)/由Leetcode.3引发的事件(2" alt="4">\4.png)</p>
@@ -468,15 +468,15 @@
 <p>当找到不同的值，从将模式串重新回到起始位置，主串回到当前匹配的下一个位置，即如下图所示指向第二个字符B。</p>
 <p><img src="/2018/07/30/leetcode/由Leetcode.3引发的事件(2)/由Leetcode.3引发的事件(2" alt="7">\7.png)</p>
 <p>具体代码如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>* <span class="title">ViolentMatch</span><span class="params">(<span class="keyword">char</span>* t, <span class="keyword">char</span>* p)</span> <span class="comment">//t为主串，p为模式串</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,k;</span><br><span class="line">	i=<span class="number">0</span>;j=<span class="number">0</span>;k=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> r[<span class="number">100</span>];<span class="comment">//存储匹配成功的首地址</span></span><br><span class="line">	<span class="keyword">int</span> tlen=<span class="built_in">strlen</span>(t);<span class="comment">//主串和模式串的长度</span></span><br><span class="line">	<span class="keyword">int</span> plen=<span class="built_in">strlen</span>(p);</span><br><span class="line">	<span class="keyword">while</span>(i&lt;tlen&amp;&amp;j&lt;plen)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(t[i]==p[j])</span><br><span class="line">			i++;j++;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			j=<span class="number">0</span>;<span class="comment">//模式串从头开始匹配</span></span><br><span class="line">			i=i-j+<span class="number">1</span>;<span class="comment">//主串从与模式串开始匹配的下一个字符重新开始</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(j==plen)<span class="comment">//匹配成功</span></span><br><span class="line">		&#123;</span><br><span class="line">			r[k]=i-j;<span class="comment">//存入</span></span><br><span class="line">			k++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> r[k]=<span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">strStr</span><span class="params">(<span class="built_in">string</span> haystack, <span class="built_in">string</span> needle)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 那先试试暴力</span></span><br><span class="line">        <span class="comment">// 当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。</span></span><br><span class="line">        <span class="comment">// 对于本题而言，当 needle 是空字符串时我们应当返回 0 。</span></span><br><span class="line">        <span class="keyword">if</span>(needle.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;haystack.size() &amp;&amp; j&lt;needle.size())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(haystack[i]==needle[j])</span><br><span class="line">                i++;j++;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 卧槽，这个i-j是真的精髓了，我还想着用变量记录位置。。。</span></span><br><span class="line">                i = i-j+<span class="number">1</span>;</span><br><span class="line">                j=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(j==needle.size()) <span class="keyword">return</span> i-needle.size();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>每次匹配失败的时候，将主串在上次匹配的基础上仅向后移动一位，而再对模式串进行匹配，在坏的情况下，时间复杂度可以达到O(n*m)。</p>
 <p>然而在这过程中，有很多重复匹配的数据，在上例中，第二次查找的时候，主串又回到第二位B的位置，而模式串回到第一位A的位置。如果是人为来寻找的话，肯定不会再把i移动回第1位，因为主串匹配失败的位置前面除了第一个A之外再也没有A了，我们为什么能知道主串前面只有一个A？因为我们已经知道前面三个字符都是匹配的！（这很重要）。移动过去肯定也是不匹配的！</p>
 <p>如何使i不动，而只需要移动j即可，如下图所示，不用再重复进行主串的遍历，减少了多余的时间浪费。这就是大佬们提出的KMP算法。 </p>
 <p><img src="/2018/07/30/leetcode/由Leetcode.3引发的事件(2)/由Leetcode.3引发的事件(2" alt="8">\8.png)</p>
 <h6 id="2-KMP"><a href="#2-KMP" class="headerlink" title="2.KMP"></a>2.KMP</h6><p>在KMP算法中，对于每一个模式串我们会事先计算出模式串的内部匹配信息，在匹配失败时最大的移动模式串，以减少匹配次数。 </p>
 <p>由上所知，KMP的问题在于当主串与模式串不匹配时，应该将模式串移到什么位置，我们将每一位不匹配时应该移动到的位置用next数组进行存储。就可以将之前的算法修改如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>* <span class="title">KMP</span><span class="params">(<span class="keyword">char</span>* t, <span class="keyword">char</span>* p)</span> <span class="comment">//t为主串，p为模式串</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,k;</span><br><span class="line">	i=<span class="number">0</span>;j=<span class="number">0</span>;k=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> r[<span class="number">100</span>];<span class="comment">//存储匹配成功的首地址</span></span><br><span class="line">	<span class="keyword">int</span> tlen=<span class="built_in">strlen</span>(t);<span class="comment">//主串和模式串的长度</span></span><br><span class="line">	<span class="keyword">int</span> plen=<span class="built_in">strlen</span>(p);</span><br><span class="line">	<span class="keyword">while</span>(i&lt;tlen&amp;&amp;j&lt;plen)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(j==<span class="number">-1</span>||t[i]==p[j])<span class="comment">//修改    需要添加j==-1的情况，当next数组中的值为-1时，表示不存在相同的最大前缀和最大后缀</span></span><br><span class="line">			i++;j++;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			j=next[j];<span class="comment">//修改   模式串从next数组的记录值开始匹配</span></span><br><span class="line"><span class="comment">//修改    i的位置不需要移动			i=i-j+1;//主串从与模式串开始匹配的下一个字符重新开始</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(j==plen)<span class="comment">//匹配成功</span></span><br><span class="line">		&#123;</span><br><span class="line">			r[k]=i-j;<span class="comment">//存入</span></span><br><span class="line">			k++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> r[k]=<span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看出，其实只在遍历的算法上修改了三行代码，保证主串的指针不移动而仅移动模式串的位置。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>* <span class="title">KMP</span><span class="params">(<span class="keyword">char</span>* t, <span class="keyword">char</span>* p)</span> <span class="comment">//t为主串，p为模式串</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; next;</span><br><span class="line">    next=getnext(needle);</span><br><span class="line">    <span class="keyword">while</span>(i&lt;haystack.size() &amp;&amp; j&lt;needle.size())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>((j==<span class="number">-1</span>)||(haystack[i]==needle[j]))<span class="comment">//添加j==-1的情况，当next数组中的值为-1时，表示不存在相同的最大前缀和最大后缀</span></span><br><span class="line">        &#123;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            j=next[j];<span class="comment">//模式串从next数组的记录值开始匹配</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(j==needle.size()) <span class="keyword">return</span> i-needle.size();</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，其实只在遍历的算法上修改了两行代码，保证主串的指针不移动而仅移动模式串的位置。</p>
 <p>下面对next数组的求解进行探讨，可以先根据一些例子观察：</p>
 <p><img src="/2018/07/30/leetcode/由Leetcode.3引发的事件(2)/由Leetcode.3引发的事件(2" alt="9">\9.png)</p>
 <p>当C和D不匹配的时候。</p>
@@ -669,7 +669,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-count">68</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -706,16 +706,25 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
             </nav>
           

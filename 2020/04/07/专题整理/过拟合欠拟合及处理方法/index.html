@@ -121,7 +121,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/dropout1.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/dropout.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/07/专题整理/过拟合欠拟合及处理方法/F:/blog/source/_posts/专题整理/过拟合欠拟合及处理方法/正则化.jpg">
-<meta property="og:updated_time" content="2020-05-14T07:36:31.478Z">
+<meta property="og:updated_time" content="2020-07-24T01:36:05.318Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="过拟合欠拟合及处理方法">
 <meta name="twitter:description" content="定义在模型的评估过程中：   左：欠拟合偏差较大       右：过拟合方差较大（泛化性差）  过拟合：由于训练数据包含抽样误差，在训练时，复杂的模型将抽样误差也考虑在内，使得在训练集上表现很好，但在测试集和新数据上表现较差——高方差（泛化性差）">
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-05-14 15:36:31" itemprop="dateModified" datetime="2020-05-14T15:36:31+08:00">2020-05-14</time>
+                <time title="修改时间：2020-07-24 09:36:05" itemprop="dateModified" datetime="2020-07-24T09:36:05+08:00">2020-07-24</time>
               
             
           </span>
@@ -598,11 +598,11 @@
 </li>
 <li><p>比如特征为$w1$和$w2$的带L1正则项的目标函数如下：</p>
 </li>
-<li><p>$$<br>\bar{J} = J +\frac{ \lambda}{2m} (|w_1| +|w_2|)<br>$$</p>
+<li><p>$$<br>\bar{J} = J +\frac{ \lambda}{m} (|w_1| +|w_2|)<br>$$</p>
 </li>
 <li><p>在每次更新 $w_1$ （对$w_1$求偏导即为梯度）时有：</p>
 </li>
-<li><p>$$<br>w_1 :=w_1 - \alpha dw_1 \\ =w_1-\frac{\alpha \lambda}{2m}sign(w_1)-\frac{\partial J}{\partial w_1}<br>$$</p>
+<li><p>$$<br>w_1 :=w_1 - \alpha dw_1 \\ =w_1-\frac{\alpha \lambda}{m}sign(w_1)-\frac{\partial J}{\partial w_1}<br>$$</p>
 </li>
 <li><p>若 $w_1$为正数，则每次更新会减去一个常数；若$w_1$为负数，则每次更新会加上一个常数，所以很容易产生特征的系数为 0 的情况，特征系数为 0 表示该特征不会对结果有任何影响，因此 L1 正则化会让特征变得<strong>稀疏</strong>，起到<strong>降维(特征选择)</strong>的作用。</p>
 </li>
@@ -610,7 +610,8 @@
 </li>
 </ul>
 <h4 id="L2正则——岭回归"><a href="#L2正则——岭回归" class="headerlink" title="L2正则——岭回归"></a>L2正则——岭回归</h4><ul>
-<li>基于L2范数，在目标函数或代价函数的后面加上参数的L2范数项</li>
+<li><p>基于L2范数，在目标函数或代价函数的后面加上参数的L2范数项(所以其实并没有再开方，只算了平方项)</p>
+</li>
 <li><p>比如特征为$w1$和$w2$的带L2正则项的目标函数如下：</p>
 </li>
 <li><p>$$<br>\bar{J} = J +\frac{ \lambda}{2m} (w_1^2 +w_2^2)<br>$$</p>
@@ -620,6 +621,14 @@
 <li><p>$$<br>w_1 :=w_1 - \alpha dw_1 \\ =(1-\frac{\alpha \lambda }{m})w_1-\frac{\partial J}{\partial w_1}<br>$$</p>
 </li>
 <li><p>每次更新时，会对特征系数进行一个<strong>比例的缩放</strong>而不是像 L1 一样减去一个固定值，这会让系数趋向变小而不会变为 0，因此 L2 正则化会让模型变得更简单，<strong>防止过拟合</strong>，而不会起到特征选择的作用。</p>
+</li>
+<li><p>为什么让参数变小就可以防止过拟合呢</p>
+<ul>
+<li>正则化中，为什么说模型越复杂，正则化值越大？ - 彭一洋的回答 - 知乎 <a href="https://www.zhihu.com/question/65025668/answer/230187341" target="_blank" rel="noopener">https://www.zhihu.com/question/65025668/answer/230187341</a></li>
+<li>其实正则项并不能直接表示模型的复杂度，并不能说参数越大，模型就越复杂，比如<code>y=100x</code>和$y=2x^2+2x$这两个模型，以L2正则为例的话，并不能说模型1的正则项$100^2=10000$比模型2的正则项$2^2+2^2=8$更大，相反，其实更小。</li>
+<li>但是对于相同的模型，比如$y=\omega x^2$，模型1有$\omega^2&lt;20$，模型2有$\omega^2&lt;200$，那么我们可以说模型2比模型1更复杂，因为它的假设空间更大。</li>
+<li>因此其实是正则项所限制的范围越大，模型越复杂，和正则项的值没有直接关系，由于参数空间范围大，假设空间就会更大，模型的表达能力更强，就更容易描述数据中的细微特性，比如噪声等，也即这个模型就越复杂了。</li>
+</ul>
 </li>
 <li><p>从图形上理解：L2范数与经验损失函数的交点（切点）一般比其原来的值更小，但是不为0，因此可以更平滑。</p>
 </li>
@@ -651,7 +660,7 @@
 </ul>
 <p><strong>L2正则化</strong></p>
 <ul>
-<li><p><strong>对ω权重引入高斯先验分布</strong>，即让 ω 的分量在靠近0的区域出现的概率大一些：<br>$$<br>p(ω^j)=\frac{1}{\sqrt{2π}\alpha}exp(−\frac{(ω^j)^2}{2\alpha^2})<br>$$</p>
+<li><p>在MSE基础上，<strong>对ω权重引入高斯先验分布</strong>，即让 ω 的分量在靠近0的区域出现的概率大一些：<br>$$<br>p(ω^j)=\frac{1}{\sqrt{2π}\alpha}exp(−\frac{(ω^j)^2}{2\alpha^2})<br>$$</p>
 </li>
 <li><p>就有<br>$$<br>L(ω)=p(ω)\Pi_{i=1}^mp(y_i|x_i;ω) \\ =\Pi_{j=1}^n\frac{1}{\sqrt{2π}\alpha}exp(−\frac{(ω^j)^2}{2\alpha^2})\Pi_{i=1}^m \frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2δ^2}) \\ =(\frac{1}{\sqrt{2π}\alpha})^n exp(−\frac{\sum_{j=1}^n (ω^j)^2}{2\alpha^2})\Pi_{i=1}^m \frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2δ^2}) \\ =(\frac{1}{\sqrt{2π}\alpha})^n exp(−\frac{ω^Tω}{2\alpha^2})\Pi_{i=1}^m \frac{1}{\sqrt{2π}\delta}exp(−\frac{(y_i-ω^Tx_i)^2}{2\delta^2})<br>$$</p>
 </li>
@@ -714,7 +723,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/23/竞赛总结/标签不平衡问题/" rel="next" title="标签不平衡问题">
+              <a href="/2020/03/23/专题整理/标签不平衡问题/" rel="next" title="标签不平衡问题">
                 <i class="fa fa-chevron-left"></i> 标签不平衡问题
               </a>
             
@@ -800,7 +809,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-count">68</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -837,16 +846,25 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
             </nav>
           

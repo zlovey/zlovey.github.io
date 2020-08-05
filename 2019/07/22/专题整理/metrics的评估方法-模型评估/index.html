@@ -108,21 +108,21 @@
 
 
 
-  <meta name="description" content="例子：假如某个班级有男生80人，女生20人，共计100人，目标是找出所有女生。现在某人挑选出50个人：其中20人是女生，另外还错误的把30个男生也当作女生挑选出来了。 accuracy_score准确率（是不是找对了）对于给定的测试数据集，分类器正确分类的样本数与总样本数之比。也就是损失函数是0-1损失时测试数据集上的准确率。 分类正确的人占总人数的比例，他把其中70(20女+50男)人判定正确了">
+  <meta name="description" content="例子：假如某个班级有男生80人，女生20人，共计100人，目标是找出所有女生。现在某人挑选出50个人：其中20人是女生，另外还错误的把30个男生也当作女生挑选出来了。 accuracy_score准确率（是不是找对了）$$acc=\frac{TP+TF}{TP+TF+FP+FN}$$ 对于给定的测试数据集，分类器正确分类的样本数与总样本数之比。也就是损失函数是0-1损失时测试数据集上的准确率。 分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="metrics的评估方法-模型评估">
 <meta property="og:url" content="http://yoursite.com/2019/07/22/专题整理/metrics的评估方法-模型评估/index.html">
 <meta property="og:site_name" content="Garden">
-<meta property="og:description" content="例子：假如某个班级有男生80人，女生20人，共计100人，目标是找出所有女生。现在某人挑选出50个人：其中20人是女生，另外还错误的把30个男生也当作女生挑选出来了。 accuracy_score准确率（是不是找对了）对于给定的测试数据集，分类器正确分类的样本数与总样本数之比。也就是损失函数是0-1损失时测试数据集上的准确率。 分类正确的人占总人数的比例，他把其中70(20女+50男)人判定正确了">
+<meta property="og:description" content="例子：假如某个班级有男生80人，女生20人，共计100人，目标是找出所有女生。现在某人挑选出50个人：其中20人是女生，另外还错误的把30个男生也当作女生挑选出来了。 accuracy_score准确率（是不是找对了）$$acc=\frac{TP+TF}{TP+TF+FP+FN}$$ 对于给定的测试数据集，分类器正确分类的样本数与总样本数之比。也就是损失函数是0-1损失时测试数据集上的准确率。 分">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/专题整理/metrics的评估方法-模型评估/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/专题整理/metrics的评估方法-模型评估/2.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/专题整理/metrics的评估方法-模型评估/3.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/07/22/专题整理/metrics的评估方法-模型评估/4.jpg">
-<meta property="og:updated_time" content="2020-04-06T06:23:48.751Z">
+<meta property="og:updated_time" content="2020-08-03T14:12:48.194Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="metrics的评估方法-模型评估">
-<meta name="twitter:description" content="例子：假如某个班级有男生80人，女生20人，共计100人，目标是找出所有女生。现在某人挑选出50个人：其中20人是女生，另外还错误的把30个男生也当作女生挑选出来了。 accuracy_score准确率（是不是找对了）对于给定的测试数据集，分类器正确分类的样本数与总样本数之比。也就是损失函数是0-1损失时测试数据集上的准确率。 分类正确的人占总人数的比例，他把其中70(20女+50男)人判定正确了">
+<meta name="twitter:description" content="例子：假如某个班级有男生80人，女生20人，共计100人，目标是找出所有女生。现在某人挑选出50个人：其中20人是女生，另外还错误的把30个男生也当作女生挑选出来了。 accuracy_score准确率（是不是找对了）$$acc=\frac{TP+TF}{TP+TF+FP+FN}$$ 对于给定的测试数据集，分类器正确分类的样本数与总样本数之比。也就是损失函数是0-1损失时测试数据集上的准确率。 分">
 <meta name="twitter:image" content="http://yoursite.com/2019/07/22/专题整理/metrics的评估方法-模型评估/1.jpg">
 
 
@@ -377,11 +377,29 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 14:23:48" itemprop="dateModified" datetime="2020-04-06T14:23:48+08:00">2020-04-06</time>
+                <time title="修改时间：2020-08-03 22:12:48" itemprop="dateModified" datetime="2020-08-03T22:12:48+08:00">2020-08-03</time>
               
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/专题整理/" itemprop="url" rel="index"><span itemprop="name">专题整理</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -411,10 +429,12 @@
 
       
         <p>例子：假如某个班级有男生80人，女生20人，共计100人，目标是找出所有女生。现在某人挑选出50个人：其中20人是女生，另外还错误的把30个男生也当作女生挑选出来了。</p>
-<h4 id="accuracy-score准确率（是不是找对了）"><a href="#accuracy-score准确率（是不是找对了）" class="headerlink" title="accuracy_score准确率（是不是找对了）"></a><strong>accuracy_score准确率</strong>（是不是找对了）</h4><p>对于给定的测试数据集，分类器正确分类的样本数与总样本数之比。也就是损失函数是0-1损失时测试数据集上的准确率。</p>
+<h4 id="accuracy-score准确率（是不是找对了）"><a href="#accuracy-score准确率（是不是找对了）" class="headerlink" title="accuracy_score准确率（是不是找对了）"></a><strong>accuracy_score准确率</strong>（是不是找对了）</h4><p>$$<br>acc=\frac{TP+TF}{TP+TF+FP+FN}<br>$$</p>
+<p>对于给定的测试数据集，分类器正确分类的样本数与总样本数之比。也就是损失函数是0-1损失时测试数据集上的准确率。</p>
 <p>分类正确的人占总人数的比例，他把其中70(20女+50男)人判定正确了，而总人数是100人，所以它的accuracy就是70 %(70 / 100)。<a id="more"></a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sklearn.metrics.accuracy_score(y_true, y_pred, normalize=<span class="keyword">True</span>, sample_weight=<span class="keyword">None</span>)</span><br><span class="line"><span class="comment">#normalize：默认值为True，返回正确分类的比例；如果为False，返回正确分类的样本数</span></span><br><span class="line">示例：</span><br><span class="line">&gt;&gt;&gt;<span class="keyword">import</span> numpy <span class="keyword">as</span> np  </span><br><span class="line">&gt;&gt;&gt;<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score  </span><br><span class="line">&gt;&gt;&gt;y_pred = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>]  </span><br><span class="line">&gt;&gt;&gt;y_true = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]  </span><br><span class="line">&gt;&gt;&gt;accuracy_score(y_true, y_pred)  </span><br><span class="line"><span class="number">0.5</span>  </span><br><span class="line">&gt;&gt;&gt;accuracy_score(y_true, y_pred, normalize=<span class="keyword">False</span>)  </span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
-<h4 id="精确率-precision"><a href="#精确率-precision" class="headerlink" title="精确率 - precision"></a><strong>精确率 - precision</strong></h4><p>按照前面例子，我们需要从一个班级中的人中寻找所有女生，如果把这个任务当成一个分类器的话，那么女生就是我们需要的，而男生不是，所以我们称女生为”正类”，而男生为”负类”。</p>
+<h4 id="精确率-precision"><a href="#精确率-precision" class="headerlink" title="精确率 - precision"></a><strong>精确率 - precision</strong></h4><p>$$<br>P=\frac{TP}{TP+FP}<br>$$</p>
+<p>按照前面例子，我们需要从一个班级中的人中寻找所有女生，如果把这个任务当成一个分类器的话，那么女生就是我们需要的，而男生不是，所以我们称女生为”正类”，而男生为”负类”。</p>
 <p><img src="/2019/07/22/专题整理/metrics的评估方法-模型评估/1.jpg" alt="1"></p>
 <p>TP:将正类的结果分类为正类（将女生判断为女生）</p>
 <p>FP:将负类的结果分类为正类（将男生判断为女生）——存伪</p>
@@ -424,14 +444,24 @@
 <p>PN正向/负向：根据预测结果来判断，判断的为正类的即为P，判断为负类为N</p>
 <p>由上述例子中可以得知TP=20；FP=30；FN=0；TN=50</p>
 <p>精确率的公式是TP/(TP+FP)，即为在预测为女生的人中，预测正确（实际为女生）的人占比，即为40%（20/50）。</p>
-<h4 id="recall-score召回率（是不是找完了）"><a href="#recall-score召回率（是不是找完了）" class="headerlink" title="recall_score召回率（是不是找完了）"></a><strong>recall_score召回率</strong>（是不是找完了）</h4><p>召回率(recall)的公式是TP/(TP+FN)，它计算的是所有”正确被检索的item(TP)”占所有”应该检索到的item(TP+FN)”的比例。</p>
+<h4 id="recall-score召回率（是不是找完了）"><a href="#recall-score召回率（是不是找完了）" class="headerlink" title="recall_score召回率（是不是找完了）"></a><strong>recall_score召回率</strong>（是不是找完了）</h4><p>$$<br>R=\frac{TP}{TP+FN}<br>$$</p>
+<p>召回率(recall)的公式是TP/(TP+FN)，它计算的是所有”正确被检索的item(TP)”占所有”应该检索到的item(TP+FN)”的比例。</p>
 <p>在例子中就是希望知道分类为女生的人数占本班中所有女生的比例,所以其recall也就是100%(20女生/(20女生+ 0 误判为男生的女生))</p>
 <p><img src="/2019/07/22/专题整理/metrics的评估方法-模型评估/2.png" alt="2"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">klearn.metrics.recall_score(y_true, y_pred, labels=<span class="keyword">None</span>, pos_label=<span class="number">1</span>,average=<span class="string">'binary'</span>, sample_weight=<span class="keyword">None</span>)</span><br><span class="line"><span class="comment">#参数average : string, [None, ‘micro’, ‘macro’(default), ‘samples’, ‘weighted’]</span></span><br><span class="line"><span class="comment">#将一个二分类matrics拓展到多分类或多标签问题时，我们可以将数据看成多个二分类问题的集合，每个类都是一个二分类。接着，我们可以通过跨多个分类计算每个二分类metrics得分的均值，这在一些情况下很有用。你可以使用average参数来指定。</span></span><br><span class="line"><span class="comment">#macro：计算二分类metrics的均值，为每个类给出相同权重的分值。当小类很重要时会出问题，因为该macro-averging方法是对性能的平均。另一方面，该方法假设所有分类都是一样重要的，因此macro-averaging方法会对小类的性能影响很大。</span></span><br><span class="line"><span class="comment">#weighted:对于不均衡数量的类来说，计算二分类metrics的平均，通过在每个类的score上进行加权实现。</span></span><br><span class="line"><span class="comment">#micro：给出了每个样本类以及它对整个metrics的贡献的pair（sample-weight），而非对整个类的metrics求和，它会每个类的metrics上的权重及因子进行求和，来计算整个份额。Micro-averaging方法在多标签（multilabel）问题中设置，包含多分类，此时，大类将被忽略。</span></span><br><span class="line"><span class="comment">#samples：应用在multilabel问题上。它不会计算每个类，相反，它会在评估数据中，通过计算真实类和预测类的差异的metrics，来求平均（sample_weight-weighted）</span></span><br><span class="line"><span class="comment">#average：average=None将返回一个数组，它包含了每个类的得分.</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> recall_score  </span><br><span class="line">&gt;&gt;&gt;y_true = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]  </span><br><span class="line">&gt;&gt;&gt;y_pred = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]  </span><br><span class="line">&gt;&gt;&gt;recall_score(y_true, y_pred, average=<span class="string">'macro'</span>)   </span><br><span class="line"><span class="number">0.33</span>...  </span><br><span class="line">&gt;&gt;&gt;recall_score(y_true, y_pred, average=<span class="string">'micro'</span>)   </span><br><span class="line"><span class="number">0.33</span>...  </span><br><span class="line">&gt;&gt;&gt;recall_score(y_true, y_pred, average=<span class="string">'weighted'</span>)   </span><br><span class="line"><span class="number">0.33</span>...  </span><br><span class="line">&gt;&gt;&gt;recall_score(y_true, y_pred, average=<span class="keyword">None</span>)  </span><br><span class="line">array([<span class="number">1.</span>,  <span class="number">0.</span>, <span class="number">0.</span>])</span><br></pre></td></tr></table></figure>
-<h4 id="F1-score-F1值"><a href="#F1-score-F1值" class="headerlink" title="F1 score F1值"></a><strong>F1 score F1值</strong></h4><p>F1值是精确率和召回率的调和均值，即F1=2PR/(P+R)，相当于精确率和召回率的综合评价指标</p>
+<h4 id="F1-score-F1值"><a href="#F1-score-F1值" class="headerlink" title="F1 score F1值"></a><strong>F1 score F1值</strong></h4><p>$$<br>\frac{1}{F1}=\frac12(\frac{1}{P} \ +\frac{1}{R})<br>$$</p>
+<p>F1值是精确率和召回率的调和均值，即F1=2PR/(P+R)，相当于精确率和召回率的综合评价指标</p>
 <p>准确率和召回率是互相影响的，理想情况下肯定是做到两者都高，但是一般情况下准确率高、召回率就低，召回率低、准确率高。</p>
 <p>如果做搜索，那就是保证召回的情况下提升准确率；如果做疾病监测、反垃圾，则是保准确率的条件下，提升召回。在两者都要求高的情况下，可以用F1来衡量。</p>
-<h4 id="roc-curve-ROC曲线"><a href="#roc-curve-ROC曲线" class="headerlink" title="roc_curve   ROC曲线"></a><strong>roc_curve   ROC曲线</strong></h4><p>Receiver operating characteristic curve，ROC曲线其实是多个混淆矩阵的结果组合，对于每个混淆矩阵，我们计算两个指标TPR（True positive rate）和FPR（False positive rate），TPR=TP/(TP+FN)= Recall（第一列），TPR就是召回率，代表能将正例分对的概率。FPR=FP/(FP+TN)（第二列）代表将负例错分为正例的概率，在ROC 空间中，每个点的横坐标是FPR，纵坐标是TPR，这也就描绘了分类器在TP（真正的正例）和FP（错误的正例）间的trade-off。</p>
+<h4 id="roc-curve-ROC曲线"><a href="#roc-curve-ROC曲线" class="headerlink" title="roc_curve   ROC曲线"></a><strong>roc_curve   ROC曲线</strong></h4><ul>
+<li><p>横坐标——将正例预测为正例的概率<br>$$<br>TPR=Recall=\frac{TP}{TP+FN}<br>$$</p>
+</li>
+<li><p>纵坐标——将反例预测为正例的概率<br>$$<br>FPR=\frac{FP}{FP+TN}<br>$$</p>
+</li>
+<li><p>不受阈值影响</p>
+</li>
+</ul>
+<p>Receiver operating characteristic curve，ROC曲线其实是多个混淆矩阵的结果组合，对于每个混淆矩阵，我们计算两个指标TPR（True positive rate）和FPR（False positive rate），TPR=TP/(TP+FN)= Recall（第一列），TPR就是召回率，代表能将正例分对的概率。FPR=FP/(FP+TN)（第二列）代表将负例错分为正例的概率，在ROC 空间中，每个点的横坐标是FPR，纵坐标是TPR，这也就描绘了分类器在TP（真正的正例）和FP（错误的正例）间的trade-off。</p>
 <p><img src="/2019/07/22/专题整理/metrics的评估方法-模型评估/3.jpg" alt="3"></p>
 <p>在图像中，若有一个阈值，高于此阈值的均为女生，低于此阈值的均为男生，则认为此模型已完美的区分开男生和女生。此时女生的预测准确率（TPR）为1，同时男生的预测错误率（FPR）为0，ROC曲线经过（0,1）点。</p>
 <p>一般来说，如果ROC是光滑的，那么基本可以判断没有太大的overfitting（比如图中0.2到0.4可能就有问题，但是样本太少了）</p>
@@ -574,7 +604,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-count">68</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -611,16 +641,25 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
             </nav>
           
@@ -864,6 +903,30 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 

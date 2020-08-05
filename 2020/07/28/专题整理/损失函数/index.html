@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/cat_32.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/cat_16.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="常用的损失函数有： 分类：  0-1损失 交叉熵 KL散度 HInge loss 合页损失 Exponential loss Logistic loss">
+<meta property="og:type" content="article">
+<meta property="og:title" content="损失函数">
+<meta property="og:url" content="http://yoursite.com/2020/07/28/专题整理/损失函数/index.html">
+<meta property="og:site_name" content="Garden">
+<meta property="og:description" content="常用的损失函数有： 分类：  0-1损失 交叉熵 KL散度 HInge loss 合页损失 Exponential loss Logistic loss">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2020/07/28/专题整理/损失函数/F:/blog/source/_posts/专题整理/损失函数/多分类交叉熵1.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/28/专题整理/损失函数/F:/blog/source/_posts/专题整理/损失函数/多分类交叉熵2.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/28/专题整理/损失函数/F:/blog/source/_posts/专题整理/损失函数/二分类.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/28/专题整理/损失函数/F:/blog/source/_posts/专题整理/损失函数/多分类.jpg">
+<meta property="og:updated_time" content="2020-07-29T09:08:43.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="损失函数">
+<meta name="twitter:description" content="常用的损失函数有： 分类：  0-1损失 交叉熵 KL散度 HInge loss 合页损失 Exponential loss Logistic loss">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/28/专题整理/损失函数/F:/blog/source/_posts/专题整理/损失函数/多分类交叉熵1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/28/专题整理/损失函数/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>损失函数 | Garden</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/zlovey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Garden</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/28/专题整理/损失函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lavi">
+      <meta itemprop="description" content="进化ing">
+      <meta itemprop="image" content="/images/headimg/14.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Garden">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">损失函数
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-28 21:18:42" itemprop="dateCreated datePublished" datetime="2020-07-28T21:18:42+08:00">2020-07-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-29 17:08:43" itemprop="dateModified" datetime="2020-07-29T17:08:43+08:00">2020-07-29</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/专题整理/" itemprop="url" rel="index"><span itemprop="name">专题整理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>常用的损失函数有：</p>
+<p>分类：</p>
+<ul>
+<li>0-1损失</li>
+<li>交叉熵</li>
+<li>KL散度</li>
+<li>HInge loss 合页损失</li>
+<li>Exponential loss</li>
+<li>Logistic loss<a id="more"></a></li>
+</ul>
+<p>回归：</p>
+<ul>
+<li>L1 loss—MAE</li>
+<li>L2 loss—MSE</li>
+<li>RMSE</li>
+</ul>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><h3 id="0-1损失"><a href="#0-1损失" class="headerlink" title="0-1损失"></a>0-1损失</h3><p>$$<br>L(y_i,f(x_i))=\begin{cases} 0 \ if\ y_i=f(x_i) \\ 1 \ if y_i\neq f(x_i)\end{cases}<br>$$</p>
+<ul>
+<li><p>即当标签与预测类别相等时，loss为0，否则为1.</p>
+</li>
+<li><p>0-1损失无法对x进行求导，所以在深度学习任务中无法使用。</p>
+</li>
+</ul>
+<h3 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a>交叉熵</h3><h5 id="信息量"><a href="#信息量" class="headerlink" title="信息量"></a>信息量</h5><ul>
+<li><p>衡量一个事件的不确定性，当事件发生的概率越大，其不确定性越小，因此其信息量也就越小。</p>
+</li>
+<li><p>$$<br>I(x_0) = -log(p(x_0))<br>$$</p>
+</li>
+<li><p>当 $p(x_0)$=1 时，$x_0$ 一定会发生，因此其信息量为0</p>
+</li>
+</ul>
+<h5 id="熵"><a href="#熵" class="headerlink" title="熵"></a>熵</h5><ul>
+<li>衡量一个系统的混乱程度，即系统中信息量的总和。熵越大，说明该系统的不确定性越大。<br>$$<br>H(x)=-\sum_{i=1}^np(x_i)log(p(x_i))<br>$$</li>
+</ul>
+<h5 id="相对熵-注意这个没有取负"><a href="#相对熵-注意这个没有取负" class="headerlink" title="相对熵(注意这个没有取负~)"></a>相对熵(注意这个没有取负~)</h5><ul>
+<li><p>即KL散度，表示同一个随机变量的两个不同分布间的距离。</p>
+</li>
+<li><p>设<code>p(x)</code>和<code>q(x)</code>分别是离散随机变量 X 的两个概率分布，则<code>p</code>对<code>q</code>的相对熵是：<br>$$<br>D_{KL}(p||q) = \sum_ip(x_i)log(\frac{p(x_i)}{q(x_i)})<br>$$</p>
+</li>
+<li><p>如<code>p(x)</code>为目标分布，<code>q(x)</code>为预测分布，KL散度可以衡量预测与目标之间的距离。</p>
+</li>
+</ul>
+<h5 id="交叉熵-1"><a href="#交叉熵-1" class="headerlink" title="交叉熵"></a>交叉熵</h5><ul>
+<li><p><code>p(x)</code>和<code>q(x)</code>为随机变量<code>X</code>的两个分布，<code>p(x)</code>为目标分布，<code>q(x)</code>为预测分布</p>
+</li>
+<li><p>交叉熵可以看作使用分布<code>q(x)</code>来表示<code>p(x)</code>的困难程度<br>$$<br>H(p,q)=-\sum_ip(x_i)logq(x_i)<br>$$</p>
+</li>
+</ul>
+<h5 id="相对熵与交叉熵"><a href="#相对熵与交叉熵" class="headerlink" title="相对熵与交叉熵"></a>相对熵与交叉熵</h5><ul>
+<li><p>根据上述的公式迭代，有：<br>$$<br>D_{KL}(p,1)=H(p,q)-H(p)<br>$$</p>
+</li>
+<li><p>又由于在机器学习中，目标分布其实是固定的，因此<code>H(p)</code>是一个常量，因此其实在机器学习中对loss的最小化，无论相对熵还是交叉熵其实是一样的。</p>
+</li>
+</ul>
+<h5 id="作为交叉熵的损失函数——衡量模型分类正确的概率"><a href="#作为交叉熵的损失函数——衡量模型分类正确的概率" class="headerlink" title="作为交叉熵的损失函数——衡量模型分类正确的概率"></a>作为交叉熵的损失函数——衡量模型分类正确的概率</h5><ul>
+<li><p>二分类</p>
+<ul>
+<li><p>对于label—0和label—1，每个类别预测得到的概率为<code>p</code>和<code>1-p</code>，则<br>$$<br>L=\frac{1}{N}\sum_iL_i = \frac{1}{N}\sum_i-[y_i<em>log(p_i)+(1-y_i)</em>log(1-p_i)]<br>$$</p>
+</li>
+<li><p><code>y_i</code>即为样本<code>i</code>的label，正类为1，负类为0。<code>p_i</code>表示样本<code>i</code>预测为正的概率。</p>
+</li>
+</ul>
+</li>
+<li><p>多分类<br>$$<br>L=\frac{1}{N}\sum_iL_i = \frac{1}{N}\sum_i-\sum_{c=1}^My_{ic}log(p_{ic})<br>$$</p>
+<ul>
+<li><p><code>M</code>为类别的数量；$y_{ic}$为指示变量0或1，若该类别<code>c</code>与样本<code>i</code>的类别相同就是1,否则就是0；$p_{ic}$为对于观测样本<code>i</code>属于类别<code>c</code>的预测概率。</p>
+</li>
+<li><p>举个栗子：</p>
+<p>现在有 模型1：</p>
+<p><img src="/2020/07/28/专题整理/损失函数/F:/blog\source\_posts\专题整理\损失函数\多分类交叉熵1.jpg" alt="多分类交叉熵1"></p>
+<p>模型2：</p>
+<p><img src="/2020/07/28/专题整理/损失函数/F:/blog\source\_posts\专题整理\损失函数\多分类交叉熵2.jpg" alt="多分类交叉熵2"></p>
+</li>
+<li><p>两个模型的交叉熵计算为：</p>
+<p>模型1：<br>$$<br>L=\frac{-(0<em>log0.3+0</em>log0.3+1<em>log0.4)-(0</em>log0.3+1<em>log0.4+0</em>log0.3)-(1<em>log0.1+0</em>log0.2+0<em>log0.7)}{3}\\=\frac{-(log0.4+log0.4+log0.1)}{3}=1.37<br>$$<br>模型2：<br>$$<br>L=\frac{-(0</em>log0.1+0<em>log0.2+1</em>log0.7)-(0<em>log0.1+1</em>log0.7+0<em>log0.2)-(1</em>log0.3+0<em>log0.4+0</em>log0.3)}{3}\\=\frac{-(log0.7+log0.7+log0.3)}{3}=0.63<br>$$</p>
+</li>
+<li><p>对比可以看出两个模型的交叉熵损失函数的值，如果对正确label的预测概率越大，损失函数越小。</p>
+</li>
+</ul>
+</li>
+<li><p>收敛情况</p>
+</li>
+<li><p>交叉熵是凸函数，在求导时可以得到全局最优值。</p>
+</li>
+<li><p>学习过程</p>
+<ul>
+<li><p>由于需要计算每个类别的概率，因此需要与sigmoid或softmax函数进行连用</p>
+</li>
+<li><p>二分类：(以单个样本为例)</p>
+<p><img src="/2020/07/28/专题整理/损失函数/F:/blog\source\_posts\专题整理\损失函数\二分类.jpg" alt="二分类"><br>$$<br>\frac{\partial L_i}{\partial w_i}=\frac{\partial L_i}{\partial p_i}\frac{\partial p_i}{\partial s_i}\frac{\partial s_i}{\partial w_i} \\ = (-\frac{y_i}{p_i}+\frac{1-y_i}{1-p_i})(p_i<em>(1-p(x_i)))(x_i) \\ =(p_i-y_i)</em>x_i<br>$$</p>
+</li>
+<li><p>多分类：</p>
+<p><img src="/2020/07/28/专题整理/损失函数/F:/blog\source\_posts\专题整理\损失函数\多分类.jpg" alt="多分类"></p>
+</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>sigmoid(softmax)+交叉熵擅长于学习类间的信息，因为其采用类间竞争的机制，它只关于对正确标签预测概率的准确性，而不考虑其他错误标签的差异。因此导致学习到的特征比较散</li>
+<li>优化：L-softmax,SM-softmax,AM-softmax等。</li>
+</ul>
+</li>
+<li><p>与MSE的比较</p>
+<ul>
+<li>交叉熵由于计算的是多项式分布的最大似然，因此适用于分类问题，同时交叉熵并不关注错误标签的结果，因此不适合回归问题。</li>
+<li>MSE计算的是高斯分布的最大似然，因此适用于回归问题，对于分类问题与sigmoid函数连用的时候会容易出现梯度消失的情况，因为在求偏导更新参数的时候，复合求导还需要乘上sigmoid的导数（&lt;0.25）</li>
+</ul>
+</li>
+</ul>
+<h3 id="KL散度"><a href="#KL散度" class="headerlink" title="KL散度"></a>KL散度</h3><ul>
+<li>加入<code>p</code>是一个已知的分布，这种情况下熵就是一个常数，此时KL散度与交叉熵是等价的</li>
+<li>KL散度常用语生成模型中</li>
+</ul>
+<h3 id="Hinge-loss-合页损失"><a href="#Hinge-loss-合页损失" class="headerlink" title="Hinge loss 合页损失"></a>Hinge loss 合页损失</h3><ul>
+<li>用于SVM中，用来解决SVM的间隔距离最大化的问题<br>$$<br>l(f(x),y)=max(0,1-y(f(x)))<br>$$</li>
+</ul>
+<h3 id="Exponential-loss"><a href="#Exponential-loss" class="headerlink" title="Exponential loss"></a>Exponential loss</h3><ul>
+<li><p>用于Adaboost集成学习<br>$$<br>l(f(x),y)=e^{-\beta yf(x)}<br>$$</p>
+</li>
+<li><p>梯度比较大</p>
+</li>
+</ul>
+<h3 id="Logistic-loss"><a href="#Logistic-loss" class="headerlink" title="Logistic loss"></a>Logistic loss</h3><ul>
+<li><p>$$<br>l(f(x),y)=\frac{1}{ln2}ln(1+e^{-yf(x)})<br>$$</p>
+</li>
+<li><p>梯度相对变化更加平缓。</p>
+</li>
+</ul>
+<h2 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h2><h3 id="L1-loss—MAE-Mean-absolute-loss"><a href="#L1-loss—MAE-Mean-absolute-loss" class="headerlink" title="L1 loss—MAE(Mean absolute loss)"></a>L1 loss—MAE(Mean absolute loss)</h3><ul>
+<li><p>以绝对误差作为距离<br>$$<br>MAE=\frac{1}{n}\sum_1^n|(y_i-\hat y_i)|<br>$$</p>
+</li>
+<li><p>$y$ 为预测值， $\hat y$ 为标签值</p>
+</li>
+<li><p>缺点：梯度在零点会不平滑，可能跳过极小值</p>
+</li>
+</ul>
+<h3 id="L2-loss—MSE-Mean-Squared-Loss-均方误差"><a href="#L2-loss—MSE-Mean-Squared-Loss-均方误差" class="headerlink" title="L2 loss—MSE(Mean Squared Loss)均方误差"></a>L2 loss—MSE(Mean Squared Loss)均方误差</h3><ul>
+<li><p>欧氏距离，以误差的平方和作为距离<br>$$<br>MSE=\frac{1}{n}\sum_1^n(y_i-\hat y_i)^2<br>$$</p>
+</li>
+<li><p>解决了不光滑的问题</p>
+</li>
+<li><p>由于添加了平方，因此对量纲的变化敏感，比如预测房价的误差，其实是预测的房价平方的误差</p>
+</li>
+<li><p>异常点很敏感，因为平方了损失</p>
+</li>
+</ul>
+<h3 id="RMSE—均方根误差"><a href="#RMSE—均方根误差" class="headerlink" title="RMSE—均方根误差"></a>RMSE—均方根误差</h3><ul>
+<li><p>由于量纲的变化会导致MSE变化很大，因此提出了RMSE，</p>
+</li>
+<li><p>$$<br>RMSE=\sqrt{ \frac{1}{n}\sum_1^n(y_i-\hat y_i)^2}<br>$$</p>
+</li>
+<li><p>对异常点敏感</p>
+</li>
+</ul>
+<p><a href="https://zhuanlan.zhihu.com/p/61944055" target="_blank" rel="noopener">简单的交叉熵，你真的懂了吗？</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="noopener">损失函数 - 交叉熵损失函数</a></p>
+<p><a href="https://www.cnblogs.com/wangguchangqing/p/12068084.html" target="_blank" rel="noopener">一文搞懂交叉熵损失</a></p>
+<p><a href="https://www.zhihu.com/question/317383780/answer/631866229" target="_blank" rel="noopener">深度学习中有哪些常用损失函数(优化目标函数)？</a> </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/17/算法整理/剑指offer周目记录/" rel="next" title="剑指offer周目记录">
+                <i class="fa fa-chevron-left"></i> 剑指offer周目记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/29/专题整理/sigmoid与logistic/" rel="prev" title="sigmoid与logistic">
+                sigmoid与logistic <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headimg/14.jpg"
+                alt="Lavi" />
+            
+              <p class="site-author-name" itemprop="name">Lavi</p>
+              <p class="site-description motion-element" itemprop="description">进化ing</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">68</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zlovey" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:937198813@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分类"><span class="nav-number">1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-1损失"><span class="nav-number">1.1.</span> <span class="nav-text">0-1损失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵"><span class="nav-number">1.2.</span> <span class="nav-text">交叉熵</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#信息量"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">信息量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#熵"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">熵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#相对熵-注意这个没有取负"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">相对熵(注意这个没有取负~)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#交叉熵-1"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">交叉熵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#相对熵与交叉熵"><span class="nav-number">1.2.0.5.</span> <span class="nav-text">相对熵与交叉熵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#作为交叉熵的损失函数——衡量模型分类正确的概率"><span class="nav-number">1.2.0.6.</span> <span class="nav-text">作为交叉熵的损失函数——衡量模型分类正确的概率</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KL散度"><span class="nav-number">1.3.</span> <span class="nav-text">KL散度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hinge-loss-合页损失"><span class="nav-number">1.4.</span> <span class="nav-text">Hinge loss 合页损失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exponential-loss"><span class="nav-number">1.5.</span> <span class="nav-text">Exponential loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic-loss"><span class="nav-number">1.6.</span> <span class="nav-text">Logistic loss</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回归"><span class="nav-number">2.</span> <span class="nav-text">回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#L1-loss—MAE-Mean-absolute-loss"><span class="nav-number">2.1.</span> <span class="nav-text">L1 loss—MAE(Mean absolute loss)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L2-loss—MSE-Mean-Squared-Loss-均方误差"><span class="nav-number">2.2.</span> <span class="nav-text">L2 loss—MSE(Mean Squared Loss)均方误差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RMSE—均方根误差"><span class="nav-number">2.3.</span> <span class="nav-text">RMSE—均方根误差</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lavi</span>
+
+  
+
+  
+</div>
+
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+
+
+
+-->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":70,"height":140},"mobile":{"show":true},"log":false});</script>
+</body>
+</html>
